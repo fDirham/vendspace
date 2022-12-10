@@ -1,0 +1,27 @@
+@import 'styles/constants/base.scss';
+
+.desktopContainer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto $breakpointMobile auto;
+}
+
+.desktopMain {
+  width: $breakpointMobile;
+  min-height: 100vh;
+  border: 0.1625rem black solid;
+  border-top: 0;
+  border-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.mobileMain {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
