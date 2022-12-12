@@ -1,5 +1,6 @@
 @import 'styles/constants/base.scss';
 
+$rightWidth: 2rem;
 .container {
   padding: 1rem 0.5rem;
   width: 100%;
@@ -7,4 +8,21 @@
   margin-bottom: 0.5rem;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
   box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
+  display: grid;
+  grid-template-columns: auto $rightWidth;
+  cursor: pointer;
+}
+
+.leftContainer {
+}
+
+.rightContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.editIcon {
+  height: $rightWidth -1rem;
+  height: $rightWidth - 1rem;
 }
