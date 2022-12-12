@@ -1,0 +1,13 @@
+@import 'styles/constants/base.scss';
+
+.button {
+  width: 100%;
+  text-align: center;
+  border: 0;
+  border-radius: 180px;
+  background-color: $colorA;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 0.5rem;
+}

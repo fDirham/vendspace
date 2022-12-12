@@ -1,0 +1,27 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  justify-content: center;
+}
+
+.contentContainer {
+  margin-bottom: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - 2 * $sidePadding);
+  border: 1px solid black;
+  padding: 2.5rem 0;
+  border-radius: 1rem;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.googleButton {
+}
+
+.googleImg {
+}

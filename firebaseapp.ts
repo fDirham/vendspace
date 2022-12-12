@@ -1,6 +1,10 @@
 import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { getAuth, connectAuthEmulator } from 'firebase/auth';
+import { connectFirestoreEmulator, getFirestore } from 'firebase/firestore';
+import {
+  getAuth,
+  connectAuthEmulator,
+  GoogleAuthProvider,
+} from 'firebase/auth';
 import { getStorage, connectStorageEmulator } from 'firebase/storage';
 
 const firebaseConfig = {
@@ -16,9 +20,14 @@ initializeApp(firebaseConfig);
 export const firebaseAuth = getAuth();
 export const firebaseStorage = getStorage();
 export const firestoreDB = getFirestore();
+export const googleProvider = new GoogleAuthProvider();
+googleProvider.setCustomParameters({
+  prompt: 'select_account',
+});
 
 let testing = false;
-if (testing) {
+if (true) {
   connectAuthEmulator(firebaseAuth, 'http://127.0.0.1:9099');
   connectStorageEmulator(firebaseStorage, 'localhost', 9199);
+  connectFirestoreEmulator(firestoreDB, 'localhost', 8080);
 }
