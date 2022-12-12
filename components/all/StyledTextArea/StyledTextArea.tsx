@@ -1,25 +1,23 @@
 import React, { ChangeEvent, FormEvent } from 'react';
-import styles from './StyledInput.module.scss';
+import styles from './StyledTextArea.module.scss';
 
-type StyledInputProps = {
-  type?: string;
+type StyledTextAreaProps = {
   placeholder?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   value: string;
   maxLength?: number;
   className?: string;
   required?: boolean;
 };
 
-export default function StyledInput(props: StyledInputProps) {
+export default function StyledTextArea(props: StyledTextAreaProps) {
   return (
-    <input
-      type={props.type || 'text'}
+    <textarea
       placeholder={props.placeholder}
       onChange={props.onChange}
       value={props.value}
       maxLength={props.maxLength}
-      className={styles.input + ' ' + props.className}
+      className={styles.textArea + ' ' + props.className}
       required={props.required}
     />
   );

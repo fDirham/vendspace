@@ -1,0 +1,13 @@
+@import 'styles/constants/base.scss';
+
+.textArea {
+  font-size: 1rem;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  border: 0;
+  -webkit-box-shadow: 0px 5px 40px 3px rgba(204, 204, 204, 0.5);
+  box-shadow: 0px 5px 40px 3px rgba(204, 204, 204, 0.5);
+  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
+    sans-serif;
+}

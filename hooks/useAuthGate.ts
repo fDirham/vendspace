@@ -12,7 +12,7 @@ export default function useAuthGate(
       router.replace('/signin');
     }
     if (!!user && !user.handle) {
-      router.replace('/newuser');
+      router.replace('/welcome');
     }
   }, [user]);
 }

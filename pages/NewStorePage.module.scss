@@ -1,0 +1,31 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  width: 100%;
+  padding: $sidePadding;
+  border-radius: 10px;
+  margin-top: 3rem;
+}
+
+.styledInput {
+}
+
+.explainP {
+  margin-top: 0.5rem;
+  color: gray;
+  margin-bottom: 1.5rem;
+}
+
+.titleContainer {
+  margin-bottom: 2rem;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: gray;
+}

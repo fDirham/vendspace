@@ -5,6 +5,7 @@ import ControllerAuth from 'controllers/ControllerAuth';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from './NewUserPage.module.scss';
+import { MAX_LENGTH_HANDLE, MAX_LENGTH_NAME } from 'utilities/constants';
 
 function newuser() {
   const [handle, setHandle] = useState<string>('');
@@ -49,22 +50,24 @@ function newuser() {
         </div>
 
         <StyledInput
-          placeholder='Handle'
+          placeholder='Handle*'
           value={handle}
           onChange={(e) => setHandle(e.target.value)}
           className={styles.styledInput}
           required
+          maxLength={MAX_LENGTH_HANDLE}
         />
         <p className={styles.explainP}>
           A handle is unique to your VendSpace and cannot be changed later.
         </p>
 
         <StyledInput
-          placeholder='Display name'
+          placeholder='Display name*'
           value={displayName}
           onChange={(e) => setDisplayName(e.target.value)}
           className={styles.styledInput}
           required
+          maxLength={MAX_LENGTH_NAME}
         />
         <p className={styles.explainP}>
           Your display name is the name others first see

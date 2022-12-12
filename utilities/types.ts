@@ -6,3 +6,11 @@ export type VSUser = {
   handle: string;
   email: string;
 };
+
+export type StoreInfo = {
+  name: string;
+  contact: string;
+  payment: string;
+  description: string;
+  id: string;
+};

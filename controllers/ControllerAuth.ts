@@ -66,13 +66,14 @@ export default class ControllerAuth {
           // Populate userdata
           const userDoc = userRes.data();
           userData.displayName = userDoc.displayName;
-          userData.handle = userDoc.displayName;
+          userData.handle = userDoc.handle;
         } else {
           // Create doc
           await setDoc(userDocRef, {
             displayName: '',
             handle: '',
             email: currentUser.email,
+            stores: [],
           });
         }
       }
@@ -110,6 +111,24 @@ export default class ControllerAuth {
       const querySnapshot = await getDocs(q);
 
       return { isError: false, available: querySnapshot.empty };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async updateUserProfile(displayName: string) {
+    try {
+      const currentUser = firebaseAuth.currentUser;
+
+      if (!currentUser) return { isError: true, data: 'User not logged in' };
+      // Set doc in firestore
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, currentUser.uid);
+      await updateDoc(userDocRef, {
+        displayName,
+      });
+
+      return { isError: false };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
     }
