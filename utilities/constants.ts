@@ -7,7 +7,7 @@ export const TEST_SITE_URL = 'http://localhost:3000';
 export const SITE_URL = TEST_SITE_URL;
 
 export const MAX_LENGTH_NAME = 20;
-export const MAX_LENGTH_HANDLE = 20;
+export const MAX_LENGTH_HANDLE = 12;
 export const MAX_LENGTH_STORE_NAME = 40;
 export const MAX_LENGTH_STORE_DETAIL = 40;
 export const MAX_LENGTH_STORE_DESCRIPTION = 200;

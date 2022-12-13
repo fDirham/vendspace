@@ -13,6 +13,7 @@ function signin() {
     if (!!currentUser) {
       router.replace('/');
     }
+    console.log(currentUser);
   }, [currentUser]);
 
   function handleGoogleSignIn() {

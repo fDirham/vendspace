@@ -10,9 +10,11 @@ import { FirebaseError } from 'firebase/app';
 import {
   collection,
   doc,
+  FieldValue,
   getDoc,
   getDocs,
   query,
+  serverTimestamp,
   setDoc,
   updateDoc,
   where,
@@ -52,6 +54,7 @@ export default class ControllerAuth {
         displayName: '',
         email: '',
         handle: '',
+        uid: '',
       };
 
       if (currentUser) {
@@ -59,22 +62,15 @@ export default class ControllerAuth {
 
         // Grab doc from firestore
         const usersColRef = collection(firestoreDB, 'users');
-        const userDocRef = doc(usersColRef, currentUser.uid);
-        const userRes = await getDoc(userDocRef);
+        const q = query(usersColRef, where('uid', '==', currentUser.uid));
+        const queryRes = await getDocs(q);
 
-        if (userRes.exists()) {
+        if (!queryRes.empty) {
           // Populate userdata
-          const userDoc = userRes.data();
-          userData.displayName = userDoc.displayName;
-          userData.handle = userDoc.handle;
-        } else {
-          // Create doc
-          await setDoc(userDocRef, {
-            displayName: '',
-            handle: '',
-            email: currentUser.email,
-            stores: [],
-          });
+          const userDoc = queryRes.docs[0];
+          userData.handle = userDoc.id;
+          userData.uid = userDoc.get('uid');
+          userData.displayName = userDoc.get('displayName');
         }
       }
 
@@ -89,12 +85,15 @@ export default class ControllerAuth {
       const currentUser = firebaseAuth.currentUser;
 
       if (!currentUser) return { isError: true, data: 'User not logged in' };
+
       // Set doc in firestore
       const usersColRef = collection(firestoreDB, 'users');
-      const userDocRef = doc(usersColRef, currentUser.uid);
-      await updateDoc(userDocRef, {
-        handle,
+      const userDocRef = doc(usersColRef, handle);
+      await setDoc(userDocRef, {
         displayName,
+        uid: currentUser.uid,
+        email: currentUser.email,
+        timeCreated: serverTimestamp(),
       });
 
       return { isError: false };
@@ -106,11 +105,10 @@ export default class ControllerAuth {
   static async checkHandleAvailability(handle: string) {
     try {
       const usersColRef = collection(firestoreDB, 'users');
-      const q = query(usersColRef, where('handle', '==', handle));
+      const userDocRef = doc(usersColRef, handle);
+      const userDoc = await getDoc(userDocRef);
 
-      const querySnapshot = await getDocs(q);
-
-      return { isError: false, available: querySnapshot.empty };
+      return { isError: false, available: !userDoc.exists };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
     }

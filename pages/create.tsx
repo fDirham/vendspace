@@ -1,13 +1,10 @@
 import PageContainer from 'components/all/PageContainer';
 import StyledButton from 'components/all/StyledButton';
 import StyledInput from 'components/all/StyledInput';
-import ControllerAuth from 'controllers/ControllerAuth';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from './NewStorePage.module.scss';
 import {
-  MAX_LENGTH_HANDLE,
-  MAX_LENGTH_NAME,
   MAX_LENGTH_STORE_DESCRIPTION,
   MAX_LENGTH_STORE_DETAIL,
   MAX_LENGTH_STORE_NAME,
@@ -30,6 +27,7 @@ export default function newstore() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const createRes = await ControllerStores.createStore(
+      currentUser!.handle,
       name,
       contact,
       payment,

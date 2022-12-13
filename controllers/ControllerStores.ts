@@ -17,7 +17,9 @@ import {
   Firestore,
   getDoc,
   getDocs,
+  orderBy,
   query,
+  serverTimestamp,
   setDoc,
   updateDoc,
   where,
@@ -28,6 +30,7 @@ import { LENGTH_STORE_ID } from 'utilities/constants';
 
 export default class ControllerStores {
   static async createStore(
+    handle: string,
     name: string,
     contact: string,
     payment: string,
@@ -38,8 +41,12 @@ export default class ControllerStores {
 
       if (!currentUser) return { isError: true, data: 'User not logged in' };
 
-      // Create doc in stores collection
-      const storesColRef = collection(firestoreDB, 'stores');
+      //TODO: Get handle by using uid, used this for speed rn
+
+      // Get stores created by user
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
 
       // Find id that's unique
       let searching = true;
@@ -59,14 +66,7 @@ export default class ControllerStores {
         contact,
         payment,
         description,
-      });
-
-      // Update user
-      const usersColRef = collection(firestoreDB, 'users');
-      const userDocRef = doc(usersColRef, currentUser.uid);
-
-      await updateDoc(userDocRef, {
-        stores: arrayUnion(newId),
+        timeCreated: serverTimestamp(),
       });
 
       return { isError: false };
@@ -77,8 +77,7 @@ export default class ControllerStores {
 
   private static generateStoreId() {
     var result = '';
-    var characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     var charactersLength = characters.length;
     for (var i = 0; i < LENGTH_STORE_ID; i++) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -92,23 +91,21 @@ export default class ControllerStores {
 
       if (!currentUser) return { isError: true, data: 'User not logged in' };
 
-      // Get user
+      // Get stores collection ref
       const usersColRef = collection(firestoreDB, 'users');
-      const q = query(usersColRef, where('handle', '==', handle));
-      const querySnapshot = await getDocs(q);
+      const userDocRef = doc(usersColRef, handle);
+      const userDoc = await getDoc(userDocRef);
 
-      if (querySnapshot.empty) return { isError: true, data: 'User not found' };
+      if (!userDoc.exists) return { isError: true, data: 'User not found' };
 
-      const storeIds: string[] = await querySnapshot.docs[0].get('stores');
+      // Get contents of collection
+      const storesColRef = collection(userDocRef, 'stores');
+      const q = query(storesColRef, orderBy('timeCreated', 'desc'));
+      const storesDocsRef = await getDocs(q);
 
-      const storesColRef = collection(firestoreDB, 'stores');
-      const stores = await Promise.all(
-        storeIds.map(async (id) => {
-          const storeDocRef = doc(storesColRef, id);
-          const getRes = await getDoc(storeDocRef);
-          return { ...getRes.data(), id } as StoreInfo;
-        })
-      );
+      const stores = storesDocsRef.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id } as StoreInfo;
+      });
 
       return { isError: false, stores };
     } catch (err) {
@@ -116,9 +113,17 @@ export default class ControllerStores {
     }
   }
 
-  static async getStoreInfo(storeId: string) {
+  static async getStoreInfo(handle: string, storeId: string) {
     try {
-      const storesColRef = collection(firestoreDB, 'stores');
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists) return { isError: true, data: 'User not found' };
+
+      // Get contents of collection
+      const storesColRef = collection(userDocRef, 'stores');
+
       const getRes = await getDoc(doc(storesColRef, storeId));
       if (!getRes.exists) return { isError: true, data: 'Store not found' };
       const store = { ...getRes.data(), id: storeId } as StoreInfo;
@@ -129,12 +134,16 @@ export default class ControllerStores {
     }
   }
 
-  static async updateStoreInfo(newStoreInfo: StoreInfo) {
+  static async updateStoreInfo(handle: string, newStoreInfo: StoreInfo) {
     try {
+      // TODO: Get handle from uid
+
       const { id } = newStoreInfo;
       const toAdd = { ...newStoreInfo, id: null };
 
-      const storesColRef = collection(firestoreDB, 'stores');
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
       await updateDoc(doc(storesColRef, id), toAdd);
       return { isError: false };
     } catch (err) {

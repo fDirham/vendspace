@@ -22,6 +22,7 @@ export default function editstore() {
   const [contact, setContact] = useState<string>('');
   const [payment, setPayment] = useState<string>('');
   const [description, setDescription] = useState<string>('');
+  const [initialLoad, setInitialLoad] = useState<boolean>(false);
 
   const currentUser = useUserAuth();
   const router = useRouter();
@@ -30,19 +31,23 @@ export default function editstore() {
   useAuthGate(currentUser, router);
 
   useEffect(() => {
-    if (storeId) {
+    if (storeId && currentUser) {
       getStoreInfo();
     }
-  }, [storeId]);
+  }, [storeId, currentUser]);
 
   async function getStoreInfo() {
-    const getRes = await ControllerStores.getStoreInfo(storeId as string);
+    const getRes = await ControllerStores.getStoreInfo(
+      currentUser!.handle,
+      storeId as string
+    );
     if (getRes.store) {
       const { store } = getRes;
       setName(store.name);
       setPayment(store.payment);
       setContact(store.contact);
       setDescription(store.description);
+      if (!initialLoad) setInitialLoad(true);
     }
   }
 
@@ -55,7 +60,10 @@ export default function editstore() {
       contact,
       description,
     };
-    const updateRes = await ControllerStores.updateStoreInfo(newStoreInfo);
+    const updateRes = await ControllerStores.updateStoreInfo(
+      currentUser!.handle,
+      newStoreInfo
+    );
 
     console.log(updateRes);
     if (updateRes.isError)
@@ -64,7 +72,7 @@ export default function editstore() {
     router.push('/');
   }
 
-  if (!name) return null;
+  if (!initialLoad) return null;
   return (
     <PageContainer>
       <form className={styles.container} onSubmit={handleSubmit}>

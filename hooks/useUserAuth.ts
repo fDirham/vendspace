@@ -10,15 +10,16 @@ export default function useUserAuth() {
   }, []);
 
   async function retrieveUser(newUser: null | User | undefined) {
+    console.log(newUser);
     if (!!newUser) {
       const userDataRes = await ControllerAuth.retrieveCurrentUserData();
       if (userDataRes.userData) {
         const { userData } = userDataRes;
         const vsUserObj = {
-          firebaseUser: newUser!,
           displayName: userData.displayName,
           handle: userData.handle,
           email: userData.email,
+          uid: userData.uid,
         };
         setUser(vsUserObj);
       } else setUser(null);

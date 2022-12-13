@@ -39,6 +39,11 @@ export default function Home() {
   }
 
   function handleNewStore() {
+    // TODO: Better lock
+    if (storeList.length >= 10) {
+      window.alert('Too many stores, delete to continue.');
+      return;
+    }
     router.push('/create');
   }
 
@@ -48,13 +53,14 @@ export default function Home() {
       return (
         <StoreBlock
           storeInfo={store}
-          onClick={() => router.push(`/edit/store/${store.id}`)}
+          onEdit={() => router.push(`/edit/store/${store.id}`)}
+          onNavigate={() => router.push(`/edit/store/${store.id}`)}
         />
       );
     });
   };
 
-  if (!currentUser) return null;
+  if (!currentUser || !currentUser.handle) return null;
   return (
     <div className={styles.container}>
       <Head>
