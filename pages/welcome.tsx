@@ -18,7 +18,7 @@ function newuser() {
   }, []);
 
   async function pageLock() {
-    const userDataRes = await ControllerAuth.retrieveCurrentUserData();
+    const userDataRes = await ControllerAuth.getCurrentUserData();
     if (userDataRes.userData?.handle) {
       router.replace('/');
     }

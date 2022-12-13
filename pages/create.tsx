@@ -2,8 +2,8 @@ import PageContainer from 'components/all/PageContainer';
 import StyledButton from 'components/all/StyledButton';
 import StyledInput from 'components/all/StyledInput';
 import { useRouter } from 'next/router';
-import React, { FormEvent, useEffect, useState } from 'react';
-import styles from './NewStorePage.module.scss';
+import React, { FormEvent, useState } from 'react';
+import styles from './CreatePage.module.scss';
 import {
   MAX_LENGTH_STORE_DESCRIPTION,
   MAX_LENGTH_STORE_DETAIL,

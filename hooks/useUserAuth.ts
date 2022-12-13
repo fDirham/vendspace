@@ -12,7 +12,7 @@ export default function useUserAuth() {
   async function retrieveUser(newUser: null | User | undefined) {
     console.log(newUser);
     if (!!newUser) {
-      const userDataRes = await ControllerAuth.retrieveCurrentUserData();
+      const userDataRes = await ControllerAuth.getCurrentUserData();
       if (userDataRes.userData) {
         const { userData } = userDataRes;
         const vsUserObj = {

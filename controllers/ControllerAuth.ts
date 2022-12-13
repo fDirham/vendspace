@@ -20,6 +20,7 @@ import {
   where,
 } from 'firebase/firestore';
 import { useDebugValue } from 'react';
+import { PublicUserData } from 'utilities/types';
 
 export default class ControllerAuth {
   static authObserver(onChange: (user: User | null) => void) {
@@ -47,7 +48,7 @@ export default class ControllerAuth {
     }
   }
 
-  static async retrieveCurrentUserData() {
+  static async getCurrentUserData() {
     try {
       const currentUser = firebaseAuth.currentUser;
       const userData = {
@@ -73,6 +74,22 @@ export default class ControllerAuth {
           userData.displayName = userDoc.get('displayName');
         }
       }
+
+      return { isError: false, userData };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async getPublicUserData(handle: string) {
+    try {
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const userDoc = await getDoc(userDocRef);
+      const userData: PublicUserData = {
+        handle: userDoc.id,
+        displayName: userDoc.get('displayName'),
+      };
 
       return { isError: false, userData };
     } catch (err) {

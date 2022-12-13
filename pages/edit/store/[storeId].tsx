@@ -4,7 +4,7 @@ import StyledInput from 'components/all/StyledInput';
 import ControllerAuth from 'controllers/ControllerAuth';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
-import styles from 'pages/NewStorePage.module.scss';
+import styles from 'pages/CreatePage.module.scss';
 import {
   MAX_LENGTH_HANDLE,
   MAX_LENGTH_NAME,

@@ -1,0 +1,29 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.modalContainer {
+  margin-top: 30%;
+  border-radius: 10px;
+  padding: 0.5rem;
+  width: calc($breakpointMobile - 2 * $sidePadding);
+  background-color: white;
+  color: black;
+}
+
+@media screen and (max-width: $breakpointMobile) {
+  .modalContainer {
+    width: calc(100% - 2 * $sidePadding);
+  }
+}

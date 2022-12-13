@@ -54,7 +54,9 @@ export default function Home() {
         <StoreBlock
           storeInfo={store}
           onEdit={() => router.push(`/edit/store/${store.id}`)}
-          onNavigate={() => router.push(`/edit/store/${store.id}`)}
+          onNavigate={() =>
+            router.push(`/s/${currentUser!.handle}/${store.id}`)
+          }
         />
       );
     });

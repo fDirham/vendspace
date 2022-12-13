@@ -27,7 +27,7 @@ googleProvider.setCustomParameters({
 
 let testing = false;
 if (true) {
-  connectAuthEmulator(firebaseAuth, 'http://127.0.0.1:9099');
-  connectStorageEmulator(firebaseStorage, 'localhost', 9199);
-  connectFirestoreEmulator(firestoreDB, 'localhost', 8080);
+  connectAuthEmulator(firebaseAuth, 'http://10.0.0.95:9099');
+  connectStorageEmulator(firebaseStorage, '10.0.0.95', 9199);
+  connectFirestoreEmulator(firestoreDB, '10.0.0.95', 8080);
 }

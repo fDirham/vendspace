@@ -7,6 +7,11 @@ export type VSUser = {
   uid: string;
 };
 
+export type PublicUserData = {
+  handle: string;
+  displayName: string;
+};
+
 export type StoreInfo = {
   name: string;
   contact: string;

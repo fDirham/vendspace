@@ -10,16 +10,17 @@ $rightWidth: 2rem;
   box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
   display: grid;
   grid-template-columns: auto $rightWidth;
-  cursor: pointer;
 }
 
 .leftContainer {
+  cursor: pointer;
 }
 
 .rightContainer {
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
+  cursor: pointer;
 }
 
 .editIcon {
