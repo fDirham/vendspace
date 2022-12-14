@@ -9,7 +9,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { StoreInfo } from 'utilities/types';
-import styles from './HomePage.module.scss';
+import styles from './IndexPage.module.scss';
 
 export default function Home() {
   const router = useRouter();

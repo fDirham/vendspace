@@ -1,0 +1,33 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.buttonsContainer {
+  width: 100%;
+  margin-top: 1rem;
+  justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+}
+
+.button {
+  margin-left: 1rem;
+}
+
+$previewSize: 8rem;
+.previewContainer {
+  width: $previewSize;
+  height: $previewSize;
+  border: 1px solid black;
+  align-self: center;
+  margin-bottom: 1rem;
+}
+
+.previewImage {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}

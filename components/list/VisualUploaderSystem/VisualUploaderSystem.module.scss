@@ -1,0 +1,7 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

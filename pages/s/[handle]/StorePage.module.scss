@@ -21,17 +21,6 @@
   font-size: 1.1rem;
 }
 
-.infoButtonsContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  margin-top: 1rem;
-}
-
-.infoButton {
-  margin-left: 1rem;
-}
-
 .descriptionContainer {
   margin-top: 1rem;
   width: calc(100% - 2 * $sidePadding);

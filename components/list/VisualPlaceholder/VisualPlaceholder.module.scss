@@ -1,0 +1,23 @@
+@import 'styles/constants/base.scss';
+
+$size: 5rem;
+.container {
+  width: $size;
+  height: $size;
+  border-radius: 10px;
+  overflow: hidden;
+  margin: 0.3rem;
+  border: 1px black solid;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background-color: blue;
+}
+
+.previewImg {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}

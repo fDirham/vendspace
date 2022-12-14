@@ -25,8 +25,8 @@ googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
-let testing = false;
-if (true) {
+let testing = true;
+if (testing) {
   connectAuthEmulator(firebaseAuth, 'http://10.0.0.95:9099');
   connectStorageEmulator(firebaseStorage, '10.0.0.95', 9199);
   connectFirestoreEmulator(firestoreDB, '10.0.0.95', 8080);

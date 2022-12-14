@@ -19,3 +19,16 @@ export type StoreInfo = {
   description: string;
   id: string;
 };
+
+export type ItemInfo = {
+  name: string;
+  description: string;
+  price: string;
+  id: string;
+  visuals: ItemVisual[];
+};
+
+export type ItemVisual = {
+  uri: string;
+  file?: File;
+};
