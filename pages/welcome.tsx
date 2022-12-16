@@ -6,20 +6,22 @@ import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from './NewUserPage.module.scss';
 import { MAX_LENGTH_HANDLE, MAX_LENGTH_NAME } from 'utilities/constants';
+import useUserAuth from 'hooks/useUserAuth';
+import { VSUser } from 'utilities/types';
 
 function newuser() {
   const [handle, setHandle] = useState<string>('');
   const [displayName, setDisplayName] = useState<string>('');
   const router = useRouter();
+  const user = useUserAuth();
 
   // Lock people out if already new
   useEffect(() => {
-    pageLock();
-  }, []);
+    pageLock(user);
+  }, [user]);
 
-  async function pageLock() {
-    const userDataRes = await ControllerAuth.getCurrentUserData();
-    if (userDataRes.userData?.handle) {
+  async function pageLock(user: VSUser | null | undefined) {
+    if (user && user.handle) {
       router.replace('/');
     }
   }
@@ -39,6 +41,7 @@ function newuser() {
     router.push('/');
   }
 
+  if (user === undefined) return null;
   return (
     <PageContainer>
       <form className={styles.container} onSubmit={handleSubmit}>
