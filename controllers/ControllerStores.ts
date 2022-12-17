@@ -165,7 +165,7 @@ export default class ControllerStores {
     deletedVisuals: boolean[]
   ) {
     // TODO: Get handle from uid
-    const itemToAdd = { ...item };
+    const itemToAdd = { ...item, timeCreated: serverTimestamp() };
 
     // upload images
     const imagesToUpload = itemToAdd.visuals
@@ -212,6 +212,32 @@ export default class ControllerStores {
       await addDoc(itemsColRef, itemToAdd);
 
       return { isError: false };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async getStoreItems(handle: string, storeId: string) {
+    try {
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const userDoc = await getDoc(userDocRef);
+
+      if (!userDoc.exists) return { isError: true, data: 'User not found' };
+
+      // Get contents of collection
+      const storesColRef = collection(userDocRef, 'stores');
+      const storesDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storesDocRef, 'items');
+      const q = query(itemsColRef, orderBy('timeCreated', 'desc'));
+      const itemsDocs = await getDocs(q);
+      if (itemsDocs.empty) {
+        return { isError: false, items: [] };
+      }
+
+      const items = itemsDocs.docs.map((doc) => doc.data()) as ItemInfo[];
+
+      return { isError: false, items };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
     }

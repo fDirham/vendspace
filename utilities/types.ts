@@ -1,4 +1,5 @@
 import { User as FirebaseUser } from 'firebase/auth';
+import { Timestamp } from 'firebase/firestore';
 
 export type VSUser = {
   displayName: string;
@@ -18,6 +19,7 @@ export type StoreInfo = {
   payment: string;
   description: string;
   id: string;
+  timeCreated?: Timestamp;
 };
 
 export type ItemInfo = {
@@ -26,6 +28,7 @@ export type ItemInfo = {
   price: string;
   id: string;
   visuals: ItemVisual[];
+  timeCreated?: Timestamp;
 };
 
 export type ItemVisual = {

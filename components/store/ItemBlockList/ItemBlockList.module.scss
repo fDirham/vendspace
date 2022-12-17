@@ -1,0 +1,9 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  width: calc(100% - $sidePadding);
+  display: flex;
+  flex-direction: row;
+  justify-content: row;
+  flex-wrap: wrap;
+}

@@ -2,13 +2,13 @@ import PageContainer from 'components/all/PageContainer';
 import StyledButton from 'components/all/StyledButton';
 import ControllerAuth from 'controllers/ControllerAuth';
 import { useRouter } from 'next/router';
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './StorePage.module.scss';
 import useUserAuth from 'hooks/useUserAuth';
 import ControllerStores from 'controllers/ControllerStores';
 import { PublicUserData, StoreInfo } from 'utilities/types';
-import { colorA } from 'styles/constants/colors';
 import InfoButtons from 'components/store/InfoButtons';
+import ItemBlockList from 'components/store/ItemBlockList';
 
 export default function storepage() {
   const [storeInfo, setStoreInfo] = useState<StoreInfo>();
@@ -17,6 +17,7 @@ export default function storepage() {
   const currentUser = useUserAuth();
   const router = useRouter();
   const { handle, storeId } = router.query;
+  const isUser = currentUser?.handle === (handle as string);
 
   useEffect(() => {
     if (storeId && handle) {
@@ -65,9 +66,14 @@ export default function storepage() {
           {storeInfo.description}
         </div>
       )}
-      {currentUser?.handle === handle && (
+      {/* {currentUser?.handle === handle && (
         <StyledButton onClick={handleNewItem}>New item</StyledButton>
-      )}
+      )} */}
+      <ItemBlockList
+        handle={handle as string}
+        storeId={storeId as string}
+        isUser={isUser}
+      />
     </PageContainer>
   );
 }
