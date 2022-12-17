@@ -1,0 +1,13 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  width: 100%;
+}
+
+.blocksContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+}

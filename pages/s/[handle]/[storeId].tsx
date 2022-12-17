@@ -44,10 +44,6 @@ export default function storepage() {
     }
   }
 
-  function handleNewItem() {
-    router.push(`/list/${storeId}`);
-  }
-
   if (!storeInfo || !owner) return null;
   return (
     <PageContainer className={styles.container}>
@@ -66,9 +62,6 @@ export default function storepage() {
           {storeInfo.description}
         </div>
       )}
-      {/* {currentUser?.handle === handle && (
-        <StyledButton onClick={handleNewItem}>New item</StyledButton>
-      )} */}
       <ItemBlockList
         handle={handle as string}
         storeId={storeId as string}

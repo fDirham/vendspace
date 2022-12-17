@@ -1,0 +1,13 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  width: 100%;
+  max-height: max-content;
+  display: flex;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: fill;
+}

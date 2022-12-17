@@ -68,14 +68,8 @@ export default class ControllerStores {
 
       if (!currentUser) return { isError: true, data: 'User not logged in' };
 
-      // Get stores collection ref
       const usersColRef = collection(firestoreDB, 'users');
       const userDocRef = doc(usersColRef, handle);
-      const userDoc = await getDoc(userDocRef);
-
-      if (!userDoc.exists) return { isError: true, data: 'User not found' };
-
-      // Get contents of collection
       const storesColRef = collection(userDocRef, 'stores');
       const q = query(storesColRef, orderBy('timeCreated', 'desc'));
       const storesDocsRef = await getDocs(q);
@@ -94,14 +88,9 @@ export default class ControllerStores {
     try {
       const usersColRef = collection(firestoreDB, 'users');
       const userDocRef = doc(usersColRef, handle);
-      const userDoc = await getDoc(userDocRef);
-
-      if (!userDoc.exists) return { isError: true, data: 'User not found' };
-
-      // Get contents of collection
       const storesColRef = collection(userDocRef, 'stores');
-
       const getRes = await getDoc(doc(storesColRef, storeId));
+
       if (!getRes.exists) return { isError: true, data: 'Store not found' };
       const store = { ...getRes.data(), id: storeId } as StoreInfo;
 

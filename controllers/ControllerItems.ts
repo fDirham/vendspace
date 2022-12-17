@@ -99,11 +99,6 @@ export default class ControllerItems {
     try {
       const usersColRef = collection(firestoreDB, 'users');
       const userDocRef = doc(usersColRef, handle);
-      const userDoc = await getDoc(userDocRef);
-
-      if (!userDoc.exists) return { isError: true, data: 'User not found' };
-
-      // Get contents of collection
       const storesColRef = collection(userDocRef, 'stores');
       const storesDocRef = doc(storesColRef, storeId);
       const itemsColRef = collection(storesDocRef, 'items');
@@ -113,9 +108,31 @@ export default class ControllerItems {
         return { isError: false, items: [] };
       }
 
-      const items = itemsDocs.docs.map((doc) => doc.data()) as ItemInfo[];
+      const items = itemsDocs.docs.map((doc) => {
+        return { ...doc.data(), id: doc.id };
+      }) as ItemInfo[];
 
       return { isError: false, items };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async getStoreItem(handle: string, storeId: string, itemId: string) {
+    try {
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storesDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storesDocRef, 'items');
+      const itemDocRef = doc(itemsColRef, itemId);
+      const itemDoc = await getDoc(itemDocRef);
+      if (!itemDoc.exists()) {
+        return { isError: true, data: 'Item not found' };
+      }
+
+      const item = { ...itemDoc.data(), id: itemDoc.id } as ItemInfo;
+      return { isError: false, item };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
     }

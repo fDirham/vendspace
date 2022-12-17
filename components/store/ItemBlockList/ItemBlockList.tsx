@@ -4,6 +4,7 @@ import { ItemInfo } from 'utilities/types';
 import ItemBlock from '../ItemBlock/ItemBlock';
 import { useRouter } from 'next/router';
 import ControllerItems from 'controllers/ControllerItems';
+import { handleClientScriptLoad } from 'next/script';
 
 type ItemBlockListProps = {
   handle: string;
@@ -30,7 +31,11 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     }
   }
 
-  function onBlockClick(index: number) {}
+  function onBlockClick(index: number) {
+    const item = items[index];
+    console.log(item);
+    router.push(`/s/${props.handle}/${props.storeId}/${item.id}`);
+  }
 
   function onAdd() {
     router.push('/list/' + props.storeId);
@@ -47,7 +52,7 @@ export default function ItemBlockList(props: ItemBlockListProps) {
       );
     });
     if (props.isUser) {
-      toReturn.push(<ItemBlock onClick={onAdd} add />);
+      toReturn.push(<ItemBlock onClick={onAdd} add key={'addbutton'} />);
     }
 
     return toReturn;

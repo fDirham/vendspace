@@ -31,6 +31,7 @@ export default function listitem() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    window.alert('Creating item...');
 
     const res = await ControllerItems.addNewItem(
       currentUser!.handle,
@@ -42,7 +43,7 @@ export default function listitem() {
     if (!res.isError) {
       window.alert('Item listed!');
       router.push('/s/' + currentUser?.handle + '/' + storeId);
-    }
+    } else console.log(res);
   }
 
   return (

@@ -1,0 +1,19 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  width: 17%;
+  aspect-ratio: 1;
+  border-radius: 5px;
+  overflow: hidden;
+  outline: 1px $colorA solid;
+}
+
+.selected {
+  outline-width: 3px;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
