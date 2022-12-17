@@ -1,25 +1,9 @@
-import {
-  signOut,
-  onAuthStateChanged,
-  User,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
-import {
-  firebaseAuth,
-  googleProvider,
-  firestoreDB,
-  firebaseStorage,
-} from 'firebaseapp';
+import { firebaseAuth, firestoreDB, firebaseStorage } from 'firebaseapp';
 import { FirebaseError } from 'firebase/app';
 import {
   addDoc,
-  arrayUnion,
   collection,
-  deleteDoc,
   doc,
-  FieldValue,
-  Firestore,
   getDoc,
   getDocs,
   orderBy,
@@ -27,13 +11,13 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
-  where,
 } from 'firebase/firestore';
 import { StoreInfo, ItemVisual } from 'utilities/types';
-import { LENGTH_STORE_ID } from 'utilities/constants';
+import { LENGTH_ITEM_ID, LENGTH_STORE_ID } from 'utilities/constants';
 import { ItemInfo } from 'utilities/types';
 import { ref } from 'firebase/storage';
 import ControllerUpload from './ControllerUpload';
+import { generateRandomID } from 'utilities/helpers';
 
 export default class ControllerStores {
   static async createStore(
@@ -57,14 +41,14 @@ export default class ControllerStores {
 
       // Find id that's unique
       let searching = true;
-      let newId = ControllerStores.generateStoreId();
+      let newId = generateRandomID(LENGTH_STORE_ID);
 
       while (searching) {
         const checkRes = await getDoc(doc(storesColRef, newId));
         if (!checkRes.exists()) {
           searching = false;
         } else {
-          newId = ControllerStores.generateStoreId();
+          newId = generateRandomID(LENGTH_STORE_ID);
         }
       }
 
@@ -80,16 +64,6 @@ export default class ControllerStores {
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
     }
-  }
-
-  private static generateStoreId() {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    var charactersLength = characters.length;
-    for (var i = 0; i < LENGTH_STORE_ID; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
   }
 
   static async getUserStores(handle: string) {
@@ -209,7 +183,23 @@ export default class ControllerStores {
       const storesColRef = collection(userDocRef, 'stores');
       const storeDocRef = doc(storesColRef, storeId);
       const itemsColRef = collection(storeDocRef, 'items');
-      await addDoc(itemsColRef, itemToAdd);
+
+      // Find id that's unique
+      let searching = true;
+      let newId = generateRandomID(LENGTH_ITEM_ID);
+
+      while (searching) {
+        const checkRes = await getDoc(doc(itemsColRef, newId));
+        if (!checkRes.exists()) {
+          searching = false;
+        } else {
+          newId = generateRandomID(LENGTH_ITEM_ID);
+        }
+      }
+
+      const itemDocRef = doc(itemsColRef, newId);
+
+      await setDoc(itemDocRef, itemToAdd);
 
       return { isError: false };
     } catch (err) {
