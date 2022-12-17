@@ -20,6 +20,7 @@
   width: calc($breakpointMobile - 2 * $sidePadding);
   background-color: white;
   color: black;
+  z-index: 5;
 }
 
 @media screen and (max-width: $breakpointMobile) {

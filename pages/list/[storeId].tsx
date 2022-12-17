@@ -13,7 +13,7 @@ import useUserAuth from 'hooks/useUserAuth';
 import useAuthGate from 'hooks/useAuthGate';
 import StyledTextArea from 'components/all/StyledTextArea';
 import ControllerStores from 'controllers/ControllerStores';
-import VisualUploaderSystem from 'components/list/VisualUploaderSystem';
+import VisualUploaderSystem from 'components/newItem/VisualUploaderSystem';
 import { ItemVisual } from 'utilities/types';
 
 export default function listitem() {
