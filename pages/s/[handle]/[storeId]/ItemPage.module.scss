@@ -2,3 +2,17 @@
 
 .container {
 }
+
+.infoContainer {
+  width: 100%;
+  padding: 0 $sidePadding;
+  margin-top: 0.5rem;
+}
+
+.actionContainer {
+  position: fixed;
+  z-index: 1;
+  bottom: $sidePadding;
+  width: 100%;
+  padding: 0 $sidePadding;
+}
