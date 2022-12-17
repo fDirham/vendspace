@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './ItemBlockList.module.scss';
 import { ItemInfo } from 'utilities/types';
 import ItemBlock from '../ItemBlock/ItemBlock';
-import ControllerStores from 'controllers/ControllerStores';
 import { useRouter } from 'next/router';
+import ControllerItems from 'controllers/ControllerItems';
 
 type ItemBlockListProps = {
   handle: string;
@@ -23,7 +23,7 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     const { handle, storeId } = props;
     if (!handle || !storeId) return;
 
-    const getRes = await ControllerStores.getStoreItems(handle, storeId);
+    const getRes = await ControllerItems.getStoreItems(handle, storeId);
     console.log(getRes);
     if (!getRes.isError) {
       setItems(getRes.items!);

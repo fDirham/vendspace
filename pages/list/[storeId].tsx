@@ -12,9 +12,9 @@ import {
 import useUserAuth from 'hooks/useUserAuth';
 import useAuthGate from 'hooks/useAuthGate';
 import StyledTextArea from 'components/all/StyledTextArea';
-import ControllerStores from 'controllers/ControllerStores';
 import VisualUploaderSystem from 'components/newItem/VisualUploaderSystem';
 import { ItemVisual } from 'utilities/types';
+import ControllerItems from 'controllers/ControllerItems';
 
 export default function listitem() {
   const [name, setName] = useState<string>('');
@@ -32,7 +32,7 @@ export default function listitem() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const res = await ControllerStores.listNewItem(
+    const res = await ControllerItems.addNewItem(
       currentUser!.handle,
       storeId as string,
       { name, price, description, visuals, id: '' },
