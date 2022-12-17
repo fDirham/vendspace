@@ -31,18 +31,18 @@ export default function listitem() {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    console.log(visuals);
 
-    /*
-    TODO:
-    Create the stores controller function
-    to submit this
-    First we create the records with basic info
-    Then we upload any images
-    Then we change the records for good
-    Then we delete any images
-    Then finish.
-    */
+    const res = await ControllerStores.listNewItem(
+      currentUser!.handle,
+      storeId as string,
+      { name, price, description, visuals, id: '' },
+      visualsToDelete
+    );
+
+    if (!res.isError) {
+      window.alert('Item listed!');
+      router.push('/s/' + currentUser?.handle + '/' + storeId);
+    }
   }
 
   return (

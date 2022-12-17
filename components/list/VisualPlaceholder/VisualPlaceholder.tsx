@@ -32,7 +32,7 @@ export default function VisualPlaceholder(props: VisualPlaceholderProps) {
     if (previewSrc) {
       return <img src={previewSrc} className={styles.previewImg} />;
     }
-    return <div className={styles.placeholder} />;
+    return <img src={'/icons/add.png'} className={styles.placeholder} />;
   };
   return (
     <div className={styles.container} onClick={props.onClick}>

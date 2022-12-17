@@ -5,7 +5,12 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
 } from 'firebase/auth';
-import { firebaseAuth, googleProvider, firestoreDB } from 'firebaseapp';
+import {
+  firebaseAuth,
+  googleProvider,
+  firestoreDB,
+  firebaseStorage,
+} from 'firebaseapp';
 import { FirebaseError } from 'firebase/app';
 import {
   addDoc,
@@ -24,9 +29,11 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { useDebugValue } from 'react';
-import { StoreInfo } from 'utilities/types';
+import { StoreInfo, ItemVisual } from 'utilities/types';
 import { LENGTH_STORE_ID } from 'utilities/constants';
+import { ItemInfo } from 'utilities/types';
+import { ref } from 'firebase/storage';
+import ControllerUpload from './ControllerUpload';
 
 export default class ControllerStores {
   static async createStore(
@@ -145,6 +152,65 @@ export default class ControllerStores {
       const userDocRef = doc(usersColRef, handle);
       const storesColRef = collection(userDocRef, 'stores');
       await updateDoc(doc(storesColRef, id), toAdd);
+      return { isError: false };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async listNewItem(
+    handle: string,
+    storeId: string,
+    item: ItemInfo,
+    deletedVisuals: boolean[]
+  ) {
+    // TODO: Get handle from uid
+    const itemToAdd = { ...item };
+
+    // upload images
+    const imagesToUpload = itemToAdd.visuals
+      .filter((visual) => !!visual.file)
+      .map((visual) => visual.file) as File[];
+
+    try {
+      /* UPLOAD */
+      if (imagesToUpload.length) {
+        const userStorageRef = ref(firebaseStorage, handle);
+        const uploadRes = await ControllerUpload.uploadImages(
+          imagesToUpload,
+          userStorageRef
+        );
+        if (uploadRes.isError) return uploadRes;
+
+        const downloadUrls = uploadRes.downloadUrls!;
+
+        // Put urls where they belong
+        const newVisuals: ItemVisual[] = [];
+        itemToAdd.visuals.forEach((visual) => {
+          if (visual.file) {
+            newVisuals.push({
+              uri: downloadUrls.shift()!,
+            });
+          } else {
+            newVisuals.push(visual);
+          }
+        });
+        itemToAdd.visuals = newVisuals;
+      }
+
+      /* DELETE */
+      if (deletedVisuals.length) {
+        // TODO
+      }
+
+      /*UPDATE FIREBASE */
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storeDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storeDocRef, 'items');
+      await addDoc(itemsColRef, itemToAdd);
+
       return { isError: false };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
