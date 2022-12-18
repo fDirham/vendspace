@@ -41,7 +41,7 @@ export default function Home() {
   function handleNewStore() {
     // TODO: Better lock
     if (storeList.length >= 10) {
-      window.alert('Too many stores, delete to continue.');
+      alert('Too many stores, delete to continue.');
       return;
     }
     router.push('/create');

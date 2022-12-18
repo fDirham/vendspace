@@ -34,7 +34,7 @@ export default function storepage() {
     if (getRes.store) {
       const { store } = getRes;
       setStoreInfo(store);
-    } else window.alert('failed');
+    } else alert('failed');
   }
 
   async function getUserData() {

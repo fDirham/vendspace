@@ -25,7 +25,6 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     if (!handle || !storeId) return;
 
     const getRes = await ControllerItems.getStoreItems(handle, storeId);
-    console.log(getRes);
     if (!getRes.isError) {
       setItems(getRes.items!);
     }
@@ -33,7 +32,6 @@ export default function ItemBlockList(props: ItemBlockListProps) {
 
   function onBlockClick(index: number) {
     const item = items[index];
-    console.log(item);
     router.push(`/s/${props.handle}/${props.storeId}/${item.id}`);
   }
 

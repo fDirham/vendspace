@@ -65,10 +65,8 @@ export default function editstore() {
       newStoreInfo
     );
 
-    console.log(updateRes);
-    if (updateRes.isError)
-      return window.alert('Update failed, try again later');
-    else window.alert('Store updated!');
+    if (updateRes.isError) return alert('Update failed, try again later');
+    else alert('Store updated!');
     router.push('/');
   }
 

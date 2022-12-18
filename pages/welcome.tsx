@@ -31,7 +31,7 @@ function newuser() {
     // Check handle
     const handleAvailable = ControllerAuth.checkHandleAvailability(handle);
     if (!handleAvailable) {
-      window.alert('Handle is taken, try something else');
+      alert('Handle is taken, try something else');
       return;
     }
 

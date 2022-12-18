@@ -52,7 +52,7 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
   // Normal close
   function overrideClose() {
     if (!!localFile) {
-      const res = window.confirm('Do you really want to close before saving?');
+      const res = confirm('Do you really want to close before saving?');
       if (!res) return;
     }
 
@@ -70,7 +70,7 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
 
   // When clear button is pushed
   function clearClose() {
-    const res = window.confirm('Do you really want to delete this picture?');
+    const res = confirm('Do you really want to delete this picture?');
     if (!res) return;
     props.onClose('clear');
     closeCleanup();

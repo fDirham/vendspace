@@ -34,9 +34,8 @@ export default function newstore() {
       description
     );
 
-    if (createRes.isError)
-      return window.alert('Create failed, try again later');
-    else window.alert('Store created!');
+    if (createRes.isError) return alert('Create failed, try again later');
+    else alert('Store created!');
     router.push('/');
   }
 

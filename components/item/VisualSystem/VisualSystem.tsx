@@ -19,6 +19,7 @@ export default function VisualSystem(props: VisualSystemProps) {
           visual={visual}
           selected={coverIndex == index}
           onClick={() => setCoverIndex(index)}
+          key={visual.uri}
         />
       );
     });
