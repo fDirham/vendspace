@@ -13,10 +13,10 @@ import useUserAuth from 'hooks/useUserAuth';
 import useAuthGate from 'hooks/useAuthGate';
 import StyledTextArea from 'components/all/StyledTextArea';
 import VisualUploaderSystem from 'components/newItem/VisualUploaderSystem';
-import { ItemVisual, UploadState, UploadStatus } from 'utilities/types';
+import { ItemVisual } from 'utilities/types';
 import ControllerItems from 'controllers/ControllerItems';
-import ControllerUpload from 'controllers/ControllerUpload';
 import ModalLoading from 'components/all/ModalLoading';
+import useVisualsUploader from 'hooks/useVisualsUploader';
 
 export default function listitem() {
   const [name, setName] = useState<string>('');
@@ -26,28 +26,23 @@ export default function listitem() {
   const [visualsToDelete, setVisualsToDelete] = useState<boolean[]>([]);
   const [loadingMessage, setLoadingMessage] = useState<string>('');
 
-  const uploadingStackRef = useRef<File[]>([]);
-  function setUploadingStack(newFiles: File[]) {
-    uploadingStackRef.current = newFiles;
-  }
-
-  const uploadedUrlsRef = useRef<string[]>([]);
-  function setUploadedUrls(newUrls: string[]) {
-    uploadedUrlsRef.current = newUrls;
-  }
-
   const router = useRouter();
   const { storeId } = router.query;
 
   const currentUser = useUserAuth();
   useAuthGate(currentUser, router);
+  const uploadVisuals = useVisualsUploader(
+    setLoadingMessage,
+    currentUser!,
+    updateDB
+  );
 
-  async function updateDB() {
+  async function updateDB(uploadUrls: string[]) {
     setLoadingMessage('Wrapping up...');
     // Set visuals correctly
-    let newVisuals = uploadedUrlsRef.current.length
+    let newVisuals = uploadUrls.length
       ? (visuals.map((vis, index) => {
-          return { uri: uploadedUrlsRef.current[index] };
+          return { uri: uploadUrls[index] };
         }) as ItemVisual[])
       : visuals;
 
@@ -68,40 +63,6 @@ export default function listitem() {
     }
   }
 
-  async function handleUploadUpdate(state: UploadState) {
-    if (state.status === UploadStatus.COMPLETE) {
-      // Add to uploadedUrls
-      const newUrls = [...uploadedUrlsRef.current];
-      newUrls[uploadingStackRef.current.length] = state.data as string;
-      setUploadedUrls(newUrls);
-
-      // Call uploadVisual
-      await new Promise((r) => setTimeout(r, 500));
-      uploadVisual();
-    } else if (state.status === UploadStatus.UPLOADING) {
-      // Utilize this somehow
-      // setLoadingMessage(state.data + '%');
-    }
-  }
-
-  function uploadVisual() {
-    // Take first from uploading stack
-    if (!uploadingStackRef.current.length) {
-      updateDB();
-      return;
-    }
-
-    const newStack = [...uploadingStackRef.current];
-    const toUpload = newStack.pop()!;
-    setLoadingMessage('Uploading ' + toUpload.name);
-    ControllerUpload.startUploadItemImage(
-      toUpload,
-      currentUser!.handle,
-      handleUploadUpdate
-    );
-    setUploadingStack(newStack);
-  }
-
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // Add logic to extract necessary files for edit
@@ -109,17 +70,9 @@ export default function listitem() {
       .filter((vis) => !!vis.file)
       .map((vis) => vis.file) as File[];
 
-    setLoadingMessage('Saving item...');
-    setUploadingStack(visualFiles);
-    uploadVisual();
+    uploadVisuals(visualFiles);
   }
 
-  /*
-  TODO: Create loading modal
-  Change text based on file being uploaded
-  Change base modal to prevent exiting by clicking out of screen
-  Also add X at modal base to close by clicking that
-  */
   return (
     <PageContainer>
       <ModalLoading message={loadingMessage} />
