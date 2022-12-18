@@ -35,3 +35,14 @@ export type ItemVisual = {
   uri: string;
   file?: File;
 };
+
+export enum UploadStatus {
+  UPLOADING,
+  ERROR,
+  COMPLETE,
+}
+
+export type UploadState = {
+  status: UploadStatus;
+  data: any;
+};

@@ -2,7 +2,7 @@ import PageContainer from 'components/all/PageContainer';
 import StyledButton from 'components/all/StyledButton';
 import StyledInput from 'components/all/StyledInput';
 import { useRouter } from 'next/router';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useEffect, useRef, useState } from 'react';
 import styles from './ListItemPage.module.scss';
 import {
   MAX_LENGTH_ITEM_NAME,
@@ -13,8 +13,10 @@ import useUserAuth from 'hooks/useUserAuth';
 import useAuthGate from 'hooks/useAuthGate';
 import StyledTextArea from 'components/all/StyledTextArea';
 import VisualUploaderSystem from 'components/newItem/VisualUploaderSystem';
-import { ItemVisual } from 'utilities/types';
+import { ItemVisual, UploadState, UploadStatus } from 'utilities/types';
 import ControllerItems from 'controllers/ControllerItems';
+import ControllerUpload from 'controllers/ControllerUpload';
+import ModalLoading from 'components/all/ModalLoading';
 
 export default function listitem() {
   const [name, setName] = useState<string>('');
@@ -22,6 +24,17 @@ export default function listitem() {
   const [description, setDescription] = useState<string>('');
   const [visuals, setVisuals] = useState<ItemVisual[]>([]);
   const [visualsToDelete, setVisualsToDelete] = useState<boolean[]>([]);
+  const [loadingMessage, setLoadingMessage] = useState<string>('');
+
+  const uploadingStackRef = useRef<File[]>([]);
+  function setUploadingStack(newFiles: File[]) {
+    uploadingStackRef.current = newFiles;
+  }
+
+  const uploadedUrlsRef = useRef<string[]>([]);
+  function setUploadedUrls(newUrls: string[]) {
+    uploadedUrlsRef.current = newUrls;
+  }
 
   const router = useRouter();
   const { storeId } = router.query;
@@ -29,25 +42,87 @@ export default function listitem() {
   const currentUser = useUserAuth();
   useAuthGate(currentUser, router);
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    window.alert('Creating item...');
+  async function updateDB() {
+    setLoadingMessage('Wrapping up...');
+    // Set visuals correctly
+    let newVisuals = uploadedUrlsRef.current.length
+      ? (visuals.map((vis, index) => {
+          return { uri: uploadedUrlsRef.current[index] };
+        }) as ItemVisual[])
+      : visuals;
 
+    // Upload
     const res = await ControllerItems.addNewItem(
       currentUser!.handle,
       storeId as string,
-      { name, price, description, visuals, id: '' },
+      { name, price, description, visuals: newVisuals, id: '' },
       visualsToDelete
     );
 
     if (!res.isError) {
-      window.alert('Item listed!');
+      alert('Item listed!');
       router.push('/s/' + currentUser?.handle + '/' + storeId);
-    } else console.log(res);
+    } else {
+      alert('Something went wrong...');
+      console.log(res.data);
+    }
   }
 
+  async function handleUploadUpdate(state: UploadState) {
+    if (state.status === UploadStatus.COMPLETE) {
+      // Add to uploadedUrls
+      const newUrls = [...uploadedUrlsRef.current];
+      newUrls[uploadingStackRef.current.length] = state.data as string;
+      setUploadedUrls(newUrls);
+
+      // Call uploadVisual
+      await new Promise((r) => setTimeout(r, 500));
+      uploadVisual();
+    } else if (state.status === UploadStatus.UPLOADING) {
+      // Utilize this somehow
+      // setLoadingMessage(state.data + '%');
+    }
+  }
+
+  function uploadVisual() {
+    // Take first from uploading stack
+    if (!uploadingStackRef.current.length) {
+      updateDB();
+      return;
+    }
+
+    const newStack = [...uploadingStackRef.current];
+    const toUpload = newStack.pop()!;
+    setLoadingMessage('Uploading ' + toUpload.name);
+    ControllerUpload.startUploadItemImage(
+      toUpload,
+      currentUser!.handle,
+      handleUploadUpdate
+    );
+    setUploadingStack(newStack);
+  }
+
+  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    // Add logic to extract necessary files for edit
+    const visualFiles = visuals
+      .filter((vis) => !!vis.file)
+      .map((vis) => vis.file) as File[];
+
+    setLoadingMessage('Saving item...');
+    setUploadingStack(visualFiles);
+    uploadVisual();
+  }
+
+  /*
+  TODO: Create loading modal
+  Change text based on file being uploaded
+  Change base modal to prevent exiting by clicking out of screen
+  Also add X at modal base to close by clicking that
+  */
   return (
     <PageContainer>
+      <ModalLoading message={loadingMessage} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>New Item</h1>

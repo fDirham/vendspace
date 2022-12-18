@@ -20,6 +20,9 @@ import ControllerUpload from './ControllerUpload';
 import { generateRandomID } from 'utilities/helpers';
 
 export default class ControllerItems {
+  /*
+  NOTE: We assume all visuals in item have been uploaded and are downloadUrls
+  */
   static async addNewItem(
     handle: string,
     storeId: string,
@@ -29,37 +32,7 @@ export default class ControllerItems {
     // TODO: Get handle from uid
     const itemToAdd = { ...item, timeCreated: serverTimestamp() };
 
-    // upload images
-    const imagesToUpload = itemToAdd.visuals
-      .filter((visual) => !!visual.file)
-      .map((visual) => visual.file) as File[];
-
     try {
-      /* UPLOAD */
-      if (imagesToUpload.length) {
-        const userStorageRef = ref(firebaseStorage, handle);
-        const uploadRes = await ControllerUpload.uploadImages(
-          imagesToUpload,
-          userStorageRef
-        );
-        if (uploadRes.isError) return uploadRes;
-
-        const downloadUrls = uploadRes.downloadUrls!;
-
-        // Put urls where they belong
-        const newVisuals: ItemVisual[] = [];
-        itemToAdd.visuals.forEach((visual) => {
-          if (visual.file) {
-            newVisuals.push({
-              uri: downloadUrls.shift()!,
-            });
-          } else {
-            newVisuals.push(visual);
-          }
-        });
-        itemToAdd.visuals = newVisuals;
-      }
-
       /* DELETE */
       if (deletedVisuals.length) {
         // TODO

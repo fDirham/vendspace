@@ -1,67 +1,67 @@
-import {
-  signOut,
-  onAuthStateChanged,
-  User,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from 'firebase/auth';
-import {
-  firebaseAuth,
-  googleProvider,
-  firestoreDB,
-  firebaseStorage,
-} from 'firebaseapp';
-import { FirebaseError } from 'firebase/app';
-import {
-  addDoc,
-  arrayUnion,
-  collection,
-  deleteDoc,
-  doc,
-  FieldValue,
-  Firestore,
-  getDoc,
-  getDocs,
-  orderBy,
-  query,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-  where,
-} from 'firebase/firestore';
-import { useDebugValue } from 'react';
-import { StoreInfo, ItemVisual } from 'utilities/types';
-import { LENGTH_STORE_ID } from 'utilities/constants';
-import { ItemInfo } from 'utilities/types';
+import { firebaseStorage } from 'firebaseapp';
+import { UploadState, UploadStatus } from 'utilities/types';
 import {
   getDownloadURL,
   ref,
-  uploadBytes,
   StorageReference,
+  uploadBytesResumable,
 } from 'firebase/storage';
+import { generateUniqueFileName } from 'utilities/helpers';
 
 export default class ControllerUpload {
-  static async uploadImages(
-    filesToUpload: File[],
-    directoryRef: StorageReference
+  static startUploadItemImages(
+    images: File[],
+    handle: string,
+    onUpdate: (uploadIndex: number, uploadState: UploadState) => void
   ) {
-    try {
-      /* UPLOAD */
-      const downloadUrls: string[] = [];
+    const userStorageRef = ref(firebaseStorage, handle);
+    this.startUploadFiles(images, userStorageRef, onUpdate);
+  }
 
-      // TODO: Monitor progress
-      await Promise.all(
-        filesToUpload.map(async (file) => {
-          const fileRef = ref(directoryRef, new Date().getTime().toString());
-          await uploadBytes(fileRef, file);
-          const url = await getDownloadURL(fileRef);
-          downloadUrls.push(url);
-        })
+  static startUploadFiles(
+    filesToUpload: File[],
+    directoryRef: StorageReference,
+    onUpdate: (uploadIndex: number, uploadState: UploadState) => void
+  ) {
+    filesToUpload.forEach((file, index) => {
+      this.startUploadFile(file, directoryRef, (state: UploadState) =>
+        onUpdate(index, state)
       );
+    });
+  }
 
-      return { isError: false, downloadUrls };
-    } catch (err) {
-      return { isError: true, data: err as FirebaseError };
-    }
+  static startUploadItemImage(
+    image: File,
+    handle: string,
+    onUpdate: (uploadState: UploadState) => void
+  ) {
+    const userStorageRef = ref(firebaseStorage, handle);
+    this.startUploadFile(image, userStorageRef, onUpdate);
+  }
+
+  static startUploadFile(
+    file: File,
+    directoryRef: StorageReference,
+    onUpdate: (state: UploadState) => void
+  ) {
+    const fileRef = ref(directoryRef, generateUniqueFileName(file));
+    const uploadTask = uploadBytesResumable(fileRef, file);
+
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        onUpdate({ status: UploadStatus.UPLOADING, data: progress });
+      },
+      (error) => {
+        onUpdate({ status: UploadStatus.ERROR, data: error });
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          onUpdate({ status: UploadStatus.COMPLETE, data: downloadURL });
+        });
+      }
+    );
   }
 }
