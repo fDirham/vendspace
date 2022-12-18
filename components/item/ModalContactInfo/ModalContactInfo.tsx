@@ -28,6 +28,7 @@ export default function ModalContactInfo(props: ModalContactInfoProps) {
       onClose={props.onClose}
       renderContent={renderContent}
       containerClassName={styles.container}
+      canClose
     />
   );
 }
