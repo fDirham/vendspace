@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './ItemBlockList.module.scss';
 import { ItemInfo } from 'utilities/types';
 import ItemBlock from '../ItemBlock/ItemBlock';
-import { useRouter } from 'next/router';
+import { NextRouter } from 'next/router';
 import ControllerItems from 'controllers/ControllerItems';
 import ModalEditMenu from '../ModalEditMenu';
 
@@ -11,26 +11,14 @@ type ItemBlockListProps = {
   storeId: string;
   isUser: boolean;
   editing: boolean;
+  initialItems: ItemInfo[];
+  router: NextRouter;
 };
 
 export default function ItemBlockList(props: ItemBlockListProps) {
-  const [items, setItems] = useState<ItemInfo[]>([]);
+  const [items, setItems] = useState<ItemInfo[]>(props.initialItems);
   const [menuItem, setMenuItem] = useState<ItemInfo>();
-  const router = useRouter();
-
-  useEffect(() => {
-    getItems();
-  }, [props.handle, props.storeId]);
-
-  async function getItems() {
-    const { handle, storeId } = props;
-    if (!handle || !storeId) return;
-
-    const getRes = await ControllerItems.getStoreItems(handle, storeId);
-    if (!getRes.isError) {
-      setItems(getRes.items!);
-    }
-  }
+  const router = props.router;
 
   function handleBlockClick(index: number) {
     const item = items[index];

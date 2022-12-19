@@ -114,7 +114,12 @@ export default class ControllerItems {
       }
 
       const items = itemsDocs.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id };
+        return {
+          ...doc.data(),
+          id: doc.id,
+          timeBumped: firebaseTimestampToString(doc.get('timeBumped')),
+          timeCreated: firebaseTimestampToString(doc.get('timeCreated')),
+        };
       }) as ItemInfo[];
 
       return { isError: false, items };

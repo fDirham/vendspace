@@ -57,6 +57,7 @@ export default function Home() {
           onNavigate={() =>
             router.push(`/s/${currentUser!.handle}/${store.id}`)
           }
+          key={store.id}
         />
       );
     });

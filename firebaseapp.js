@@ -25,9 +25,21 @@ googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
-let testing = true;
-if (testing) {
-  connectAuthEmulator(firebaseAuth, 'http://10.0.0.95:9099');
-  connectStorageEmulator(firebaseStorage, '10.0.0.95', 9199);
-  connectFirestoreEmulator(firestoreDB, '10.0.0.95', 8080);
+// let testing = true;
+// if (testing) {
+//   connectAuthEmulator(firebaseAuth, 'http://10.0.0.95:9099');
+//   connectStorageEmulator(firebaseStorage, '10.0.0.95', 9199);
+//   connectFirestoreEmulator(firestoreDB, '10.0.0.95', 8080);
+// }
+
+const EMULATORS_STARTED = 'EMULATORS_STARTED';
+function startEmulators() {
+  if (!global[EMULATORS_STARTED]) {
+    global[EMULATORS_STARTED] = true;
+    connectAuthEmulator(firebaseAuth, 'http://10.0.0.95:9099');
+    connectStorageEmulator(firebaseStorage, '10.0.0.95', 9199);
+    connectFirestoreEmulator(firestoreDB, '10.0.0.95', 8080);
+  }
 }
+
+startEmulators();

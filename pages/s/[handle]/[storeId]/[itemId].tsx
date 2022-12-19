@@ -1,6 +1,5 @@
 import ControllerItems from 'controllers/ControllerItems';
-import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ItemInfo, PublicUserData, StoreInfo } from 'utilities/types';
 import styles from './ItemPage.module.scss';
 import VisualSystem from 'components/item/VisualSystem';

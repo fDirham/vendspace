@@ -1,18 +1,63 @@
 import PageContainer from 'components/all/PageContainer';
-import StyledButton from 'components/all/StyledButton';
 import ControllerAuth from 'controllers/ControllerAuth';
 import { useRouter } from 'next/router';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from './StorePage.module.scss';
 import useUserAuth from 'hooks/useUserAuth';
 import ControllerStores from 'controllers/ControllerStores';
-import { PublicUserData, StoreInfo } from 'utilities/types';
+import { ItemInfo, PublicUserData, StoreInfo } from 'utilities/types';
 import InfoButtons from 'components/store/InfoButtons';
 import ItemBlockList from 'components/store/ItemBlockList';
+import { GetServerSideProps } from 'next';
+import ControllerItems from 'controllers/ControllerItems';
 
-export default function storepage() {
-  const [storeInfo, setStoreInfo] = useState<StoreInfo>();
-  const [owner, setOwner] = useState<PublicUserData>();
+type ServerData = {
+  storeInfo: StoreInfo;
+  owner: PublicUserData;
+  initialItems: ItemInfo[];
+};
+
+export const getServerSideProps: GetServerSideProps<{
+  data: ServerData;
+}> = async (context) => {
+  const { handle, storeId } = context.params!;
+
+  const getStoreRes = await ControllerStores.getStoreInfo(
+    handle as string,
+    storeId as string
+  );
+
+  const getSellerRes = await ControllerAuth.getPublicUserData(handle as string);
+
+  const getItemsRes = await ControllerItems.getStoreItems(
+    handle as string,
+    storeId as string
+  );
+
+  if (getItemsRes.isError || getStoreRes.isError || getSellerRes.isError) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      data: {
+        storeInfo: getStoreRes.store!,
+        owner: getSellerRes.userData!,
+        initialItems: getItemsRes.items!,
+      },
+    },
+  };
+};
+
+type StorePageProps = {
+  data: ServerData;
+};
+
+export default function storepage(props: StorePageProps) {
+  const { storeInfo, owner, initialItems } = props.data;
+
   const [editing, setEditing] = useState<boolean>(false);
 
   const currentUser = useUserAuth();
@@ -20,32 +65,6 @@ export default function storepage() {
   const { handle, storeId } = router.query;
   const isUser = currentUser?.handle === (handle as string);
 
-  useEffect(() => {
-    if (storeId && handle) {
-      getStoreInfo();
-      getUserData();
-    }
-  }, [storeId, handle]);
-
-  async function getStoreInfo() {
-    const getRes = await ControllerStores.getStoreInfo(
-      handle as string,
-      storeId as string
-    );
-    if (getRes.store) {
-      const { store } = getRes;
-      setStoreInfo(store);
-    } else alert('failed');
-  }
-
-  async function getUserData() {
-    const getRes = await ControllerAuth.getPublicUserData(handle as string);
-    if (getRes.userData) {
-      setOwner(getRes.userData);
-    }
-  }
-
-  if (!storeInfo || !owner) return null;
   return (
     <PageContainer className={styles.container}>
       <div className={styles.topContainer}>
@@ -58,7 +77,7 @@ export default function storepage() {
         </div>
         <InfoButtons
           storeInfo={storeInfo}
-          isUser={currentUser?.handle === owner.handle}
+          isUser={isUser}
           setEditing={setEditing}
           editing={editing}
         />
@@ -73,6 +92,8 @@ export default function storepage() {
         storeId={storeId as string}
         isUser={isUser}
         editing={editing}
+        initialItems={initialItems}
+        router={router}
       />
     </PageContainer>
   );
