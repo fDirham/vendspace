@@ -116,6 +116,7 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
       onClose={overrideClose}
       renderContent={renderContent}
       containerClassName={styles.container}
+      canClose
     />
   );
 }
