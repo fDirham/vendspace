@@ -5,9 +5,9 @@ import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from 'pages/list/ListItemPage.module.scss';
 import {
+  MAX_LENGTH_ITEM_DESCRIPTION,
   MAX_LENGTH_ITEM_NAME,
   MAX_LENGTH_ITEM_PRICE,
-  MAX_LENGTH_STORE_DESCRIPTION,
 } from 'utilities/constants';
 import useUserAuth from 'hooks/useUserAuth';
 import useAuthGate from 'hooks/useAuthGate';
@@ -88,6 +88,14 @@ export default function edititem() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!visuals.length) {
+      const res = confirm(
+        "Images are optional but are highly recommended to get buyers interested. Are you sure you don't want to add any?"
+      );
+      if (!res) return;
+    }
+
     const visualFiles = visuals
       .filter((vis) => !!vis.file)
       .map((vis) => vis.file) as File[];
@@ -131,12 +139,12 @@ export default function edititem() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className={styles.styledInput}
-          maxLength={MAX_LENGTH_STORE_DESCRIPTION}
+          maxLength={MAX_LENGTH_ITEM_DESCRIPTION}
         />
 
         <p className={styles.explainP}>
           Item condition / how long it's used / what you bought it for /
-          external links / etc.
+          external links / etc. Links will be parsed
         </p>
 
         <h2 className={styles.imagesText}>Pictures</h2>

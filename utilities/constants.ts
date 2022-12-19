@@ -17,7 +17,7 @@ export const MAX_LENGTH_STORE_DESCRIPTION = 200;
 
 // Item fields
 export const MAX_LENGTH_ITEM_NAME = 40;
-export const MAX_LENGTH_ITEM_DESCRIPTION = 300;
+export const MAX_LENGTH_ITEM_DESCRIPTION = 600;
 export const MAX_LENGTH_ITEM_PRICE = 20;
 export const MAX_ITEM_VISUALS = 5;
 

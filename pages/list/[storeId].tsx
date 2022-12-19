@@ -65,6 +65,14 @@ export default function listitem() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+
+    if (!visuals.length) {
+      const res = confirm(
+        "Images are optional but are highly recommended to get buyers interested. Are you sure you don't want to add any?"
+      );
+      if (!res) return;
+    }
+
     // Add logic to extract necessary files for edit
     const visualFiles = visuals
       .filter((vis) => !!vis.file)
@@ -113,7 +121,7 @@ export default function listitem() {
 
         <p className={styles.explainP}>
           Item condition / how long it's used / what you bought it for /
-          external links / etc.
+          external links / etc. Links will be parsed
         </p>
 
         <h2 className={styles.imagesText}>Pictures</h2>

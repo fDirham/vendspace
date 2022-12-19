@@ -9,6 +9,7 @@ import StyledButton from 'components/all/StyledButton';
 import ControllerAuth from 'controllers/ControllerAuth';
 import ControllerStores from 'controllers/ControllerStores';
 import ModalContactInfo from 'components/item/ModalContactInfo';
+import Linkify from 'react-linkify';
 
 export default function itemPage() {
   const router = useRouter();
@@ -83,8 +84,8 @@ export default function itemPage() {
       <div className={styles.infoContainer}>
         <h1>{itemInfo.name}</h1>
         <p className={styles.whoText}>
-          <span className={styles.storeText}>{storeInfo.name}</span>
-          {' - '}
+          <span className={styles.storeName}>{storeInfo.name}</span>
+          {' by '}
           <span className={styles.sellerName}>{sellerData.displayName}</span>
         </p>
         <p className={styles.price}>{itemInfo.price}</p>
@@ -93,7 +94,9 @@ export default function itemPage() {
             {itemInfo.sold ? 'SOLD OUT' : 'ON HOLD'}
           </p>
         )}
-        <p className={styles.description}>{itemInfo.description}</p>
+        <Linkify>
+          <p className={styles.description}>{itemInfo.description}</p>
+        </Linkify>
       </div>
       <div className={styles.actionContainer}>
         <StyledButton onClick={contactSeller}>contact seller</StyledButton>
