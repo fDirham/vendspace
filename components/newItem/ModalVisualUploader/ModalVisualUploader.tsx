@@ -109,7 +109,7 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
           Square images recommended. If not square, will be squeezed as shown.
         </p>
         <div className={styles.buttonsContainer}>
-          {!!localFile && (
+          {!!preview && (
             <StyledButton mini className={styles.button} onClick={clearClose}>
               clear
             </StyledButton>
