@@ -1,10 +1,11 @@
 @import 'styles/constants/base.scss';
 
 .container {
-  width: 17%;
+  width: 10%;
   aspect-ratio: 1;
   overflow: hidden;
   outline: 1px $colorA solid;
+  cursor: pointer;
 }
 
 .selected {
