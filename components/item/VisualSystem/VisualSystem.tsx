@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styles from './VisualSystem.module.scss';
 import { ItemVisual } from 'utilities/types';
-import Head from 'next/head';
 import VisualCover from '../VisualCover';
 import VisualBlock from '../VisualBlock';
 type VisualSystemProps = {

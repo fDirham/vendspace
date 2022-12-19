@@ -29,6 +29,8 @@ export type ItemInfo = {
   visuals: ItemVisual[];
   timeCreated?: Timestamp;
   timeBumped?: Timestamp;
+  hold?: boolean;
+  sold?: boolean;
 };
 
 export type ItemVisual = {

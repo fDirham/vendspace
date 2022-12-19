@@ -56,3 +56,19 @@ $editSize: 0.5rem;
   position: absolute;
   left: auto;
 }
+
+.statusOverlay {
+  position: absolute;
+  width: calc(0.33 * (100vw - $sidePadding));
+  aspect-ratio: 1;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+.statusText {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: white;
+  text-align: center;
+  margin-top: 1rem;
+}

@@ -84,14 +84,54 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     );
 
     if (!bumpRes.isError) {
-      // Delete locally
       const newItems = [...items];
-      const indexToDel = newItems.indexOf(menuItem!);
-      newItems.splice(indexToDel, 1);
+      const index = newItems.indexOf(menuItem!);
+      newItems.splice(index, 1);
       newItems.unshift(menuItem!);
       setItems(newItems);
       setMenuItem(undefined);
     }
+  }
+
+  async function handleBlockHold(hold: boolean) {
+    const { handle, storeId } = props;
+    if (!handle || !storeId) return;
+
+    const holdRes = await ControllerItems.setItemHold(
+      handle,
+      storeId,
+      menuItem!.id,
+      hold
+    );
+
+    if (holdRes.isError) return;
+
+    const newItems = [...items];
+    const index = newItems.indexOf(menuItem!);
+    const newItem = { ...menuItem!, hold };
+    newItems[index] = newItem;
+    setItems(newItems);
+    setMenuItem(undefined);
+  }
+
+  async function handleBlockSold(sold: boolean) {
+    const { handle, storeId } = props;
+    if (!handle || !storeId) return;
+
+    const soldRes = await ControllerItems.setItemSold(
+      handle,
+      storeId,
+      menuItem!.id,
+      sold
+    );
+
+    if (soldRes.isError) return;
+    const newItems = [...items];
+    const index = newItems.indexOf(menuItem!);
+    const newItem = { ...menuItem!, sold };
+    newItems[index] = newItem;
+    setItems(newItems);
+    setMenuItem(undefined);
   }
 
   const renderItemBlocks = () => {
@@ -120,6 +160,8 @@ export default function ItemBlockList(props: ItemBlockListProps) {
         onDelete={handleBlockDelete}
         onEdit={handleBlockEdit}
         onBump={handleBlockBump}
+        onHold={handleBlockHold}
+        onSold={handleBlockSold}
       />
       <div className={styles.container}>{renderItemBlocks()}</div>
     </>

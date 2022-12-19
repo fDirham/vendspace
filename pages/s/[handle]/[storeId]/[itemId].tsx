@@ -61,6 +61,16 @@ export default function itemPage() {
     }
   }
 
+  function contactSeller() {
+    if (itemInfo!.sold) {
+      alert('WARNING: item is SOLD OUT and is not available.');
+    } else if (itemInfo!.hold) {
+      alert('WARNING: item is ON HOLD and may not be available.');
+    }
+
+    setOpenInfo(true);
+  }
+
   if (!itemInfo || !storeInfo || !sellerData) return;
   return (
     <PageContainer className={styles.container}>
@@ -78,12 +88,15 @@ export default function itemPage() {
           <span className={styles.sellerName}>{sellerData.displayName}</span>
         </p>
         <p className={styles.price}>{itemInfo.price}</p>
+        {(itemInfo.sold || itemInfo.hold) && (
+          <p className={styles.status}>
+            {itemInfo.sold ? 'SOLD OUT' : 'ON HOLD'}
+          </p>
+        )}
         <p className={styles.description}>{itemInfo.description}</p>
       </div>
       <div className={styles.actionContainer}>
-        <StyledButton onClick={() => setOpenInfo(true)}>
-          contact seller
-        </StyledButton>
+        <StyledButton onClick={contactSeller}>contact seller</StyledButton>
       </div>
     </PageContainer>
   );

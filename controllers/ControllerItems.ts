@@ -178,4 +178,50 @@ export default class ControllerItems {
       return { isError: true, data: err as FirebaseError };
     }
   }
+
+  static async setItemSold(
+    handle: string,
+    storeId: string,
+    itemId: string,
+    sold: boolean
+  ) {
+    try {
+      /*UPDATE FIREBASE */
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storeDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storeDocRef, 'items');
+      const itemDocRef = doc(itemsColRef, itemId);
+
+      await updateDoc(itemDocRef, { sold });
+
+      return { isError: false };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async setItemHold(
+    handle: string,
+    storeId: string,
+    itemId: string,
+    hold: boolean
+  ) {
+    try {
+      /*UPDATE FIREBASE */
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storeDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storeDocRef, 'items');
+      const itemDocRef = doc(itemsColRef, itemId);
+
+      await updateDoc(itemDocRef, { hold });
+
+      return { isError: false };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
 }

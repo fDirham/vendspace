@@ -44,6 +44,13 @@ export default function ItemBlock({
       }`}
       onClick={onClick}
     >
+      {(item?.hold || item?.sold) && (
+        <div className={styles.statusOverlay}>
+          <p className={styles.statusText}>
+            {item.sold ? 'SOLD OUT' : 'ON HOLD'}
+          </p>
+        </div>
+      )}
       {editing && (
         <img className={styles.editIcon} src='/icons/edit.png' alt='edit' />
       )}
