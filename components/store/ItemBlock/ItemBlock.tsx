@@ -52,7 +52,9 @@ export default function ItemBlock({
         </div>
       )}
       {editing && (
-        <img className={styles.editIcon} src='/icons/edit.png' alt='edit' />
+        <div className={styles.editOverlay}>
+          <img className={styles.editIcon} src='/icons/edit.png' alt='edit' />
+        </div>
       )}
       {!add && (
         <div className={styles.priceOverlay}>

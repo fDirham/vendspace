@@ -9,6 +9,7 @@ type ModalEditMenuProps = {
   item?: ItemInfo;
   onDelete: () => void;
   onEdit: () => void;
+  onView: () => void;
   onBump: () => void;
   onSold: (sold: boolean) => void;
   onHold: (hold: boolean) => void;
@@ -26,22 +27,36 @@ export default function ModalEditMenu(props: ModalEditMenuProps) {
     if (!props.item) return null;
     return (
       <>
+        <p className={styles.editText}>edit</p>
         <p className={styles.itemName}>{props.item.name}</p>
-        <StyledButton className={styles.button} onClick={props.onEdit}>
-          edit content
-        </StyledButton>
-        <StyledButton className={styles.button} onClick={props.onBump}>
-          bump
-        </StyledButton>
-        <StyledButton className={styles.button} onClick={handleHold}>
-          {!props.item.hold ? 'set' : 'remove'} on hold
-        </StyledButton>
-        <StyledButton className={styles.button} onClick={handleSold}>
-          {!props.item.sold ? 'set' : 'remove'} sold out
-        </StyledButton>
-        <StyledButton className={styles.button} onClick={props.onDelete}>
-          delete
-        </StyledButton>
+        <div className={styles.buttonContainer}>
+          <StyledButton className={styles.button} onClick={props.onEdit} mini>
+            edit content
+          </StyledButton>
+          <StyledButton className={styles.button} onClick={props.onView} mini>
+            view content
+          </StyledButton>
+          <StyledButton
+            className={styles.buttonAlone}
+            onClick={props.onBump}
+            mini
+          >
+            bump
+          </StyledButton>
+          <StyledButton className={styles.button} onClick={handleHold} mini>
+            {!props.item.hold ? 'set' : 'remove'} on hold
+          </StyledButton>
+          <StyledButton className={styles.button} onClick={handleSold} mini>
+            {!props.item.sold ? 'set' : 'remove'} sold out
+          </StyledButton>
+          <StyledButton
+            className={styles.buttonAlone}
+            onClick={props.onDelete}
+            mini
+          >
+            delete
+          </StyledButton>
+        </div>
       </>
     );
   };

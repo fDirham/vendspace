@@ -60,7 +60,7 @@ type StorePageProps = {
 export default function storepage(props: StorePageProps) {
   const { storeInfo, owner, initialItems } = props.data;
   const [openInfo, setOpenInfo] = useState<boolean>(false);
-  const [editing, setEditing] = useState<boolean>(!initialItems.length);
+  const [editing, setEditing] = useState<boolean>(true);
 
   const currentUser = useUserAuth();
   const router = useRouter();
@@ -115,7 +115,7 @@ export default function storepage(props: StorePageProps) {
         handle={handle as string}
         storeId={storeId as string}
         isUser={isUser}
-        editing={editing}
+        editing={editing && isUser}
         initialItems={initialItems}
         router={router}
       />

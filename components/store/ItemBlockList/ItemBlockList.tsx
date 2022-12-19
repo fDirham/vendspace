@@ -65,6 +65,13 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     const { handle, storeId } = props;
     if (!handle || !storeId) return;
 
+    const newItems = [...items];
+    const index = newItems.indexOf(menuItem!);
+    if (index === 0) {
+      alert('Item is already first.');
+      setMenuItem(undefined);
+      return;
+    }
     const bumpRes = await ControllerItems.bumpItem(
       handle,
       storeId,
@@ -72,8 +79,6 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     );
 
     if (!bumpRes.isError) {
-      const newItems = [...items];
-      const index = newItems.indexOf(menuItem!);
       newItems.splice(index, 1);
       newItems.unshift(menuItem!);
       setItems(newItems);
@@ -122,6 +127,10 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     setMenuItem(undefined);
   }
 
+  function handleBlockView() {
+    router.push(`/s/${props.handle}/${props.storeId}/${menuItem!.id}`);
+  }
+
   const renderItemBlocks = () => {
     const toReturn = items.map((item, index) => {
       return (
@@ -150,6 +159,7 @@ export default function ItemBlockList(props: ItemBlockListProps) {
         onBump={handleBlockBump}
         onHold={handleBlockHold}
         onSold={handleBlockSold}
+        onView={handleBlockView}
       />
       <div className={styles.container}>{renderItemBlocks()}</div>
     </>

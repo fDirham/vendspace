@@ -10,7 +10,7 @@
   align-items: center;
   flex-direction: column;
   justify-content: flex-start;
-  z-index: 5;
+  z-index: 10;
   height: 100%;
 }
 
@@ -21,7 +21,7 @@
   width: calc($breakpointMobile - 2 * $sidePadding);
   background-color: white;
   color: black;
-  z-index: 6;
+  z-index: 11;
 }
 
 @media screen and (max-width: $breakpointMobile) {

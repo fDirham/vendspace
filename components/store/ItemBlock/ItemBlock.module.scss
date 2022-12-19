@@ -28,9 +28,19 @@
   justify-content: flex-end;
 }
 
+.editOverlay {
+  position: absolute;
+  width: calc(0.33 * (100vw - $sidePadding));
+  aspect-ratio: 1;
+  overflow: hidden;
+  z-index: 5;
+  display: flex;
+}
+
 @media screen and (min-width: $breakpointMobile) {
   .statusOverlay,
-  .priceOverlay {
+  .priceOverlay,
+  .editOverlay {
     width: calc(0.33 * ($breakpointMobile - $sidePadding));
   }
 }
@@ -98,10 +108,11 @@
   font-weight: bold;
 }
 
-$editSize: 0.5rem;
+$editSize: 20%;
 .editIcon {
+  margin-right: 0.5rem;
+  margin-top: 0.5rem;
   width: $editSize;
   height: $editSize;
-  position: absolute;
-  left: auto;
+  margin-left: auto;
 }
