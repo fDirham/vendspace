@@ -1,3 +1,5 @@
+import { Timestamp } from 'firebase/firestore';
+
 export function generateRandomID(length: number) {
   let result = '';
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
@@ -19,4 +21,9 @@ export function generateUniqueFileName(file: File) {
 
 export function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));
+}
+
+// TODO: Fill function
+export function firebaseTimestampToString(timestamp: Timestamp) {
+  return '';
 }

@@ -44,14 +44,13 @@ export default function edititem() {
 
   async function getItemInfo() {
     if (!storeId || !itemId || !currentUser) return;
-    const getRes = await ControllerItems.getStoreItem(
+    const getRes = await ControllerItems.getItem(
       currentUser.handle,
       storeId as string,
       itemId as string
     );
     if (!getRes.isError) {
       const item = getRes.item!;
-      console.log(item);
       setName(item.name);
       setPrice(item.price);
       setDescription(item.description);

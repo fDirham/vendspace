@@ -13,7 +13,7 @@ import {
 } from 'firebase/firestore';
 import { StoreInfo } from 'utilities/types';
 import { LENGTH_STORE_ID } from 'utilities/constants';
-import { generateRandomID } from 'utilities/helpers';
+import { firebaseTimestampToString, generateRandomID } from 'utilities/helpers';
 
 export default class ControllerStores {
   static async createStore(
@@ -89,10 +89,14 @@ export default class ControllerStores {
       const usersColRef = collection(firestoreDB, 'users');
       const userDocRef = doc(usersColRef, handle);
       const storesColRef = collection(userDocRef, 'stores');
-      const getRes = await getDoc(doc(storesColRef, storeId));
+      const storeDoc = await getDoc(doc(storesColRef, storeId));
 
-      if (!getRes.exists) return { isError: true, data: 'Store not found' };
-      const store = { ...getRes.data(), id: storeId } as StoreInfo;
+      if (!storeDoc.exists) return { isError: true, data: 'Store not found' };
+      const store = {
+        ...storeDoc.data(),
+        id: storeId,
+        timeCreated: firebaseTimestampToString(storeDoc.get('timeCreated')),
+      } as StoreInfo;
 
       return { isError: false, store };
     } catch (err) {

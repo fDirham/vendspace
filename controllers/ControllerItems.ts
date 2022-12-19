@@ -14,7 +14,7 @@ import {
 } from 'firebase/firestore';
 import { LENGTH_ITEM_ID } from 'utilities/constants';
 import { ItemInfo } from 'utilities/types';
-import { generateRandomID } from 'utilities/helpers';
+import { firebaseTimestampToString, generateRandomID } from 'utilities/helpers';
 
 export default class ControllerItems {
   /*
@@ -123,7 +123,7 @@ export default class ControllerItems {
     }
   }
 
-  static async getStoreItem(handle: string, storeId: string, itemId: string) {
+  static async getItem(handle: string, storeId: string, itemId: string) {
     try {
       const usersColRef = collection(firestoreDB, 'users');
       const userDocRef = doc(usersColRef, handle);
@@ -136,7 +136,13 @@ export default class ControllerItems {
         return { isError: true, data: 'Item not found' };
       }
 
-      const item = { ...itemDoc.data(), id: itemDoc.id } as ItemInfo;
+      const item = {
+        ...itemDoc.data(),
+        id: itemDoc.id,
+        timeBumped: firebaseTimestampToString(itemDoc.get('timeBumped')),
+        timeCreated: firebaseTimestampToString(itemDoc.get('timeCreated')),
+      } as ItemInfo;
+
       return { isError: false, item };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };

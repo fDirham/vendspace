@@ -18,7 +18,7 @@ export type StoreInfo = {
   payment: string;
   description: string;
   id: string;
-  timeCreated?: Timestamp;
+  timeCreated?: string;
 };
 
 export type ItemInfo = {
@@ -27,8 +27,8 @@ export type ItemInfo = {
   price: string;
   id: string;
   visuals: ItemVisual[];
-  timeCreated?: Timestamp;
-  timeBumped?: Timestamp;
+  timeCreated?: string;
+  timeBumped?: string;
   hold?: boolean;
   sold?: boolean;
 };

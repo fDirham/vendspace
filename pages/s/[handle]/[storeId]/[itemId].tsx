@@ -11,68 +11,67 @@ import ControllerStores from 'controllers/ControllerStores';
 import ModalContactInfo from 'components/item/ModalContactInfo';
 import Linkify from 'react-linkify';
 
-export default function itemPage() {
-  const router = useRouter();
-  const { handle, storeId, itemId } = router.query;
-  const [itemInfo, setItemInfo] = useState<ItemInfo>();
-  const [storeInfo, setStoreInfo] = useState<StoreInfo>();
-  const [sellerData, setSellerData] = useState<PublicUserData>();
+import { GetServerSideProps } from 'next';
+
+type ServerData = {
+  itemInfo: ItemInfo;
+  storeInfo: StoreInfo;
+  sellerData: PublicUserData;
+};
+
+export const getServerSideProps: GetServerSideProps<{
+  data: ServerData;
+}> = async (context) => {
+  const { handle, storeId, itemId } = context.params!;
+
+  const getItemRes = await ControllerItems.getItem(
+    handle as string,
+    storeId as string,
+    itemId as string
+  );
+
+  const getStoreRes = await ControllerStores.getStoreInfo(
+    handle as string,
+    storeId as string
+  );
+
+  const getSellerRes = await ControllerAuth.getPublicUserData(handle as string);
+
+  if (getItemRes.isError || getStoreRes.isError || getSellerRes.isError) {
+    return {
+      notFound: true,
+    };
+  }
+
+  return {
+    props: {
+      data: {
+        itemInfo: getItemRes.item!,
+        storeInfo: getStoreRes.store!,
+        sellerData: getSellerRes.userData!,
+      },
+    },
+  };
+};
+
+type ItemPageProps = {
+  data: ServerData;
+};
+
+export default function itemPage(props: ItemPageProps) {
   const [openInfo, setOpenInfo] = useState<boolean>(false);
-
-  useEffect(() => {
-    getItemInfo();
-  }, [handle, storeId, itemId]);
-
-  useEffect(() => {
-    getStoreInfo();
-  }, [handle, storeId]);
-
-  useEffect(() => {
-    getSellerInfo();
-  }, [handle]);
-
-  async function getItemInfo() {
-    if (!handle || !storeId || !itemId) return;
-    const getRes = await ControllerItems.getStoreItem(
-      handle as string,
-      storeId as string,
-      itemId as string
-    );
-    if (!getRes.isError) {
-      setItemInfo(getRes.item!);
-    }
-  }
-
-  async function getStoreInfo() {
-    if (!handle || !storeId) return;
-    const getRes = await ControllerStores.getStoreInfo(
-      handle as string,
-      storeId as string
-    );
-    if (!getRes.isError) {
-      setStoreInfo(getRes.store!);
-    }
-  }
-
-  async function getSellerInfo() {
-    if (!handle) return;
-    const getRes = await ControllerAuth.getPublicUserData(handle as string);
-    if (!getRes.isError) {
-      setSellerData(getRes.userData!);
-    }
-  }
+  const { itemInfo, storeInfo, sellerData } = props.data;
 
   function contactSeller() {
-    if (itemInfo!.sold) {
+    if (itemInfo.sold) {
       alert('WARNING: item is SOLD OUT and is not available.');
-    } else if (itemInfo!.hold) {
+    } else if (itemInfo.hold) {
       alert('WARNING: item is ON HOLD and may not be available.');
     }
 
     setOpenInfo(true);
   }
 
-  if (!itemInfo || !storeInfo || !sellerData) return;
   return (
     <PageContainer className={styles.container}>
       <ModalContactInfo
@@ -80,7 +79,7 @@ export default function itemPage() {
         onClose={() => setOpenInfo(false)}
         storeInfo={storeInfo}
       />
-      <VisualSystem visuals={itemInfo?.visuals} />
+      <VisualSystem visuals={itemInfo.visuals} />
       <div className={styles.infoContainer}>
         <h1>{itemInfo.name}</h1>
         <p className={styles.whoText}>
