@@ -68,6 +68,37 @@ export default class ControllerItems {
     }
   }
 
+  static async editItem(
+    handle: string,
+    storeId: string,
+    item: ItemInfo,
+    deletedVisuals: boolean[]
+  ) {
+    // TODO: Get handle from uid
+    const itemToAdd = { ...item };
+
+    try {
+      /* DELETE */
+      if (deletedVisuals.length) {
+        // TODO
+      }
+
+      /*UPDATE FIREBASE */
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storeDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storeDocRef, 'items');
+      const itemDocRef = doc(itemsColRef, item.id);
+
+      await updateDoc(itemDocRef, itemToAdd);
+
+      return { isError: false };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
   static async getStoreItems(handle: string, storeId: string) {
     try {
       const usersColRef = collection(firestoreDB, 'users');

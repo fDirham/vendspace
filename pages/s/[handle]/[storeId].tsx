@@ -13,6 +13,7 @@ import ItemBlockList from 'components/store/ItemBlockList';
 export default function storepage() {
   const [storeInfo, setStoreInfo] = useState<StoreInfo>();
   const [owner, setOwner] = useState<PublicUserData>();
+  const [editing, setEditing] = useState<boolean>(false);
 
   const currentUser = useUserAuth();
   const router = useRouter();
@@ -55,7 +56,12 @@ export default function storepage() {
             <span className={styles.ownerHandle}>@{owner.handle}</span>
           </p>
         </div>
-        <InfoButtons storeInfo={storeInfo} />
+        <InfoButtons
+          storeInfo={storeInfo}
+          isUser={currentUser?.handle === owner.handle}
+          setEditing={setEditing}
+          editing={editing}
+        />
       </div>
       {!!storeInfo.description && (
         <div className={styles.descriptionContainer}>
@@ -66,6 +72,7 @@ export default function storepage() {
         handle={handle as string}
         storeId={storeId as string}
         isUser={isUser}
+        editing={editing}
       />
     </PageContainer>
   );

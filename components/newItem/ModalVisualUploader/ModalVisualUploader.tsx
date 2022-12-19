@@ -5,12 +5,18 @@ import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ItemVisual } from 'utilities/types';
 import styles from './ModalVisualUploader.module.scss';
 
+export type UploaderModalOperation = {
+  operation: string;
+  file?: File;
+};
+
 type ModalVisualUploaderProps = {
   uploadingIndex: number;
-  onClose: (data: File | string) => void;
+  onClose: (op: UploaderModalOperation) => void;
   modalPreviewVisual: undefined | ItemVisual;
 };
 
+// Need to change operation to an ENUM or smth
 export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
   const [localFile, setLocalFile] = useState<File>();
   const [preview, setPreview] = useState<string>();
@@ -51,19 +57,20 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
 
   // Normal close
   function overrideClose() {
-    if (!!localFile) {
-      const res = confirm('Do you really want to close before saving?');
-      if (!res) return;
-    }
+    // if (!!localFile) {
+    //   const res = confirm('Do you really want to close before saving?');
+    //   if (!res) return;
+    // }
 
     closeCleanup();
-    props.onClose('same');
+    props.onClose({ operation: 'same' });
   }
 
   // When save button is pushed
   function updateClose() {
-    if (!!localFile) props.onClose(localFile as File);
-    else props.onClose('same');
+    if (!!localFile)
+      props.onClose({ operation: 'new', file: localFile as File });
+    else props.onClose({ operation: 'same' });
 
     closeCleanup();
   }
@@ -72,7 +79,12 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
   function clearClose() {
     const res = confirm('Do you really want to delete this picture?');
     if (!res) return;
-    props.onClose('clear');
+    props.onClose({ operation: 'clear' });
+    closeCleanup();
+  }
+
+  function makeCover() {
+    props.onClose({ operation: 'bump', file: localFile });
     closeCleanup();
   }
 
@@ -100,6 +112,11 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
           {!!localFile && (
             <StyledButton mini className={styles.button} onClick={clearClose}>
               clear
+            </StyledButton>
+          )}
+          {props.uploadingIndex !== 0 && !!preview && (
+            <StyledButton mini className={styles.button} onClick={makeCover}>
+              make cover
             </StyledButton>
           )}
           <StyledButton mini className={styles.button} onClick={updateClose}>

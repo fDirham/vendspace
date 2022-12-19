@@ -4,6 +4,7 @@ import { ItemVisual } from 'utilities/types';
 import ModalVisualUploader from '../ModalVisualUploader';
 import VisualPlaceholder from '../VisualPlaceholder';
 import styles from './VisualUploaderSystem.module.scss';
+import { UploaderModalOperation } from '../ModalVisualUploader/ModalVisualUploader';
 
 type VisualUploaderSystemProps = {
   visuals: ItemVisual[];
@@ -28,11 +29,12 @@ export default function VisualUploaderSystem({
     setUploadingIndex(index);
   }
 
-  function handleCloseUploaderModal(data: File | string) {
+  function handleCloseUploaderModal(op: UploaderModalOperation) {
     const newVisuals: (ItemVisual | undefined)[] = [...visuals];
     const currentVisual = newVisuals[uploadingIndex];
+    const { operation, file } = op;
 
-    if (data === 'clear') {
+    if (operation === 'clear') {
       // Clear placeholder
       // Differentiate between clearing existing and none
       // If none existing then don't change
@@ -50,13 +52,22 @@ export default function VisualUploaderSystem({
         // Remove from visuals
         newVisuals[uploadingIndex] = undefined;
       }
-    } else if (data == 'same') {
+    } else if (operation == 'same') {
       // Do nothing
-    } else {
+    } else if (operation == 'bump') {
+      // Make currentVisual cover
+      newVisuals[uploadingIndex] = undefined;
+      if (file) {
+        newVisuals.unshift({
+          uri: currentVisual ? currentVisual.uri : '',
+          file: file,
+        });
+      } else newVisuals.unshift(currentVisual);
+    } else if (operation == 'new') {
       // Treat data as a file and set it to upload
       const newVisual = {
         uri: currentVisual ? currentVisual.uri : '',
-        file: data as File,
+        file: file,
       };
 
       newVisuals[uploadingIndex] = newVisual;

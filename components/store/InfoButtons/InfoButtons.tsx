@@ -7,6 +7,9 @@ import ModalContactInfo from 'components/item/ModalContactInfo';
 
 type InfoButtonsProps = {
   storeInfo: StoreInfo;
+  isUser: boolean;
+  setEditing: (newEditing: boolean) => void;
+  editing: boolean;
 };
 
 export default function InfoButtons(props: InfoButtonsProps) {
@@ -19,6 +22,16 @@ export default function InfoButtons(props: InfoButtonsProps) {
         onClose={() => setShowInfo(false)}
         storeInfo={props.storeInfo}
       />
+      {props.isUser && (
+        <StyledButton
+          alternative
+          mini
+          className={styles.infoButton}
+          onClick={() => props.setEditing(!props.editing)}
+        >
+          {props.editing ? 'stop edit' : 'edit items'}
+        </StyledButton>
+      )}
       <StyledButton
         alternative
         mini

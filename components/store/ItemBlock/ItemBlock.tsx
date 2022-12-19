@@ -5,10 +5,16 @@ import { ItemInfo } from 'utilities/types';
 type ItemBlockProps = {
   item?: ItemInfo;
   add?: boolean;
+  editing?: boolean;
   onClick: () => void;
 };
 
-export default function ItemBlock({ item, onClick, add }: ItemBlockProps) {
+export default function ItemBlock({
+  item,
+  onClick,
+  add,
+  editing,
+}: ItemBlockProps) {
   const renderVisual = () => {
     if (item && item.visuals.length) {
       return (
@@ -33,9 +39,14 @@ export default function ItemBlock({ item, onClick, add }: ItemBlockProps) {
 
   return (
     <div
-      className={`${styles.container} ${add ? styles.addContainer : ''}`}
+      className={`${styles.container} ${add ? styles.addContainer : ''} ${
+        editing ? styles.editingContainer : ''
+      }`}
       onClick={onClick}
     >
+      {editing && (
+        <img className={styles.editIcon} src='/icons/edit.png' alt='edit' />
+      )}
       {renderVisual()}
     </div>
   );

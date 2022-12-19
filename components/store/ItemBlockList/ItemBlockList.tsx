@@ -4,16 +4,18 @@ import { ItemInfo } from 'utilities/types';
 import ItemBlock from '../ItemBlock/ItemBlock';
 import { useRouter } from 'next/router';
 import ControllerItems from 'controllers/ControllerItems';
-import { handleClientScriptLoad } from 'next/script';
+import ModalEditMenu from '../ModalEditMenu';
 
 type ItemBlockListProps = {
   handle: string;
   storeId: string;
   isUser: boolean;
+  editing: boolean;
 };
 
 export default function ItemBlockList(props: ItemBlockListProps) {
   const [items, setItems] = useState<ItemInfo[]>([]);
+  const [menuItem, setMenuItem] = useState<ItemInfo>();
   const router = useRouter();
 
   useEffect(() => {
@@ -32,6 +34,10 @@ export default function ItemBlockList(props: ItemBlockListProps) {
 
   function onBlockClick(index: number) {
     const item = items[index];
+    if (props.editing) {
+      setMenuItem(item);
+      return;
+    }
     router.push(`/s/${props.handle}/${props.storeId}/${item.id}`);
   }
 
@@ -46,6 +52,7 @@ export default function ItemBlockList(props: ItemBlockListProps) {
           onClick={() => onBlockClick(index)}
           item={item}
           key={item.id}
+          editing={props.editing}
         />
       );
     });
@@ -56,5 +63,15 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     return toReturn;
   };
 
-  return <div className={styles.container}>{renderItemBlocks()}</div>;
+  return (
+    <>
+      <ModalEditMenu
+        item={menuItem!}
+        open={!!menuItem}
+        onClose={() => setMenuItem(undefined)}
+        router={router}
+      />
+      <div className={styles.container}>{renderItemBlocks()}</div>
+    </>
+  );
 }

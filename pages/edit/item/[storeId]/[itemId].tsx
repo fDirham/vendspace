@@ -2,8 +2,8 @@ import PageContainer from 'components/all/PageContainer';
 import StyledButton from 'components/all/StyledButton';
 import StyledInput from 'components/all/StyledInput';
 import { useRouter } from 'next/router';
-import React, { FormEvent, useState } from 'react';
-import styles from './ListItemPage.module.scss';
+import React, { FormEvent, useEffect, useState } from 'react';
+import styles from 'pages/list/ListItemPage.module.scss';
 import {
   MAX_LENGTH_ITEM_NAME,
   MAX_LENGTH_ITEM_PRICE,
@@ -18,16 +18,17 @@ import ControllerItems from 'controllers/ControllerItems';
 import ModalLoading from 'components/all/ModalLoading';
 import useVisualsUploader from 'hooks/useVisualsUploader';
 
-export default function listitem() {
+export default function edititem() {
   const [name, setName] = useState<string>('');
   const [price, setPrice] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [visuals, setVisuals] = useState<ItemVisual[]>([]);
   const [visualsToDelete, setVisualsToDelete] = useState<boolean[]>([]);
   const [loadingMessage, setLoadingMessage] = useState<string>('');
+  const [initialLoad, setInitialLoad] = useState<boolean>(false);
 
   const router = useRouter();
-  const { storeId } = router.query;
+  const { storeId, itemId } = router.query;
 
   const currentUser = useUserAuth();
   useAuthGate(currentUser, router);
@@ -37,25 +38,47 @@ export default function listitem() {
     updateDB
   );
 
+  useEffect(() => {
+    getItemInfo();
+  }, [storeId, itemId, currentUser]);
+
+  async function getItemInfo() {
+    if (!storeId || !itemId || !currentUser) return;
+    const getRes = await ControllerItems.getStoreItem(
+      currentUser.handle,
+      storeId as string,
+      itemId as string
+    );
+    if (!getRes.isError) {
+      const item = getRes.item!;
+      console.log(item);
+      setName(item.name);
+      setPrice(item.price);
+      setDescription(item.description);
+      setVisuals(item.visuals);
+      setInitialLoad(true);
+    }
+  }
+
   async function updateDB(uploadUrls: string[]) {
     setLoadingMessage('Wrapping up...');
     // Set visuals correctly
-    let newVisuals = uploadUrls.length
-      ? (visuals.map((vis, index) => {
-          return { uri: uploadUrls[index] };
-        }) as ItemVisual[])
-      : visuals;
+    const newVisuals = [...visuals];
+    for (let i = 0; i < newVisuals.length; i++) {
+      const curr = newVisuals[i];
+      if (curr.file) newVisuals[i] = { uri: uploadUrls.shift()! };
+    }
 
     // Upload
-    const res = await ControllerItems.addNewItem(
+    const res = await ControllerItems.editItem(
       currentUser!.handle,
       storeId as string,
-      { name, price, description, visuals: newVisuals, id: '' },
+      { name, price, description, visuals: newVisuals, id: itemId as string },
       visualsToDelete
     );
 
     if (!res.isError) {
-      alert('Item listed!');
+      alert('Item updated!');
       router.push('/s/' + currentUser?.handle + '/' + storeId);
     } else {
       alert('Something went wrong...');
@@ -65,7 +88,6 @@ export default function listitem() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    // Add logic to extract necessary files for edit
     const visualFiles = visuals
       .filter((vis) => !!vis.file)
       .map((vis) => vis.file) as File[];
@@ -73,12 +95,13 @@ export default function listitem() {
     uploadVisuals(visualFiles);
   }
 
+  if (!initialLoad) return null;
   return (
     <PageContainer>
       <ModalLoading message={loadingMessage} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
-          <h1 className={styles.title}>New Item</h1>
+          <h1 className={styles.title}>Edit Item</h1>
         </div>
 
         <StyledInput
@@ -127,7 +150,7 @@ export default function listitem() {
           Optional. The first picture will be the cover picture. If there are no
           pictures, only text will appear.
         </p>
-        <StyledButton type='submit'>add item</StyledButton>
+        <StyledButton type='submit'>save</StyledButton>
       </form>
     </PageContainer>
   );
