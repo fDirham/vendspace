@@ -6,10 +6,12 @@ import styles from './StorePage.module.scss';
 import useUserAuth from 'hooks/useUserAuth';
 import ControllerStores from 'controllers/ControllerStores';
 import { ItemInfo, PublicUserData, StoreInfo } from 'utilities/types';
-import InfoButtons from 'components/store/InfoButtons';
 import ItemBlockList from 'components/store/ItemBlockList';
 import { GetServerSideProps } from 'next';
 import ControllerItems from 'controllers/ControllerItems';
+import StyledButton from 'components/all/StyledButton';
+import ModalContactInfo from 'components/item/ModalContactInfo';
+import ReactLinkify from 'react-linkify';
 
 type ServerData = {
   storeInfo: StoreInfo;
@@ -57,36 +59,58 @@ type StorePageProps = {
 
 export default function storepage(props: StorePageProps) {
   const { storeInfo, owner, initialItems } = props.data;
-
-  const [editing, setEditing] = useState<boolean>(false);
+  const [openInfo, setOpenInfo] = useState<boolean>(false);
+  const [editing, setEditing] = useState<boolean>(!initialItems.length);
 
   const currentUser = useUserAuth();
   const router = useRouter();
   const { handle, storeId } = router.query;
   const isUser = currentUser?.handle === (handle as string);
 
+  function handleEditStore() {
+    router.push(`/edit/store/${storeId as string}`);
+  }
   return (
     <PageContainer className={styles.container}>
+      <ModalContactInfo
+        open={openInfo}
+        onClose={() => setOpenInfo(false)}
+        storeInfo={storeInfo}
+      />
       <div className={styles.topContainer}>
         <h1 className={styles.title}>{storeInfo.name}</h1>
         <div className={styles.ownerContainer}>
           <p className={styles.ownerInfoText}>
-            <span className={styles.ownerName}>{owner.displayName}</span>{' '}
+            by <span className={styles.ownerName}>{owner.displayName}</span>{' '}
             <span className={styles.ownerHandle}>@{owner.handle}</span>
           </p>
         </div>
-        <InfoButtons
-          storeInfo={storeInfo}
-          isUser={isUser}
-          setEditing={setEditing}
-          editing={editing}
-        />
+        {!!storeInfo.description && (
+          <ReactLinkify>
+            <div className={styles.descriptionContainer}>
+              {storeInfo.description}
+            </div>
+          </ReactLinkify>
+        )}
+        {isUser && (
+          <div className={styles.isUserContainer}>
+            <StyledButton
+              onClick={() => setEditing(!editing)}
+              mini
+              className={styles.userButton}
+            >
+              {editing ? 'stop editing items' : 'edit items'}
+            </StyledButton>
+            <StyledButton
+              onClick={handleEditStore}
+              mini
+              className={styles.userButton}
+            >
+              edit store
+            </StyledButton>
+          </div>
+        )}
       </div>
-      {!!storeInfo.description && (
-        <div className={styles.descriptionContainer}>
-          {storeInfo.description}
-        </div>
-      )}
       <ItemBlockList
         handle={handle as string}
         storeId={storeId as string}
@@ -95,6 +119,11 @@ export default function storepage(props: StorePageProps) {
         initialItems={initialItems}
         router={router}
       />
+      <div className={styles.actionContainer}>
+        <StyledButton onClick={() => setOpenInfo(true)}>
+          contact store
+        </StyledButton>
+      </div>
     </PageContainer>
   );
 }

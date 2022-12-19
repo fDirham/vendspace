@@ -133,8 +133,8 @@ export default function ItemBlockList(props: ItemBlockListProps) {
         />
       );
     });
-    if (props.isUser && !props.editing) {
-      toReturn.push(<ItemBlock onClick={onAdd} add key={'addbutton'} />);
+    if (props.isUser && props.editing) {
+      toReturn.unshift(<ItemBlock onClick={onAdd} add key={'addbutton'} />);
     }
 
     return toReturn;

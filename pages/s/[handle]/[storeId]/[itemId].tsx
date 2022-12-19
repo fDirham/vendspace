@@ -11,6 +11,7 @@ import ModalContactInfo from 'components/item/ModalContactInfo';
 import Linkify from 'react-linkify';
 
 import { GetServerSideProps } from 'next';
+import Link from 'next/link';
 
 type ServerData = {
   itemInfo: ItemInfo;
@@ -82,7 +83,12 @@ export default function itemPage(props: ItemPageProps) {
       <div className={styles.infoContainer}>
         <h1>{itemInfo.name}</h1>
         <p className={styles.whoText}>
-          <span className={styles.storeName}>{storeInfo.name}</span>
+          <Link
+            href={`/s/${sellerData.handle}/${storeInfo.id}`}
+            className={styles.storeName}
+          >
+            {storeInfo.name}
+          </Link>
           {' by '}
           <span className={styles.sellerName}>{sellerData.displayName}</span>
         </p>
@@ -97,7 +103,7 @@ export default function itemPage(props: ItemPageProps) {
         </Linkify>
       </div>
       <div className={styles.actionContainer}>
-        <StyledButton onClick={contactSeller}>contact seller</StyledButton>
+        <StyledButton onClick={contactSeller}>contact store</StyledButton>
       </div>
     </PageContainer>
   );

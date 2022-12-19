@@ -5,15 +5,21 @@
 
 .topContainer {
   width: 100%;
-  padding: 2 * $sidePadding;
-  padding-top: 1rem;
-  padding-bottom: 1rem;
-  border-radius: 0 0 10px 10px;
-  background-color: $colorA;
-  color: white;
+  padding: $sidePadding;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 .ownerInfoText {
+}
+
+.isUserContainer {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.userButton {
+  margin-right: 0.5rem;
 }
 
 .ownerName {
@@ -24,5 +30,18 @@
 .descriptionContainer {
   margin-top: 1rem;
   width: calc(100% - 2 * $sidePadding);
-  padding-bottom: 0.5rem;
+}
+
+.actionContainer {
+  position: fixed;
+  z-index: 1;
+  bottom: $sidePadding;
+  width: 100%;
+  padding: 0 $sidePadding;
+}
+
+@media screen and (min-width: $breakpointMobile) {
+  .actionContainer {
+    width: calc($breakpointMobile - $sidePadding);
+  }
 }
