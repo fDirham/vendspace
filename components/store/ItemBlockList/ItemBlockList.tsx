@@ -73,6 +73,27 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     router.push(`/edit/item/${props.storeId}/${menuItem!.id}`);
   }
 
+  async function handleBlockBump() {
+    const { handle, storeId } = props;
+    if (!handle || !storeId) return;
+
+    const bumpRes = await ControllerItems.bumpItem(
+      handle,
+      storeId,
+      menuItem!.id
+    );
+
+    if (!bumpRes.isError) {
+      // Delete locally
+      const newItems = [...items];
+      const indexToDel = newItems.indexOf(menuItem!);
+      newItems.splice(indexToDel, 1);
+      newItems.unshift(menuItem!);
+      setItems(newItems);
+      setMenuItem(undefined);
+    }
+  }
+
   const renderItemBlocks = () => {
     const toReturn = items.map((item, index) => {
       return (
@@ -84,7 +105,7 @@ export default function ItemBlockList(props: ItemBlockListProps) {
         />
       );
     });
-    if (props.isUser) {
+    if (props.isUser && !props.editing) {
       toReturn.push(<ItemBlock onClick={onAdd} add key={'addbutton'} />);
     }
 
@@ -98,6 +119,7 @@ export default function ItemBlockList(props: ItemBlockListProps) {
         onClose={() => setMenuItem(undefined)}
         onDelete={handleBlockDelete}
         onEdit={handleBlockEdit}
+        onBump={handleBlockBump}
       />
       <div className={styles.container}>{renderItemBlocks()}</div>
     </>

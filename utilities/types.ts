@@ -1,4 +1,3 @@
-import { User as FirebaseUser } from 'firebase/auth';
 import { Timestamp } from 'firebase/firestore';
 
 export type VSUser = {
@@ -29,6 +28,7 @@ export type ItemInfo = {
   id: string;
   visuals: ItemVisual[];
   timeCreated?: Timestamp;
+  timeBumped?: Timestamp;
 };
 
 export type ItemVisual = {

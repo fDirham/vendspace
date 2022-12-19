@@ -1,7 +1,6 @@
-import { firebaseAuth, firestoreDB, firebaseStorage } from 'firebaseapp';
+import { firestoreDB } from 'firebaseapp';
 import { FirebaseError } from 'firebase/app';
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
@@ -13,11 +12,8 @@ import {
   setDoc,
   updateDoc,
 } from 'firebase/firestore';
-import { StoreInfo, ItemVisual } from 'utilities/types';
-import { LENGTH_ITEM_ID, LENGTH_STORE_ID } from 'utilities/constants';
+import { LENGTH_ITEM_ID } from 'utilities/constants';
 import { ItemInfo } from 'utilities/types';
-import { ref } from 'firebase/storage';
-import ControllerUpload from './ControllerUpload';
 import { generateRandomID } from 'utilities/helpers';
 
 export default class ControllerItems {
@@ -31,7 +27,11 @@ export default class ControllerItems {
     deletedVisuals: boolean[]
   ) {
     // TODO: Get handle from uid
-    const itemToAdd = { ...item, timeCreated: serverTimestamp() };
+    const itemToAdd = {
+      ...item,
+      timeCreated: serverTimestamp(),
+      timeBumped: serverTimestamp(),
+    };
 
     try {
       /* DELETE */
@@ -107,7 +107,7 @@ export default class ControllerItems {
       const storesColRef = collection(userDocRef, 'stores');
       const storesDocRef = doc(storesColRef, storeId);
       const itemsColRef = collection(storesDocRef, 'items');
-      const q = query(itemsColRef, orderBy('timeCreated', 'desc'));
+      const q = query(itemsColRef, orderBy('timeBumped', 'desc'));
       const itemsDocs = await getDocs(q);
       if (itemsDocs.empty) {
         return { isError: false, items: [] };
@@ -154,6 +154,24 @@ export default class ControllerItems {
       const itemDocRef = doc(itemsColRef, itemId);
 
       await deleteDoc(itemDocRef);
+
+      return { isError: false };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async bumpItem(handle: string, storeId: string, itemId: string) {
+    try {
+      /*UPDATE FIREBASE */
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storeDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storeDocRef, 'items');
+      const itemDocRef = doc(itemsColRef, itemId);
+
+      await updateDoc(itemDocRef, { timeBumped: serverTimestamp() });
 
       return { isError: false };
     } catch (err) {

@@ -9,6 +9,7 @@ type ModalEditMenuProps = {
   item?: ItemInfo;
   onDelete: () => void;
   onEdit: () => void;
+  onBump: () => void;
 };
 
 export default function ModalEditMenu(props: ModalEditMenuProps) {
@@ -19,6 +20,9 @@ export default function ModalEditMenu(props: ModalEditMenuProps) {
         <p className={styles.itemName}>{props.item.name}</p>
         <StyledButton className={styles.button} onClick={props.onEdit}>
           edit
+        </StyledButton>
+        <StyledButton className={styles.button} onClick={props.onBump}>
+          bump
         </StyledButton>
         <StyledButton className={styles.button} onClick={props.onDelete}>
           delete
