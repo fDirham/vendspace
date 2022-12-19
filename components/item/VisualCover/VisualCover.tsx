@@ -7,9 +7,11 @@ type VisualCoverProps = {
 };
 
 export default function VisualCover(props: VisualCoverProps) {
+  const src = props.visual ? props.visual.uri : '/icons/no-image.png';
+
   return (
     <div className={styles.container}>
-      <img src={props.visual.uri} alt='cover' className={styles.image} />
+      <img src={src} alt='cover' className={styles.image} />
     </div>
   );
 }
