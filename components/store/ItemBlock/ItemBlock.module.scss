@@ -4,12 +4,49 @@
   aspect-ratio: 1;
   width: 33%;
   overflow: hidden;
-  margin-bottom: 0.2rem;
   cursor: pointer;
+  margin-bottom: 0.5%;
+}
+
+.statusOverlay {
+  position: absolute;
+  width: calc(0.33 * (100vw - $sidePadding));
+  aspect-ratio: 1;
+  background-color: rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+  z-index: 4;
+}
+
+.priceOverlay {
+  position: absolute;
+  width: calc(0.33 * (100vw - $sidePadding));
+  aspect-ratio: 1;
+  overflow: hidden;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.priceText {
+  padding: 0.5rem;
+  background-color: rgba(0, 0, 0, 0.8);
+  border-radius: 0 8px 0 0;
+  width: fit-content;
+  color: white;
+  font-size: 0.8rem;
+}
+
+.statusText {
+  font-weight: bold;
+  font-size: 1.3rem;
+  color: white;
+  text-align: center;
+  margin-top: 1rem;
 }
 
 .addContainer {
-  border: 1px solid black;
+  border: 1px solid $fadeGray;
 }
 
 .editingContainer {
@@ -23,10 +60,11 @@
 }
 
 .addVisual {
-  margin-top: 15%;
-  margin-left: 15%;
-  width: 70%;
-  height: 70%;
+  margin-top: 20%;
+  margin-left: 20%;
+  width: 60%;
+  height: 60%;
+  opacity: 0.5;
 }
 
 .coverVisual {
@@ -42,7 +80,7 @@
   justify-content: center;
   width: 100%;
   aspect-ratio: 1;
-  border: 1px gray solid;
+  border: 1px $fadeGray solid;
 }
 
 .placeholderText {
@@ -55,20 +93,4 @@ $editSize: 0.5rem;
   height: $editSize;
   position: absolute;
   left: auto;
-}
-
-.statusOverlay {
-  position: absolute;
-  width: calc(0.33 * (100vw - $sidePadding));
-  aspect-ratio: 1;
-  background-color: rgba(0, 0, 0, 0.6);
-  overflow: hidden;
-}
-
-.statusText {
-  font-weight: bold;
-  font-size: 1.3rem;
-  color: white;
-  text-align: center;
-  margin-top: 1rem;
 }

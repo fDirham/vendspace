@@ -54,6 +54,11 @@ export default function ItemBlock({
       {editing && (
         <img className={styles.editIcon} src='/icons/edit.png' alt='edit' />
       )}
+      {!add && (
+        <div className={styles.priceOverlay}>
+          <p className={styles.priceText}>{item?.price}</p>
+        </div>
+      )}
       {renderVisual()}
     </div>
   );
