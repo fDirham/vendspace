@@ -3,6 +3,7 @@ import { FirebaseError } from 'firebase/app';
 import {
   addDoc,
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -137,6 +138,24 @@ export default class ControllerItems {
 
       const item = { ...itemDoc.data(), id: itemDoc.id } as ItemInfo;
       return { isError: false, item };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async deleteItem(handle: string, storeId: string, itemId: string) {
+    try {
+      /*UPDATE FIREBASE */
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storeDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storeDocRef, 'items');
+      const itemDocRef = doc(itemsColRef, itemId);
+
+      await deleteDoc(itemDocRef);
+
+      return { isError: false };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
     }

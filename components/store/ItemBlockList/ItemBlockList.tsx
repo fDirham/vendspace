@@ -32,7 +32,7 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     }
   }
 
-  function onBlockClick(index: number) {
+  function handleBlockClick(index: number) {
     const item = items[index];
     if (props.editing) {
       setMenuItem(item);
@@ -45,11 +45,39 @@ export default function ItemBlockList(props: ItemBlockListProps) {
     router.push('/list/' + props.storeId);
   }
 
+  async function handleBlockDelete() {
+    const { handle, storeId } = props;
+    if (!handle || !storeId) return;
+
+    // Confirm
+    const res = confirm('Do you really want to delete this item permanently?');
+    if (!res) return;
+
+    const deleteRes = await ControllerItems.deleteItem(
+      handle,
+      storeId,
+      menuItem!.id
+    );
+
+    if (!deleteRes.isError) {
+      // Delete locally
+      const newItems = [...items];
+      const indexToDel = newItems.indexOf(menuItem!);
+      newItems.splice(indexToDel, 1);
+      setItems(newItems);
+      setMenuItem(undefined);
+    }
+  }
+
+  function handleBlockEdit() {
+    router.push(`/edit/item/${props.storeId}/${menuItem!.id}`);
+  }
+
   const renderItemBlocks = () => {
     const toReturn = items.map((item, index) => {
       return (
         <ItemBlock
-          onClick={() => onBlockClick(index)}
+          onClick={() => handleBlockClick(index)}
           item={item}
           key={item.id}
           editing={props.editing}
@@ -66,10 +94,10 @@ export default function ItemBlockList(props: ItemBlockListProps) {
   return (
     <>
       <ModalEditMenu
-        item={menuItem!}
-        open={!!menuItem}
+        item={menuItem}
         onClose={() => setMenuItem(undefined)}
-        router={router}
+        onDelete={handleBlockDelete}
+        onEdit={handleBlockEdit}
       />
       <div className={styles.container}>{renderItemBlocks()}</div>
     </>
