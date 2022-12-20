@@ -27,7 +27,9 @@ export default function VisualSystem(props: VisualSystemProps) {
   return (
     <div className={styles.container}>
       <VisualCover visual={coverVisual} />
-      <div className={styles.blocksContainer}>{renderBlocks()}</div>
+      {!!props.visuals.length && (
+        <div className={styles.blocksContainer}>{renderBlocks()}</div>
+      )}
     </div>
   );
 }

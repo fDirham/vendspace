@@ -12,6 +12,7 @@ import ControllerItems from 'controllers/ControllerItems';
 import StyledButton from 'components/all/StyledButton';
 import ModalContactInfo from 'components/item/ModalContactInfo';
 import ReactLinkify from 'react-linkify';
+import PageHeader from 'components/all/PageHeader';
 
 type ServerData = {
   storeInfo: StoreInfo;
@@ -70,6 +71,11 @@ export default function storepage(props: StorePageProps) {
   function handleEditStore() {
     router.push(`/edit/store/${storeId as string}`);
   }
+
+  function handleGoBack() {
+    router.push('/');
+  }
+
   return (
     <PageContainer className={styles.container}>
       <ModalContactInfo
@@ -77,6 +83,7 @@ export default function storepage(props: StorePageProps) {
         onClose={() => setOpenInfo(false)}
         storeInfo={storeInfo}
       />
+      <PageHeader title='store' onBack={handleGoBack} />
       <div className={styles.topContainer}>
         <h1 className={styles.title}>{storeInfo.name}</h1>
         <div className={styles.ownerContainer}>

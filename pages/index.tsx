@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { StoreInfo } from 'utilities/types';
 import styles from './IndexPage.module.scss';
+import PageHeader from 'components/all/PageHeader';
 
 export default function Home() {
   const router = useRouter();
@@ -71,6 +72,7 @@ export default function Home() {
       </Head>
 
       <PageContainer>
+        <PageHeader title={'Home'} />
         <div className={styles.userContainer}>
           <h1>{currentUser.displayName}</h1>
           <h2>@{currentUser.handle}</h2>

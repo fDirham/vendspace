@@ -6,7 +6,7 @@ import useAuthGate from 'hooks/useAuthGate';
 import useUserAuth from 'hooks/useUserAuth';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
-import styles from '../NewUserPage.module.scss';
+import styles from '../WelcomePage.module.scss';
 import { MAX_LENGTH_NAME } from 'utilities/constants';
 
 export default function edituser() {

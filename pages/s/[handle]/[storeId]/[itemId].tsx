@@ -12,6 +12,8 @@ import Linkify from 'react-linkify';
 
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import PageHeader from 'components/all/PageHeader';
+import { useRouter } from 'next/router';
 
 type ServerData = {
   itemInfo: ItemInfo;
@@ -61,6 +63,7 @@ type ItemPageProps = {
 export default function itemPage(props: ItemPageProps) {
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const { itemInfo, storeInfo, sellerData } = props.data;
+  const router = useRouter();
 
   function contactSeller() {
     if (itemInfo.sold) {
@@ -72,6 +75,10 @@ export default function itemPage(props: ItemPageProps) {
     setOpenInfo(true);
   }
 
+  function handleGoBack() {
+    router.push(`/s/${sellerData.handle}/${storeInfo.id}`);
+  }
+
   return (
     <PageContainer className={styles.container}>
       <ModalContactInfo
@@ -79,6 +86,7 @@ export default function itemPage(props: ItemPageProps) {
         onClose={() => setOpenInfo(false)}
         storeInfo={storeInfo}
       />
+      <PageHeader title='item' onBack={handleGoBack} />
       <VisualSystem visuals={itemInfo.visuals} />
       <div className={styles.infoContainer}>
         <h1>{itemInfo.name}</h1>
