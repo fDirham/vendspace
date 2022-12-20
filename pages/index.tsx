@@ -11,12 +11,14 @@ import { useEffect, useState } from 'react';
 import { StoreInfo } from 'utilities/types';
 import styles from './IndexPage.module.scss';
 import PageHeader from 'components/all/PageHeader';
+import ModalEditStore from 'components/home/ModalEditStore';
 
 export default function Home() {
   const router = useRouter();
   const currentUser = useUserAuth();
   useAuthGate(currentUser, router);
   const [storeList, setStoreList] = useState<StoreInfo[]>([]);
+  const [editStore, setEditStore] = useState<number>(-1);
 
   useEffect(() => {
     if (currentUser) {
@@ -48,16 +50,34 @@ export default function Home() {
     router.push('/create');
   }
 
+  async function handleDeleteStore() {
+    const store = storeList[editStore];
+    const deleteRes = await ControllerStores.deleteStore(
+      currentUser!.handle,
+      store.id
+    );
+    if (deleteRes.isError) return; // TODO: Handle error
+    const newStores = [...storeList];
+    newStores.splice(editStore, 1);
+    setStoreList(newStores);
+    setEditStore(-1);
+  }
+
+  function handleEditStore() {
+    const store = storeList[editStore];
+    router.push(`/edit/store/${store.id}`);
+  }
+
   const renderStoreList = () => {
     if (!storeList.length) return;
-    return storeList.map((store) => {
+    return storeList.map((store, index) => {
       return (
         <StoreBlock
           storeInfo={store}
-          onEdit={() => router.push(`/edit/store/${store.id}`)}
-          onNavigate={() =>
-            router.push(`/s/${currentUser!.handle}/${store.id}`)
-          }
+          onEdit={() => setEditStore(index)}
+          onNavigate={() => {
+            router.push(`/s/${currentUser!.handle}/${store.id}`);
+          }}
           key={store.id}
         />
       );
@@ -73,6 +93,12 @@ export default function Home() {
 
       <PageContainer>
         <PageHeader title={'Home'} />
+        <ModalEditStore
+          onClose={() => setEditStore(-1)}
+          onDelete={handleDeleteStore}
+          onEdit={handleEditStore}
+          storeInfo={editStore === -1 ? undefined : storeList[editStore]}
+        />
         <div className={styles.userContainer}>
           <h1>{currentUser.displayName}</h1>
           <h2>@{currentUser.handle}</h2>

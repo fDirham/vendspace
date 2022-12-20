@@ -1,0 +1,23 @@
+@import 'styles/constants/base.scss';
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.button {
+  margin-top: 1rem;
+}
+
+.editText {
+  text-align: center;
+}
+
+.storeName {
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.3rem;
+}

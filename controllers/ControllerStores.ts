@@ -2,6 +2,7 @@ import { firebaseAuth, firestoreDB } from 'firebaseapp';
 import { FirebaseError } from 'firebase/app';
 import {
   collection,
+  deleteDoc,
   doc,
   getDoc,
   getDocs,
@@ -115,6 +116,35 @@ export default class ControllerStores {
       const userDocRef = doc(usersColRef, handle);
       const storesColRef = collection(userDocRef, 'stores');
       await updateDoc(doc(storesColRef, id), toAdd);
+      return { isError: false };
+    } catch (err) {
+      return { isError: true, data: err as FirebaseError };
+    }
+  }
+
+  static async deleteStore(handle: string, storeId: string) {
+    try {
+      // TODO: Get handle from uid
+
+      const usersColRef = collection(firestoreDB, 'users');
+      const userDocRef = doc(usersColRef, handle);
+      const storesColRef = collection(userDocRef, 'stores');
+      const storeDocRef = doc(storesColRef, storeId);
+      const itemsColRef = collection(storeDocRef, 'items');
+
+      // Delete items
+      const itemsSnapshot = await getDocs(itemsColRef);
+      if (!itemsSnapshot.empty) {
+        await Promise.all(
+          itemsSnapshot.docs.map(async (item) => {
+            const itemDocRef = doc(itemsColRef, item.id);
+            await deleteDoc(itemDocRef);
+          })
+        );
+      }
+
+      // Delete doc
+      await deleteDoc(storeDocRef);
       return { isError: false };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };

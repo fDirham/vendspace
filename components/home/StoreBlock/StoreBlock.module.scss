@@ -2,7 +2,6 @@
 
 $rightWidth: 2rem;
 .container {
-  padding: 1rem 0.5rem;
   width: 100%;
   border-radius: 10px;
   margin-bottom: 0.5rem;
@@ -13,10 +12,12 @@ $rightWidth: 2rem;
 }
 
 .leftContainer {
+  padding: 1rem 0.5rem;
   cursor: pointer;
 }
 
 .rightContainer {
+  padding: 1rem 0.5rem;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
