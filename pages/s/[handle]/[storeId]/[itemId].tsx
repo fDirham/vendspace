@@ -98,7 +98,9 @@ export default function itemPage(props: ItemPageProps) {
             {storeInfo.name}
           </Link>
           {' by '}
-          <span className={styles.sellerName}>{sellerData.displayName}</span>
+          <Link href={`/s/${sellerData.handle}`} className={styles.sellerName}>
+            {sellerData.displayName}
+          </Link>
         </p>
         <p className={styles.price}>{itemInfo.price}</p>
         {(itemInfo.sold || itemInfo.hold) && (

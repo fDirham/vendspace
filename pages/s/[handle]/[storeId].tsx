@@ -13,6 +13,7 @@ import StyledButton from 'components/all/StyledButton';
 import ModalContactInfo from 'components/item/ModalContactInfo';
 import ReactLinkify from 'react-linkify';
 import PageHeader from 'components/all/PageHeader';
+import Link from 'next/link';
 
 type ServerData = {
   storeInfo: StoreInfo;
@@ -89,7 +90,9 @@ export default function storepage(props: StorePageProps) {
         <div className={styles.ownerContainer}>
           <p className={styles.ownerInfoText}>
             by <span className={styles.ownerName}>{owner.displayName}</span>{' '}
-            <span className={styles.ownerHandle}>@{owner.handle}</span>
+            <Link href={`/s/${owner.handle}`} className={styles.ownerHandle}>
+              @{owner.handle}
+            </Link>
           </p>
         </div>
         {!!storeInfo.description && (

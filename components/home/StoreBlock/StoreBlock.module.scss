@@ -3,12 +3,22 @@
 $rightWidth: 2rem;
 .container {
   width: 100%;
-  border-radius: 10px;
-  margin-bottom: 0.5rem;
-  -webkit-box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
-  box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
+  // border-radius: 10px;
+  // -webkit-box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
+  // box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
   display: grid;
   grid-template-columns: auto $rightWidth;
+  border: 1px solid black;
+  border-width: 0;
+  border-bottom-width: 1px;
+
+  p {
+    font-size: 1.2rem;
+  }
+}
+
+.container:first-child {
+  border-top-width: 1px;
 }
 
 .leftContainer {
@@ -24,7 +34,12 @@ $rightWidth: 2rem;
   cursor: pointer;
 }
 
+$iconSize: 0.6 * $rightWidth;
 .editIcon {
-  height: $rightWidth -1rem;
-  height: $rightWidth - 1rem;
+  width: $iconSize;
+  height: $iconSize;
+}
+
+.newText {
+  opacity: 0.7;
 }

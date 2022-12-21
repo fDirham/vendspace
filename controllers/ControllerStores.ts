@@ -65,18 +65,18 @@ export default class ControllerStores {
 
   static async getUserStores(handle: string) {
     try {
-      const currentUser = firebaseAuth.currentUser;
-
-      if (!currentUser) return { isError: true, data: 'User not logged in' };
-
       const usersColRef = collection(firestoreDB, 'users');
       const userDocRef = doc(usersColRef, handle);
       const storesColRef = collection(userDocRef, 'stores');
       const q = query(storesColRef, orderBy('timeCreated', 'desc'));
       const storesDocsRef = await getDocs(q);
 
-      const stores = storesDocsRef.docs.map((doc) => {
-        return { ...doc.data(), id: doc.id } as StoreInfo;
+      const stores = storesDocsRef.docs.map((storeDoc) => {
+        return {
+          ...storeDoc.data(),
+          id: storeDoc.id,
+          timeCreated: firebaseTimestampToString(storeDoc.get('timeCreated')),
+        } as StoreInfo;
       });
 
       return { isError: false, stores };
