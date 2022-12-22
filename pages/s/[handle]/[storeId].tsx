@@ -103,7 +103,7 @@ export default function storepage(props: StorePageProps) {
         <meta name='twitter:description' content={metaDescription} />
         <meta name='og:url' content={shareUrl} />
         <meta name='robots' content='index, follow' />
-        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
         <meta name='author' content={owner.displayName} />
         <meta name='og:site_name' content='VendSpace' />
         <meta name='language' content='English' />

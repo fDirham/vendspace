@@ -104,7 +104,7 @@ export default function itemPage(props: ItemPageProps) {
         <meta name='twitter:description' content={metaDescription} />
         <meta name='og:url' content={shareUrl} />
         <meta name='robots' content='index, follow' />
-        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
         <meta name='author' content={sellerData.displayName} />
         <meta name='og:site_name' content='VendSpace' />
         <meta name='language' content='English' />
