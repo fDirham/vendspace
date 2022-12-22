@@ -3,11 +3,9 @@
 $rightWidth: 2rem;
 .container {
   width: 100%;
-  // border-radius: 10px;
-  // -webkit-box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
-  // box-shadow: 0px 0px 10px 0px rgba(128, 128, 128, 0.5);
-  display: grid;
-  grid-template-columns: auto $rightWidth;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
   border: 1px solid black;
   border-width: 0;
   border-bottom-width: 1px;
@@ -24,6 +22,8 @@ $rightWidth: 2rem;
 .leftContainer {
   padding: 1rem 0.5rem;
   cursor: pointer;
+  width: auto;
+  flex-grow: 1;
 }
 
 .rightContainer {

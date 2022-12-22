@@ -92,7 +92,7 @@ export default class ControllerStores {
       const storesColRef = collection(userDocRef, 'stores');
       const storeDoc = await getDoc(doc(storesColRef, storeId));
 
-      if (!storeDoc.exists) return { isError: true, data: 'Store not found' };
+      if (!storeDoc.exists()) return { isError: true, data: 'Store not found' };
       const store = {
         ...storeDoc.data(),
         id: storeId,

@@ -28,18 +28,18 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async (context) => {
   const { handle, storeId, itemId } = context.params!;
 
-  const getItemRes = await ControllerItems.getItem(
-    handle as string,
-    storeId as string,
-    itemId as string
-  );
+  const getSellerRes = await ControllerAuth.getPublicUserData(handle as string);
 
   const getStoreRes = await ControllerStores.getStoreInfo(
     handle as string,
     storeId as string
   );
 
-  const getSellerRes = await ControllerAuth.getPublicUserData(handle as string);
+  const getItemRes = await ControllerItems.getItem(
+    handle as string,
+    storeId as string,
+    itemId as string
+  );
 
   if (getItemRes.isError || getStoreRes.isError || getSellerRes.isError) {
     return {

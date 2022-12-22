@@ -7,6 +7,7 @@ type StoreBlockProps = {
   onNavigate: () => void;
   onEdit?: () => void;
   add?: boolean;
+  isUser?: boolean;
 };
 
 export default function StoreBlock({
@@ -14,23 +15,32 @@ export default function StoreBlock({
   onNavigate,
   onEdit,
   add,
+  isUser,
 }: StoreBlockProps) {
+  const renderRightIcon = () => {
+    if (!isUser) {
+      return null;
+    }
+    if (add) {
+      return (
+        <div className={styles.rightContainer} onClick={onNavigate}>
+          <img src='/icons/add.png' alt='add' className={styles.editIcon} />
+        </div>
+      );
+    }
+    return (
+      <div className={styles.rightContainer} onClick={onEdit}>
+        <img src='/icons/edit.png' alt='edit' className={styles.editIcon} />
+      </div>
+    );
+  };
   return (
     <div className={styles.container}>
       <div className={styles.leftContainer} onClick={onNavigate}>
         {!!storeInfo && <p>{storeInfo.name}</p>}
         {add && <p className={styles.newText}>new store...</p>}
       </div>
-      <div
-        className={styles.rightContainer}
-        onClick={!!onEdit ? onEdit : onNavigate}
-      >
-        {!!onEdit ? (
-          <img src='/icons/edit.png' alt='edit' className={styles.editIcon} />
-        ) : (
-          <img src='/icons/add.png' alt='add' className={styles.editIcon} />
-        )}
-      </div>
+      {renderRightIcon()}
     </div>
   );
 }

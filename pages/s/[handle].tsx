@@ -98,22 +98,26 @@ export default function UserPage(props: UserPageProps) {
 
   const renderStoreList = () => {
     if (!storeList.length) return;
-    const toReturn = [];
-    if (isUser) {
-      toReturn.push(<StoreBlock onNavigate={handleNewStore} add key='add' />);
-    }
-    storeList.forEach((store, index) => {
-      toReturn.push(
+    const toReturn = storeList.map((store, index) => {
+      return (
         <StoreBlock
           storeInfo={store}
           onEdit={() => setEditStore(index)}
           onNavigate={() => {
-            router.push(`/s/${currentUser!.handle}/${store.id}`);
+            router.push(`/s/${userData.handle}/${store.id}`);
           }}
           key={store.id}
+          isUser={isUser}
         />
       );
     });
+
+    if (isUser) {
+      toReturn.unshift(
+        <StoreBlock onNavigate={handleNewStore} add key='add' isUser />
+      );
+    }
+
     return toReturn;
   };
 
