@@ -82,10 +82,38 @@ export default function storepage(props: StorePageProps) {
     router.push('/');
   }
 
+  const metaTitle = `${storeInfo.name} by ${owner.displayName}`;
+  const metaDescription = `${owner.displayName} wants you to check out ${storeInfo.name} only on VendSpace!`;
+  const metaImg = initialItems.length
+    ? initialItems[0].visuals.length
+      ? initialItems[0].visuals[0].uri
+      : 'https://imgur.com/A9mwGSq'
+    : 'https://imgur.com/A9mwGSq';
   return (
     <PageContainer className={styles.container}>
       <Head>
-        <title>VendSpace Store</title>
+        <title>{metaTitle}</title>
+        <meta name='title' content={metaTitle} />
+        <meta name='twitter:title' content={metaTitle} />
+        <meta itemProp='name' content={metaTitle} />
+        <meta name='og:title' content={metaTitle} />
+        <meta name='description' content={metaDescription} />
+        <meta name='og:description' content={metaDescription} />
+        <meta itemProp='description' content={metaDescription} />
+        <meta name='twitter:description' content={metaDescription} />
+        <meta name='og:url' content={shareUrl} />
+        <meta name='robots' content='index, follow' />
+        <meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta name='author' content={owner.displayName} />
+        <meta name='og:site_name' content='VendSpace' />
+        <meta name='language' content='English' />
+        <meta name='og:type' content='website' />
+        <meta charSet='utf-8' />
+        <meta name='image' content={metaImg} />
+        <meta itemProp='image' content={metaImg} />
+        <meta name='og:image' content={metaImg} />
+        <meta name='twitter:image:src' content='image' />
+        <meta name='twitter:card' content='summary' />
       </Head>
       <ModalContactInfo
         open={openInfo}
@@ -147,7 +175,7 @@ export default function storepage(props: StorePageProps) {
       />
       <div className={styles.actionContainer}>
         <StyledButton onClick={() => setOpenInfo(true)}>
-          contact store
+          contact seller
         </StyledButton>
       </div>
     </PageContainer>
