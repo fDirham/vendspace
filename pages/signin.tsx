@@ -5,13 +5,19 @@ import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 import styles from './SignInPage.module.scss';
 import Head from 'next/head';
+import { PATH_WELCOME } from 'utilities/pathnames';
 
 function signin() {
   const router = useRouter();
   const currentUser = useUserAuth();
 
   useEffect(() => {
-    if (!!currentUser) {
+    if (router.query.claim && !!currentUser) {
+      if (currentUser.handle) {
+        alert('You can only claim a store if you have never signed up.');
+        router.replace('/');
+      } else router.replace(PATH_WELCOME + '?claim=' + router.query.claim);
+    } else if (!!currentUser) {
       router.replace('/');
     }
   }, [currentUser]);

@@ -12,6 +12,7 @@ import styles from './UserPage.module.scss';
 import PageHeader from 'components/all/PageHeader';
 import ModalEditStore from 'components/home/ModalEditStore';
 import { GetServerSideProps } from 'next';
+import { PATH_SIGN_IN } from 'utilities/pathnames';
 
 type ServerData = {
   storeList: StoreInfo[];
@@ -58,6 +59,7 @@ export default function UserPage(props: UserPageProps) {
 
   function handleLogOut() {
     ControllerAuth.signOut();
+    router.push(PATH_SIGN_IN);
   }
 
   function handleEditProfile() {
@@ -98,7 +100,7 @@ export default function UserPage(props: UserPageProps) {
     if (!storeList.length) return;
     const toReturn = [];
     if (isUser) {
-      toReturn.push(<StoreBlock onNavigate={handleNewStore} add />);
+      toReturn.push(<StoreBlock onNavigate={handleNewStore} add key='add' />);
     }
     storeList.forEach((store, index) => {
       toReturn.push(

@@ -10,6 +10,7 @@ import useUserAuth from 'hooks/useUserAuth';
 import { VSUser } from 'utilities/types';
 import Head from 'next/head';
 import { PATH_SIGN_IN } from 'utilities/pathnames';
+import ControllerClaim from 'controllers/ControllerClaim';
 
 function newuser() {
   const [handle, setHandle] = useState<string>('');
@@ -40,6 +41,11 @@ function newuser() {
 
     // Register
     await ControllerAuth.registerNewUserData(handle, displayName);
+
+    // Add store if claim present
+    if (router.query.claim) {
+      await ControllerClaim.claimStore(handle, router.query.claim as string);
+    }
 
     router.push('/');
   }

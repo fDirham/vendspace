@@ -86,6 +86,9 @@ export default class ControllerAuth {
       const usersColRef = collection(firestoreDB, 'users');
       const userDocRef = doc(usersColRef, handle);
       const userDoc = await getDoc(userDocRef);
+      if (!userDoc.exists()) {
+        return { isError: true, data: 'No user found' };
+      }
       const userData: PublicUserData = {
         handle: userDoc.id,
         displayName: userDoc.get('displayName'),

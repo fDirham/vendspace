@@ -19,6 +19,7 @@ export type StoreInfo = {
   description: string;
   id: string;
   timeCreated?: string;
+  claimPersonName?: string;
 };
 
 export type ItemInfo = {

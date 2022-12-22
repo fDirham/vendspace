@@ -26,3 +26,5 @@ export const MAX_ITEM_VISUALS = 5;
 // ID lengths
 export const LENGTH_STORE_ID = 6;
 export const LENGTH_ITEM_ID = 3;
+
+export const ADMIN_CLAIM_HANDLE = 'dummy0';
