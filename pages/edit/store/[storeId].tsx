@@ -17,6 +17,7 @@ import useAuthGate from 'hooks/useAuthGate';
 import StyledTextArea from 'components/all/StyledTextArea';
 import ControllerStores from 'controllers/ControllerStores';
 import PageHeader from 'components/all/PageHeader';
+import Head from 'next/head';
 
 export default function editstore() {
   const [name, setName] = useState<string>('');
@@ -74,6 +75,9 @@ export default function editstore() {
   if (!initialLoad) return null;
   return (
     <PageContainer>
+      <Head>
+        <title>Edit VendSpace Store</title>
+      </Head>
       <PageHeader title={name || '...'} onBack={() => router.back()} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>

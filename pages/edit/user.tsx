@@ -8,6 +8,7 @@ import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from '../WelcomePage.module.scss';
 import { MAX_LENGTH_NAME } from 'utilities/constants';
+import Head from 'next/head';
 
 export default function edituser() {
   const [displayName, setDisplayName] = useState<string>('');
@@ -33,6 +34,9 @@ export default function edituser() {
 
   return (
     <PageContainer>
+      <Head>
+        <title>Edit VendSpace User</title>
+      </Head>
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>Edit Profile</h1>

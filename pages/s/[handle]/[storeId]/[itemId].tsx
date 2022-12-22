@@ -15,6 +15,7 @@ import PageHeader from 'components/all/PageHeader';
 import { useRouter } from 'next/router';
 import { SHARE_SITE_URL } from 'utilities/constants';
 import ModalShareSocial from 'components/all/ModalShareSocial';
+import Head from 'next/head';
 
 type ServerData = {
   itemInfo: ItemInfo;
@@ -86,6 +87,9 @@ export default function itemPage(props: ItemPageProps) {
 
   return (
     <PageContainer className={styles.container}>
+      <Head>
+        <title>VendSpace Item</title>
+      </Head>
       <ModalContactInfo
         open={openInfo}
         onClose={() => setOpenInfo(false)}

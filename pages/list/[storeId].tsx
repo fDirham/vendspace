@@ -18,6 +18,7 @@ import ControllerItems from 'controllers/ControllerItems';
 import ModalLoading from 'components/all/ModalLoading';
 import useVisualsUploader from 'hooks/useVisualsUploader';
 import PageHeader from 'components/all/PageHeader';
+import Head from 'next/head';
 
 export default function listitem() {
   const [name, setName] = useState<string>('');
@@ -84,6 +85,9 @@ export default function listitem() {
 
   return (
     <PageContainer>
+      <Head>
+        <title>New VendSpace Item</title>
+      </Head>
       <PageHeader title={name || '...'} onBack={() => router.back()} />
       <ModalLoading message={loadingMessage} />
       <form className={styles.container} onSubmit={handleSubmit}>

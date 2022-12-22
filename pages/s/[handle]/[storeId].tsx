@@ -16,6 +16,7 @@ import PageHeader from 'components/all/PageHeader';
 import Link from 'next/link';
 import ModalShareSocial from 'components/all/ModalShareSocial';
 import { SHARE_SITE_URL } from 'utilities/constants';
+import Head from 'next/head';
 
 type ServerData = {
   storeInfo: StoreInfo;
@@ -83,6 +84,9 @@ export default function storepage(props: StorePageProps) {
 
   return (
     <PageContainer className={styles.container}>
+      <Head>
+        <title>VendSpace Store</title>
+      </Head>
       <ModalContactInfo
         open={openInfo}
         onClose={() => setOpenInfo(false)}

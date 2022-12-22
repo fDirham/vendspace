@@ -8,6 +8,8 @@ import styles from './WelcomePage.module.scss';
 import { MAX_LENGTH_HANDLE, MAX_LENGTH_NAME } from 'utilities/constants';
 import useUserAuth from 'hooks/useUserAuth';
 import { VSUser } from 'utilities/types';
+import Head from 'next/head';
+import { PATH_SIGN_IN } from 'utilities/pathnames';
 
 function newuser() {
   const [handle, setHandle] = useState<string>('');
@@ -24,6 +26,7 @@ function newuser() {
     if (user && user.handle) {
       router.replace('/');
     }
+    if (user === null) router.replace(PATH_SIGN_IN);
   }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
@@ -44,6 +47,9 @@ function newuser() {
   if (user === undefined) return null;
   return (
     <PageContainer>
+      <Head>
+        <title>Welcome to VendSpace!</title>
+      </Head>
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>Welcome!</h1>

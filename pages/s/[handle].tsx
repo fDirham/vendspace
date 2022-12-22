@@ -118,7 +118,7 @@ export default function UserPage(props: UserPageProps) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>VendSpace</title>
+        <title>VendSpace @{userData.handle}</title>
       </Head>
 
       <PageContainer>

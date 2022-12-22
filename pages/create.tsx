@@ -14,6 +14,7 @@ import useAuthGate from 'hooks/useAuthGate';
 import StyledTextArea from 'components/all/StyledTextArea';
 import ControllerStores from 'controllers/ControllerStores';
 import PageHeader from 'components/all/PageHeader';
+import Head from 'next/head';
 
 export default function newstore() {
   const [name, setName] = useState<string>('');
@@ -42,6 +43,10 @@ export default function newstore() {
 
   return (
     <PageContainer>
+      <Head>
+        <title>New VendSpace Store</title>
+      </Head>
+
       <PageHeader title={name || '...'} onBack={() => router.back()} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
