@@ -6,6 +6,8 @@ import React, { useEffect } from 'react';
 import styles from './SignInPage.module.scss';
 import Head from 'next/head';
 import { PATH_WELCOME } from 'utilities/pathnames';
+import PageHeader from 'components/all/PageHeader';
+import { INFO_SITE_URL } from 'utilities/constants';
 
 function signin() {
   const router = useRouter();
@@ -29,18 +31,26 @@ function signin() {
   return (
     <PageContainer className={styles.container}>
       <Head>
-        <title>VendSpace Sign In</title>
+        <title>Sign In to VendSpace</title>
       </Head>
-      <div className={styles.contentContainer}>
-        <h1 className={styles.title}>VendSpace</h1>
-        <button className={styles.googleButton} onClick={handleGoogleSignIn}>
-          <img
-            className={styles.googleImg}
-            src='./google_button.png'
-            alt='google sign in'
-          />
-        </button>
-      </div>
+
+      <PageHeader title={'sign in'} />
+
+      <h1 className={styles.title}>VendSpace</h1>
+      <p className={styles.subtitle}>
+        We help you sell to the people you trust
+      </p>
+      <img src='/hero.png' alt='hero' className={styles.hero} />
+      <button className={styles.googleButton} onClick={handleGoogleSignIn}>
+        <img
+          className={styles.googleImg}
+          src='./google_button.png'
+          alt='google sign in'
+        />
+      </button>
+      <a href={INFO_SITE_URL} target='_blank' className={styles.learnText}>
+        learn more
+      </a>
     </PageContainer>
   );
 }

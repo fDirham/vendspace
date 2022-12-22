@@ -11,6 +11,7 @@ import { VSUser } from 'utilities/types';
 import Head from 'next/head';
 import { PATH_SIGN_IN } from 'utilities/pathnames';
 import ControllerClaim from 'controllers/ControllerClaim';
+import PageHeader from 'components/all/PageHeader';
 
 function newuser() {
   const [handle, setHandle] = useState<string>('');
@@ -56,6 +57,8 @@ function newuser() {
       <Head>
         <title>Welcome to VendSpace!</title>
       </Head>
+      <PageHeader title={'onboarding'} />
+
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>Welcome!</h1>

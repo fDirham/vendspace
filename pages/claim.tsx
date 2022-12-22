@@ -94,7 +94,7 @@ export default function claimstore() {
           <title>Claim VendSpace Store</title>
         </Head>
 
-        <PageHeader title={'Claim'} onBack={() => setStoreInfo(undefined)} />
+        <PageHeader title={'claim'} onBack={() => setStoreInfo(undefined)} />
         <p className={styles.questionText}>Is this your store?</p>
         <h2 className={styles.storeName}>{storeInfo.name}</h2>
         <p className={styles.personName}>{storeInfo.claimPersonName}</p>
@@ -112,14 +112,14 @@ export default function claimstore() {
 
       <ModalLoading message={loadingMsg} />
 
-      <PageHeader title={'Claim'} onBack={() => router.back()} />
+      <PageHeader title={'claim'} onBack={() => router.back()} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>Claim Store</h1>
         </div>
 
         <StyledInput
-          placeholder='Store Code*'
+          placeholder='Store code*'
           value={code}
           onChange={(e) => setCode(e.target.value)}
           className={styles.styledInput}
