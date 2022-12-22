@@ -9,11 +9,12 @@ import ControllerAuth from 'controllers/ControllerAuth';
 import ControllerStores from 'controllers/ControllerStores';
 import ModalContactInfo from 'components/item/ModalContactInfo';
 import Linkify from 'react-linkify';
-
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import PageHeader from 'components/all/PageHeader';
 import { useRouter } from 'next/router';
+import { SHARE_SITE_URL } from 'utilities/constants';
+import ModalShareSocial from 'components/all/ModalShareSocial';
 
 type ServerData = {
   itemInfo: ItemInfo;
@@ -63,6 +64,10 @@ type ItemPageProps = {
 export default function itemPage(props: ItemPageProps) {
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const { itemInfo, storeInfo, sellerData } = props.data;
+
+  const [sharing, setSharing] = useState<boolean>(false);
+  const shareUrl = `${SHARE_SITE_URL}/s/${sellerData.handle}/${storeInfo.id}/${itemInfo.id}`;
+
   const router = useRouter();
 
   function contactSeller() {
@@ -86,7 +91,15 @@ export default function itemPage(props: ItemPageProps) {
         onClose={() => setOpenInfo(false)}
         storeInfo={storeInfo}
       />
-      <PageHeader title='item' onBack={handleGoBack} />
+      <ModalShareSocial
+        url={sharing ? shareUrl : ''}
+        onClose={() => setSharing(false)}
+      />
+      <PageHeader
+        title='item'
+        onBack={handleGoBack}
+        onShare={() => setSharing(true)}
+      />
       <VisualSystem visuals={itemInfo.visuals} />
       <div className={styles.infoContainer}>
         <h1>{itemInfo.name}</h1>

@@ -4,6 +4,7 @@ import styles from './PageHeader.module.scss';
 type PageHeaderProps = {
   title: string;
   onBack?: () => void;
+  onShare?: () => void;
 };
 
 export default function PageHeader(props: PageHeaderProps) {
@@ -16,7 +17,7 @@ export default function PageHeader(props: PageHeaderProps) {
             src='/icons/back.png'
             alt='back'
             onClick={props.onBack}
-            className={styles.backIcon}
+            className={styles.icon}
           />
         ) : (
           <div />
@@ -24,6 +25,16 @@ export default function PageHeader(props: PageHeaderProps) {
         <div className={styles.titleContainer}>
           <p className={styles.title}>{props.title}</p>
         </div>
+        {!!props.onShare ? (
+          <img
+            src='/icons/share.png'
+            alt='share'
+            onClick={props.onShare}
+            className={styles.icon}
+          />
+        ) : (
+          <div />
+        )}
       </div>
     </>
   );

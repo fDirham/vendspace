@@ -14,6 +14,8 @@ import ModalContactInfo from 'components/item/ModalContactInfo';
 import ReactLinkify from 'react-linkify';
 import PageHeader from 'components/all/PageHeader';
 import Link from 'next/link';
+import ModalShareSocial from 'components/all/ModalShareSocial';
+import { SHARE_SITE_URL } from 'utilities/constants';
 
 type ServerData = {
   storeInfo: StoreInfo;
@@ -63,6 +65,8 @@ export default function storepage(props: StorePageProps) {
   const { storeInfo, owner, initialItems } = props.data;
   const [openInfo, setOpenInfo] = useState<boolean>(false);
   const [editing, setEditing] = useState<boolean>(true);
+  const [sharing, setSharing] = useState<boolean>(false);
+  const shareUrl = `${SHARE_SITE_URL}/s/${owner.handle}/${storeInfo.id}`;
 
   const currentUser = useUserAuth();
   const router = useRouter();
@@ -84,7 +88,15 @@ export default function storepage(props: StorePageProps) {
         onClose={() => setOpenInfo(false)}
         storeInfo={storeInfo}
       />
-      <PageHeader title='store' onBack={handleGoBack} />
+      <ModalShareSocial
+        url={sharing ? shareUrl : ''}
+        onClose={() => setSharing(false)}
+      />
+      <PageHeader
+        title='store'
+        onBack={handleGoBack}
+        onShare={() => setSharing(true)}
+      />
       <div className={styles.topContainer}>
         <h1 className={styles.title}>{storeInfo.name}</h1>
         <div className={styles.ownerContainer}>

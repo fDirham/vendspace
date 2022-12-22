@@ -4,6 +4,8 @@
 // export const apiUrl = testApiUrl;
 
 export const TEST_SITE_URL = 'http://localhost:3000';
+export const DEPLOY_SITE_URL = 'https://www.vendspace.co';
+export const SHARE_SITE_URL = 'app.vendspace.co';
 export const SITE_URL = TEST_SITE_URL;
 
 // User fields

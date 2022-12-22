@@ -1,7 +1,6 @@
 import React from 'react';
 import styles from './ModalBase.module.scss';
 import StyledButton from '../StyledButton';
-import ReactLinkify from 'react-linkify';
 
 export type ModalBaseProps = {
   open: boolean;
@@ -19,7 +18,7 @@ export default function ModalBase(props: ModalBaseProps) {
           className={styles.modalContainer + ' ' + props.containerClassName}
           onClick={(e) => e.stopPropagation()}
         >
-          <ReactLinkify>{props.renderContent(props)}</ReactLinkify>
+          {props.renderContent(props)}
           {props.canClose && (
             <StyledButton className={styles.button} onClick={props.onClose}>
               close

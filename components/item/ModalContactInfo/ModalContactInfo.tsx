@@ -3,6 +3,7 @@ import styles from './ModalContactInfo.module.scss';
 import ModalBase from 'components/all/ModalBase';
 import { ModalBaseProps } from 'components/all/ModalBase/ModalBase';
 import { StoreInfo } from 'utilities/types';
+import ReactLinkify from 'react-linkify';
 
 type ModalContactInfoProps = {
   open: boolean;
@@ -14,10 +15,12 @@ export default function ModalContactInfo(props: ModalContactInfoProps) {
   const renderContent = (modalProps: ModalBaseProps) => {
     return (
       <>
-        <p className={styles.sectionTitle}>Contact info</p>
-        <p className={styles.sectionText}>{props.storeInfo.contact}</p>
-        <p className={styles.sectionTitle}>Payment info</p>
-        <p className={styles.sectionText}>{props.storeInfo.payment}</p>
+        <ReactLinkify>
+          <p className={styles.sectionTitle}>Contact info</p>
+          <p className={styles.sectionText}>{props.storeInfo.contact}</p>
+          <p className={styles.sectionTitle}>Payment info</p>
+          <p className={styles.sectionText}>{props.storeInfo.payment}</p>
+        </ReactLinkify>
       </>
     );
   };
