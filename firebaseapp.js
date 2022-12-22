@@ -25,15 +25,9 @@ googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
-// let testing = true;
-// if (testing) {
-//   connectAuthEmulator(firebaseAuth, 'http://10.0.0.95:9099');
-//   connectStorageEmulator(firebaseStorage, '10.0.0.95', 9199);
-//   connectFirestoreEmulator(firestoreDB, '10.0.0.95', 8080);
-// }
-
 const EMULATORS_STARTED = 'EMULATORS_STARTED';
 function startEmulators() {
+  if (process.env.NEXT_PUBLIC_TESTING != 1) return;
   if (!global[EMULATORS_STARTED]) {
     global[EMULATORS_STARTED] = true;
     connectAuthEmulator(firebaseAuth, 'http://10.0.0.95:9099');

@@ -3,11 +3,8 @@
 //   'https://us-central1-tableoh-backend.cloudfunctions.net/v1';
 // export const apiUrl = testApiUrl;
 
-export const TEST_SITE_URL = 'http://localhost:3000';
-export const DEPLOY_SITE_URL = 'https://www.vendspace.co';
-export const SHARE_SITE_URL = 'app.vendspace.co';
-export const INFO_SITE_URL = 'https://www.vendspace.co';
-export const SITE_URL = TEST_SITE_URL;
+export const SHARE_SITE_URL = process.env.NEXT_PUBLIC_SHARE_URL;
+export const INFO_SITE_URL = process.env.NEXT_PUBLIC_INFO_URL;
 
 // User fields
 export const MAX_LENGTH_NAME = 20;
@@ -25,7 +22,7 @@ export const MAX_LENGTH_ITEM_PRICE = 20;
 export const MAX_ITEM_VISUALS = 5;
 
 // ID lengths
-export const LENGTH_STORE_ID = 6;
+export const LENGTH_STORE_ID = 3;
 export const LENGTH_ITEM_ID = 3;
 
 export const ADMIN_CLAIM_HANDLE = 'dummy0';
