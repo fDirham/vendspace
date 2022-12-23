@@ -106,7 +106,8 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
           onChange={handleChange}
         />
         <p className={styles.explainText}>
-          Square images recommended. If not square, will be squeezed as shown.
+          Square images recommended. If not square, will be cropped
+          automatically as shown.
         </p>
         <div className={styles.buttonsContainer}>
           {!!preview && (
