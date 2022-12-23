@@ -29,9 +29,17 @@ type ModalShareSocialProps = {
 
 const iconSize = 60;
 export default function ModalShareSocial(props: ModalShareSocialProps) {
-  function handleCopy() {
-    navigator.clipboard.writeText(props.url);
+  async function handleCopy() {
+    await copyTextToClipboard(props.url);
     alert('Link copied!');
+  }
+
+  async function copyTextToClipboard(text: string) {
+    if ('clipboard' in navigator) {
+      return await navigator.clipboard.writeText(text);
+    } else {
+      return document.execCommand('copy', true, text);
+    }
   }
 
   const renderContent = (modalProps: ModalBaseProps) => {
