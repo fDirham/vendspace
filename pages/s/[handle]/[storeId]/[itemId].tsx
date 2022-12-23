@@ -91,9 +91,12 @@ export default function itemPage(props: ItemPageProps) {
   }
 
   const metaTitle = `Buy ${itemInfo.name} from ${sellerData.displayName}`;
-  const metaDescription = itemInfo.description
-    ? itemInfo.description
-    : `${sellerData.displayName} wants you to check out ${itemInfo.name} only on VendSpace!`;
+  const metaDescription =
+    itemInfo.price +
+    ' ' +
+    (itemInfo.description
+      ? itemInfo.description
+      : `${sellerData.displayName} wants you to check out ${itemInfo.name} only on VendSpace!`);
   const metaImg = itemInfo.visuals.length
     ? itemInfo.visuals[0].uri
     : DEFAULT_PREVIEW_IMG;
