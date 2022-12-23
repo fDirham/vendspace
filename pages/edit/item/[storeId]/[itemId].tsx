@@ -110,7 +110,7 @@ export default function edititem() {
       <Head>
         <title>Edit VendSpace Item</title>
       </Head>
-      <PageHeader title={name || '...'} onBack={() => router.back()} />
+      <PageHeader title={'edit'} onBack={() => router.back()} />
       <ModalLoading message={loadingMessage} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>

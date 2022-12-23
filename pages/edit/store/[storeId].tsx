@@ -75,7 +75,7 @@ export default function editstore() {
       <Head>
         <title>Edit VendSpace Store</title>
       </Head>
-      <PageHeader title={name || '...'} onBack={() => router.back()} />
+      <PageHeader title={'edit'} onBack={() => router.back()} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>Edit Store</h1>

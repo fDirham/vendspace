@@ -88,7 +88,7 @@ export default function listitem() {
       <Head>
         <title>New VendSpace Item</title>
       </Head>
-      <PageHeader title={name || '...'} onBack={() => router.back()} />
+      <PageHeader title={'create'} onBack={() => router.back()} />
       <ModalLoading message={loadingMessage} />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
