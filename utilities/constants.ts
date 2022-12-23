@@ -23,6 +23,6 @@ export const MAX_ITEM_VISUALS = 5;
 export const LENGTH_STORE_ID = 3;
 export const LENGTH_ITEM_ID = 3;
 
-export const ADMIN_CLAIM_HANDLE = 'dummy0';
+export const ADMIN_CLAIM_HANDLE = process.env.NEXT_PUBLIC_ADMIN_HANDLE;
 
 export const DEFAULT_PREVIEW_IMG = 'https://i.imgur.com/A9mwGSq.png';
