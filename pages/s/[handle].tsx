@@ -103,6 +103,7 @@ export default function UserPage(props: UserPageProps) {
   }
 
   const renderStoreList = () => {
+    if (userData.handle == ADMIN_CLAIM_HANDLE && !isUser) return [];
     const toReturn = storeList.map((store, index) => {
       return (
         <StoreBlock
