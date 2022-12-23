@@ -22,6 +22,11 @@ type ServerData = {
 export const getServerSideProps: GetServerSideProps<{
   data: ServerData;
 }> = async (context) => {
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=86400, stale-while-revalidate=100'
+  );
+
   const { handle } = context.params!;
 
   const getSellerRes = await ControllerAuth.getPublicUserData(handle as string);

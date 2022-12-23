@@ -29,6 +29,11 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async (context) => {
   const { handle, storeId } = context.params!;
 
+  context.res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=1800, stale-while-revalidate=100'
+  );
+
   const getStoreRes = await ControllerStores.getStoreInfo(
     handle as string,
     storeId as string
