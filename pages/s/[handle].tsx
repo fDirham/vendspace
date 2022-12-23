@@ -13,6 +13,7 @@ import PageHeader from 'components/all/PageHeader';
 import ModalEditStore from 'components/home/ModalEditStore';
 import { GetServerSideProps } from 'next';
 import { PATH_SIGN_IN } from 'utilities/pathnames';
+import { ADMIN_CLAIM_HANDLE } from 'utilities/constants';
 
 type ServerData = {
   storeList: StoreInfo[];
@@ -73,7 +74,7 @@ export default function UserPage(props: UserPageProps) {
 
   function handleNewStore() {
     // TODO: Better lock
-    if (storeList.length >= 10) {
+    if (storeList.length >= 10 && userData.handle !== ADMIN_CLAIM_HANDLE) {
       alert('Too many stores, delete to continue.');
       return;
     }
