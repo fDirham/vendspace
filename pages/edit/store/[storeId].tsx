@@ -66,7 +66,7 @@ export default function editstore() {
 
     if (updateRes.isError) return alert('Update failed, try again later');
     else alert('Store updated!');
-    router.push('/');
+    router.back();
   }
 
   if (!initialLoad) return null;
