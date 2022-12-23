@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import React, { FormEvent, useState } from 'react';
 import styles from './ListItemPage.module.scss';
 import {
+  MAX_LENGTH_ITEM_DESCRIPTION,
   MAX_LENGTH_ITEM_NAME,
   MAX_LENGTH_ITEM_PRICE,
   MAX_LENGTH_STORE_DESCRIPTION,
@@ -121,7 +122,7 @@ export default function listitem() {
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           className={styles.styledInput}
-          maxLength={MAX_LENGTH_STORE_DESCRIPTION}
+          maxLength={MAX_LENGTH_ITEM_DESCRIPTION}
         />
 
         <p className={styles.explainP}>
