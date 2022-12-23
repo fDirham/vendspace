@@ -62,12 +62,12 @@ export default function claimstore() {
 
     setLoadingMsg('Retrieving store...');
     const getStoreRes = await ControllerStores.getStoreInfo(
-      ADMIN_CLAIM_HANDLE,
+      ADMIN_CLAIM_HANDLE as string,
       storeId as string
     );
 
     const getItemsRes = await ControllerItems.getStoreItems(
-      ADMIN_CLAIM_HANDLE,
+      ADMIN_CLAIM_HANDLE as string,
       storeId as string
     );
 
