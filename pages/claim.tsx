@@ -126,7 +126,7 @@ export default function claimstore() {
           onChange={(e) => setCode(e.target.value)}
           className={styles.styledInput}
           required
-          maxLength={6}
+          maxLength={10}
         />
         <p className={styles.explainP}>What is the code we gave you?</p>
 
