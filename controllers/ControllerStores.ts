@@ -57,7 +57,7 @@ export default class ControllerStores {
         timeCreated: serverTimestamp(),
       });
 
-      return { isError: false };
+      return { isError: false, id: newId };
     } catch (err) {
       return { isError: true, data: err as FirebaseError };
     }

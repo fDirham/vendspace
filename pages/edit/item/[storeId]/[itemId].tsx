@@ -3,7 +3,7 @@ import StyledButton from 'components/all/StyledButton';
 import StyledInput from 'components/all/StyledInput';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
-import styles from 'pages/list/ListItemPage.module.scss';
+import styles from 'pages/create/ListItemPage.module.scss';
 import {
   MAX_LENGTH_ITEM_DESCRIPTION,
   MAX_LENGTH_ITEM_NAME,

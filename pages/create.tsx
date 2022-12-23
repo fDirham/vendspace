@@ -36,9 +36,10 @@ export default function newstore() {
       description
     );
 
-    if (createRes.isError) return alert('Create failed, try again later');
-    else alert('Store created!');
-    router.push('/');
+    if (createRes.isError) return alert('Create failed, please try again');
+
+    alert('Store created!');
+    router.push(`/s/${currentUser?.handle}/${createRes.id}`);
   }
 
   return (

@@ -5,7 +5,13 @@ import ControllerAuth from 'controllers/ControllerAuth';
 import { useRouter } from 'next/router';
 import React, { FormEvent, useEffect, useState } from 'react';
 import styles from './WelcomePage.module.scss';
-import { MAX_LENGTH_HANDLE, MAX_LENGTH_NAME } from 'utilities/constants';
+import {
+  MAX_LENGTH_HANDLE,
+  MAX_LENGTH_NAME,
+  MIN_LENGTH_HANDLE,
+  MIN_LENGTH_NAME,
+  REGEX_HANDLE,
+} from 'utilities/constants';
 import useUserAuth from 'hooks/useUserAuth';
 import { VSUser } from 'utilities/types';
 import Head from 'next/head';
@@ -34,6 +40,11 @@ function newuser() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     // Check handle
+    if (!REGEX_HANDLE.test(handle)) {
+      alert('Handle not formatted correctly.');
+      return;
+    }
+
     const handleAvailable = ControllerAuth.checkHandleAvailability(handle);
     if (!handleAvailable) {
       alert('Handle is taken, try something else');
@@ -74,9 +85,11 @@ function newuser() {
           className={styles.styledInput}
           required
           maxLength={MAX_LENGTH_HANDLE}
+          minLength={MIN_LENGTH_HANDLE}
         />
         <p className={styles.explainP}>
-          A handle is unique to your VendSpace and cannot be changed later.
+          A handle is unique to your VendSpace and cannot be changed later. Can
+          only contain alphanumeric characters.
         </p>
 
         <StyledInput
@@ -86,11 +99,11 @@ function newuser() {
           className={styles.styledInput}
           required
           maxLength={MAX_LENGTH_NAME}
+          minLength={MIN_LENGTH_NAME}
         />
         <p className={styles.explainP}>
-          Your display name is the name others first see
+          Your display name is the name others first see.
         </p>
-
         <StyledButton type='submit'>submit</StyledButton>
       </form>
     </PageContainer>

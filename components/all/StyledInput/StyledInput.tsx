@@ -9,6 +9,7 @@ type StyledInputProps = {
   maxLength?: number;
   className?: string;
   required?: boolean;
+  minLength?: number;
 };
 
 export default function StyledInput(props: StyledInputProps) {
@@ -21,6 +22,7 @@ export default function StyledInput(props: StyledInputProps) {
       maxLength={props.maxLength}
       className={styles.input + ' ' + props.className}
       required={props.required}
+      minLength={props.minLength}
     />
   );
 }

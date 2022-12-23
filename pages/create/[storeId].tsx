@@ -22,7 +22,7 @@ import Head from 'next/head';
 
 export default function listitem() {
   const [name, setName] = useState<string>('');
-  const [price, setPrice] = useState<string>('');
+  const [price, setPrice] = useState<string>('$');
   const [description, setDescription] = useState<string>('');
   const [visuals, setVisuals] = useState<ItemVisual[]>([]);
   const [visualsToDelete, setVisualsToDelete] = useState<boolean[]>([]);
@@ -75,7 +75,6 @@ export default function listitem() {
       if (!res) return;
     }
 
-    // Add logic to extract necessary files for edit
     const visualFiles = visuals
       .filter((vis) => !!vis.file)
       .map((vis) => vis.file) as File[];

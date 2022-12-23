@@ -97,7 +97,6 @@ export default function UserPage(props: UserPageProps) {
   }
 
   const renderStoreList = () => {
-    if (!storeList.length) return;
     const toReturn = storeList.map((store, index) => {
       return (
         <StoreBlock
