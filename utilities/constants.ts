@@ -11,7 +11,7 @@ export const REGEX_HANDLE = /^[a-z0-9]{4,12}$/i;
 // Store fields
 export const MAX_LENGTH_STORE_NAME = 100;
 export const MAX_LENGTH_STORE_DETAIL = 40;
-export const MAX_LENGTH_STORE_DESCRIPTION = 200;
+export const MAX_LENGTH_STORE_DESCRIPTION = 700;
 
 // Item fields
 export const MAX_LENGTH_ITEM_NAME = 100;
