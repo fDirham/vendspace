@@ -15,7 +15,7 @@ import ReactLinkify from 'react-linkify';
 import PageHeader from 'components/all/PageHeader';
 import Link from 'next/link';
 import ModalShareSocial from 'components/all/ModalShareSocial';
-import { SHARE_SITE_URL } from 'utilities/constants';
+import { DEFAULT_PREVIEW_IMG, SHARE_SITE_URL } from 'utilities/constants';
 import Head from 'next/head';
 
 type ServerData = {
@@ -83,12 +83,15 @@ export default function storepage(props: StorePageProps) {
   }
 
   const metaTitle = `${storeInfo.name} by ${owner.displayName}`;
-  const metaDescription = `${owner.displayName} wants you to check out ${storeInfo.name} only on VendSpace!`;
+  const metaDescription = storeInfo.description
+    ? storeInfo.description
+    : `${owner.displayName} wants you to check out ${storeInfo.name} only on VendSpace!`;
   const metaImg = initialItems.length
     ? initialItems[0].visuals.length
       ? initialItems[0].visuals[0].uri
-      : 'https://imgur.com/A9mwGSq'
-    : 'https://imgur.com/A9mwGSq';
+      : DEFAULT_PREVIEW_IMG
+    : DEFAULT_PREVIEW_IMG;
+
   return (
     <PageContainer className={styles.container}>
       <Head>

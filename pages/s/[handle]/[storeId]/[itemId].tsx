@@ -13,7 +13,7 @@ import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import PageHeader from 'components/all/PageHeader';
 import { useRouter } from 'next/router';
-import { SHARE_SITE_URL } from 'utilities/constants';
+import { DEFAULT_PREVIEW_IMG, SHARE_SITE_URL } from 'utilities/constants';
 import ModalShareSocial from 'components/all/ModalShareSocial';
 import Head from 'next/head';
 
@@ -85,11 +85,13 @@ export default function itemPage(props: ItemPageProps) {
     router.push(`/s/${sellerData.handle}/${storeInfo.id}`);
   }
 
-  const metaTitle = `${itemInfo.name} by ${sellerData.displayName}`;
-  const metaDescription = `${sellerData.displayName} wants you to check out ${itemInfo.name} only on VendSpace!`;
+  const metaTitle = `Buy ${itemInfo.name} from ${sellerData.displayName}`;
+  const metaDescription = itemInfo.description
+    ? itemInfo.description
+    : `${sellerData.displayName} wants you to check out ${itemInfo.name} only on VendSpace!`;
   const metaImg = itemInfo.visuals.length
     ? itemInfo.visuals[0].uri
-    : 'https://imgur.com/A9mwGSq';
+    : DEFAULT_PREVIEW_IMG;
   return (
     <PageContainer className={styles.container}>
       <Head>

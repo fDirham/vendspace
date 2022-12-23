@@ -24,3 +24,5 @@ export const LENGTH_STORE_ID = 3;
 export const LENGTH_ITEM_ID = 3;
 
 export const ADMIN_CLAIM_HANDLE = 'dummy0';
+
+export const DEFAULT_PREVIEW_IMG = 'https://i.imgur.com/A9mwGSq.png';

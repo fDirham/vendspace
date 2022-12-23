@@ -59,6 +59,7 @@ function newuser() {
       await ControllerClaim.claimStore(handle, router.query.claim as string);
     }
 
+    alert('Welcome to VendSpace!');
     router.push('/');
   }
 
