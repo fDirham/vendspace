@@ -57,6 +57,7 @@ export default function claimstore() {
     const { storeId } = codeRes!;
     if (!storeId) {
       alert('Invalid code, please try again.');
+      setLoadingMsg('');
       return;
     }
 
@@ -75,6 +76,7 @@ export default function claimstore() {
       alert('Something went wrong.');
       console.log(getStoreRes.data);
       console.log(getItemsRes.data);
+      setLoadingMsg('');
     }
 
     setStoreInfo(getStoreRes.store);
