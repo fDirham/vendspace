@@ -31,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<{
 
   context.res.setHeader(
     'Cache-Control',
-    'public, s-maxage=1800, stale-while-revalidate=100'
+    'public, s-maxage=10, stale-while-revalidate=40'
   );
 
   const getStoreRes = await ControllerStores.getStoreInfo(

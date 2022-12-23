@@ -25,7 +25,7 @@ export const getServerSideProps: GetServerSideProps<{
 }> = async (context) => {
   context.res.setHeader(
     'Cache-Control',
-    'public, s-maxage=86400, stale-while-revalidate=100'
+    'public, s-maxage=10, stale-while-revalidate=40'
   );
 
   const { handle } = context.params!;
