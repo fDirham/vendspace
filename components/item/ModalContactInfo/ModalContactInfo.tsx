@@ -9,6 +9,7 @@ type ModalContactInfoProps = {
   open: boolean;
   onClose: () => void;
   storeInfo: StoreInfo;
+  showDesc?: boolean;
 };
 
 export default function ModalContactInfo(props: ModalContactInfoProps) {
@@ -20,6 +21,14 @@ export default function ModalContactInfo(props: ModalContactInfoProps) {
           <p className={styles.sectionText}>{props.storeInfo.contact}</p>
           <p className={styles.sectionTitle}>Payment info</p>
           <p className={styles.sectionText}>{props.storeInfo.payment}</p>
+          {props.showDesc && (
+            <>
+              <p className={styles.sectionTitle}>Store Description</p>
+              <p className={styles.sectionText}>
+                {props.storeInfo.description}
+              </p>
+            </>
+          )}
         </ReactLinkify>
       </>
     );

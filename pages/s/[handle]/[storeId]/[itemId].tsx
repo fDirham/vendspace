@@ -129,6 +129,7 @@ export default function itemPage(props: ItemPageProps) {
         open={openInfo}
         onClose={() => setOpenInfo(false)}
         storeInfo={storeInfo}
+        showDesc
       />
       <ModalShareSocial
         url={sharing ? shareUrl : ''}
