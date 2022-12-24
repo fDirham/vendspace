@@ -8,7 +8,6 @@ import {
   MAX_LENGTH_ITEM_DESCRIPTION,
   MAX_LENGTH_ITEM_NAME,
   MAX_LENGTH_ITEM_PRICE,
-  MAX_LENGTH_STORE_DESCRIPTION,
 } from 'utilities/constants';
 import useUserAuth from 'hooks/useUserAuth';
 import useAuthGate from 'hooks/useAuthGate';
@@ -24,6 +23,7 @@ import Head from 'next/head';
 export default function listitem() {
   const [name, setName] = useState<string>('');
   const [price, setPrice] = useState<string>('$');
+  const [originalPrice, setOriginalPrice] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [visuals, setVisuals] = useState<ItemVisual[]>([]);
   const [visualsToDelete, setVisualsToDelete] = useState<boolean[]>([]);
@@ -53,7 +53,7 @@ export default function listitem() {
     const res = await ControllerItems.addNewItem(
       currentUser!.handle,
       storeId as string,
-      { name, price, description, visuals: newVisuals, id: '' },
+      { name, price, description, visuals: newVisuals, originalPrice, id: '' },
       visualsToDelete
     );
 
@@ -114,7 +114,18 @@ export default function listitem() {
           maxLength={MAX_LENGTH_ITEM_PRICE}
         />
         <p className={styles.explainP}>
-          What is the price of the item? Can be in any currency you want.
+          What are you selling the item for? Can be in any currency you want.
+        </p>
+
+        <StyledInput
+          placeholder='Original Price'
+          value={originalPrice}
+          onChange={(e) => setOriginalPrice(e.target.value)}
+          className={styles.styledInput}
+          maxLength={MAX_LENGTH_ITEM_PRICE}
+        />
+        <p className={styles.explainP}>
+          What did you buy the item for? (optional)
         </p>
 
         <StyledTextArea

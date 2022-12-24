@@ -26,6 +26,7 @@ export type ItemInfo = {
   name: string;
   description: string;
   price: string;
+  originalPrice?: string;
   id: string;
   visuals: ItemVisual[];
   timeCreated?: string;

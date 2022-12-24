@@ -122,3 +122,8 @@ $editSize: 20%;
   height: $editSize;
   margin-left: auto;
 }
+
+.originalPrice {
+  text-decoration: line-through;
+  font-size: smaller;
+}

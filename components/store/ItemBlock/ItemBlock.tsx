@@ -58,7 +58,10 @@ export default function ItemBlock({
       )}
       {!add && (
         <div className={styles.priceOverlay}>
-          <p className={styles.priceText}>{item?.price}</p>
+          <p className={styles.priceText}>
+            {item?.price}{' '}
+            <span className={styles.originalPrice}>{item?.originalPrice}</span>
+          </p>
         </div>
       )}
       {renderVisual()}

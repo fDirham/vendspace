@@ -23,6 +23,7 @@ import Head from 'next/head';
 export default function edititem() {
   const [name, setName] = useState<string>('');
   const [price, setPrice] = useState<string>('');
+  const [originalPrice, setOriginalPrice] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [visuals, setVisuals] = useState<ItemVisual[]>([]);
   const [visualsToDelete, setVisualsToDelete] = useState<boolean[]>([]);
@@ -55,6 +56,7 @@ export default function edititem() {
       const item = getRes.item!;
       setName(item.name);
       setPrice(item.price);
+      setOriginalPrice(item.originalPrice || '');
       setDescription(item.description);
       setVisuals(item.visuals);
       setInitialLoad(true);
@@ -74,7 +76,14 @@ export default function edititem() {
     const res = await ControllerItems.editItem(
       currentUser!.handle,
       storeId as string,
-      { name, price, description, visuals: newVisuals, id: itemId as string },
+      {
+        name,
+        price,
+        description,
+        visuals: newVisuals,
+        originalPrice,
+        id: itemId as string,
+      },
       visualsToDelete
     );
 
@@ -137,6 +146,17 @@ export default function edititem() {
         />
         <p className={styles.explainP}>
           What is the price of the item? Can be in any currency you want.
+        </p>
+
+        <StyledInput
+          placeholder='Original Price'
+          value={originalPrice}
+          onChange={(e) => setOriginalPrice(e.target.value)}
+          className={styles.styledInput}
+          maxLength={MAX_LENGTH_ITEM_PRICE}
+        />
+        <p className={styles.explainP}>
+          What did you buy the item for? (optional)
         </p>
 
         <StyledTextArea
