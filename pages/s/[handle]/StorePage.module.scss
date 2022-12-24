@@ -45,3 +45,9 @@
     width: calc($breakpointMobile - $sidePadding);
   }
 }
+
+.ctaLink {
+  align-self: flex-start;
+  margin-left: $sidePadding;
+  margin-top: 1rem;
+}

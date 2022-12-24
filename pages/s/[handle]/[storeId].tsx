@@ -181,6 +181,9 @@ export default function storepage(props: StorePageProps) {
         initialItems={initialItems}
         router={router}
       />
+      <Link href='/' className={styles.ctaLink}>
+        Create your own VendSpace
+      </Link>
       <div className={styles.actionContainer}>
         <StyledButton onClick={() => setOpenInfo(true)}>
           contact seller

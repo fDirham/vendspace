@@ -63,6 +63,10 @@ function newuser() {
     router.push('/');
   }
 
+  function handleSignOut() {
+    ControllerAuth.signOut();
+  }
+
   if (user === undefined) return null;
   return (
     <PageContainer>
@@ -106,6 +110,13 @@ function newuser() {
           Your display name is the name others first see.
         </p>
         <StyledButton type='submit'>submit</StyledButton>
+        <StyledButton
+          type='button'
+          onClick={handleSignOut}
+          className={styles.button}
+        >
+          go back
+        </StyledButton>
       </form>
     </PageContainer>
   );

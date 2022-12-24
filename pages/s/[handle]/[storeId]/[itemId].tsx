@@ -138,6 +138,7 @@ export default function itemPage(props: ItemPageProps) {
         title='item'
         onBack={handleGoBack}
         onShare={() => setSharing(true)}
+        customBackIconSrc={'/icons/store.png'}
       />
       <VisualSystem visuals={itemInfo.visuals} />
       <div className={styles.infoContainer}>
@@ -163,6 +164,9 @@ export default function itemPage(props: ItemPageProps) {
         <Linkify>
           <p className={styles.description}>{itemInfo.description}</p>
         </Linkify>
+        <Link href='/' className={styles.ctaLink}>
+          Create your own VendSpace
+        </Link>
       </div>
       <div className={styles.actionContainer}>
         <StyledButton onClick={contactSeller}>contact seller</StyledButton>

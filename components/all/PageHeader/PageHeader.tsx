@@ -5,6 +5,7 @@ type PageHeaderProps = {
   title: string;
   onBack?: () => void;
   onShare?: () => void;
+  customBackIconSrc?: string;
 };
 
 export default function PageHeader(props: PageHeaderProps) {
@@ -14,7 +15,7 @@ export default function PageHeader(props: PageHeaderProps) {
       <div className={styles.container}>
         {!!props.onBack ? (
           <img
-            src='/icons/back.png'
+            src={'/icons/back.png'}
             alt='back'
             onClick={props.onBack}
             className={styles.icon}
