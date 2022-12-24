@@ -30,7 +30,9 @@ export default function ItemBlockList(props: ItemBlockListProps) {
   }
 
   function onAdd() {
-    router.push('/create/' + props.storeId);
+    let url = '/create/' + props.storeId;
+    if (!items.length) url += '?first=y';
+    router.push(url);
   }
 
   async function handleBlockDelete() {

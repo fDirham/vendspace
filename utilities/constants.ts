@@ -1,3 +1,5 @@
+export const API_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export const SHARE_SITE_URL = process.env.NEXT_PUBLIC_SHARE_URL;
 export const INFO_SITE_URL = process.env.NEXT_PUBLIC_INFO_URL;
 
@@ -17,7 +19,7 @@ export const MAX_LENGTH_STORE_DESCRIPTION = 700;
 export const MAX_LENGTH_ITEM_NAME = 100;
 export const MAX_LENGTH_ITEM_DESCRIPTION = 700;
 export const MAX_LENGTH_ITEM_PRICE = 20;
-export const MAX_ITEM_VISUALS = 5;
+export const MAX_ITEM_VISUALS = 10;
 
 // ID lengths
 export const LENGTH_STORE_ID = 3;

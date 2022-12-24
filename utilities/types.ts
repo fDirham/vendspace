@@ -50,3 +50,10 @@ export type UploadState = {
   status: UploadStatus;
   data: any;
 };
+
+export type ScrapedItemData = {
+  name: string;
+  price: string;
+  imageSrcs: string[];
+  url: string;
+};

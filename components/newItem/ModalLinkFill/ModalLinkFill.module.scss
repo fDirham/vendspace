@@ -1,0 +1,19 @@
+@import 'styles/constants/base.scss';
+
+.topText {
+  margin-bottom: 1rem;
+}
+
+.input {
+  margin-bottom: 1rem;
+}
+
+.loadingSpinner {
+  align-self: center;
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
