@@ -7,7 +7,11 @@ import styles from './SignInPage.module.scss';
 import Head from 'next/head';
 import { PATH_WELCOME } from 'utilities/pathnames';
 import PageHeader from 'components/all/PageHeader';
-import { INFO_SITE_URL } from 'utilities/constants';
+import {
+  DEFAULT_PREVIEW_IMG,
+  INFO_SITE_URL,
+  SHARE_SITE_URL,
+} from 'utilities/constants';
 import Image from 'next/image';
 
 function signin() {
@@ -29,10 +33,35 @@ function signin() {
     ControllerAuth.signInGoogle();
   }
 
+  const metaTitle = 'VendSpace';
+  const metaDescription = 'A simple UI to sell items to the people you trust.';
+  const metaImg = DEFAULT_PREVIEW_IMG;
   return (
     <PageContainer className={styles.container}>
       <Head>
         <title>Sign In to VendSpace</title>
+        <title>{metaTitle}</title>
+        <meta name='title' content={metaTitle} />
+        <meta name='twitter:title' content={metaTitle} />
+        <meta itemProp='name' content={metaTitle} />
+        <meta name='og:title' content={metaTitle} />
+        <meta name='description' content={metaDescription} />
+        <meta name='og:description' content={metaDescription} />
+        <meta itemProp='description' content={metaDescription} />
+        <meta name='twitter:description' content={metaDescription} />
+        <meta name='og:url' content={SHARE_SITE_URL} />
+        <meta name='robots' content='index, follow' />
+        <meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
+        <meta name='author' content={'Fontaine Dynamo'} />
+        <meta name='og:site_name' content='VendSpace' />
+        <meta name='language' content='English' />
+        <meta name='og:type' content='website' />
+        <meta charSet='utf-8' />
+        <meta name='image' content={metaImg} />
+        <meta itemProp='image' content={metaImg} />
+        <meta name='og:image' content={metaImg} />
+        <meta name='twitter:image:src' content='image' />
+        <meta name='twitter:card' content='summary' />
       </Head>
 
       <PageHeader title={'sign in'} />
