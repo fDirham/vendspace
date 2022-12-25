@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import styles from './ModalLinkFill.module.scss';
 import ModalBase from 'components/all/ModalBase';
 import { ScrapedItemData } from 'utilities/types';
@@ -16,13 +16,19 @@ type ModalLinkFillProps = {
 
 export default function ModalLinkFill(props: ModalLinkFillProps) {
   const [scrapeUrl, setScrapeUrl] = useState<string>('');
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loadingMsg, _setLoadingMsg] = useState<string>('');
+  const loadingMsgRef = useRef<string>('');
+  function setLoadingMsg(newMsg: string) {
+    loadingMsgRef.current = newMsg;
+    _setLoadingMsg(newMsg);
+  }
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoading(true);
+    setLoadingMsg('hitting url...');
+    triggerFakeLoadingMessages();
     const scrapeRes = await ControllerScrape.scrapeAmazonItem(scrapeUrl);
-    setLoading(false);
+    setLoadingMsg('');
     if (scrapeRes.isError) {
       alert('Scraping failed! Please ensure the link is valid.');
       console.log(scrapeRes.data);
@@ -33,21 +39,37 @@ export default function ModalLinkFill(props: ModalLinkFillProps) {
     props.onClose();
   }
 
+  function triggerFakeLoadingMessages() {
+    setTimeout(() => {
+      if (loadingMsgRef.current) {
+        setLoadingMsg('parsing text...');
+      }
+    }, 1600);
+
+    setTimeout(() => {
+      if (loadingMsgRef.current) {
+        setLoadingMsg('grabbing images...');
+      }
+    }, 2700);
+  }
+
   const renderContent = (modalProps: ModalBaseProps) => {
-    if (loading) {
+    if (!!loadingMsg) {
       return (
         <div className={styles.loadingContainer}>
           <LoadingSpinner className={styles.loadingSpinner} />
+          <p className={styles.loadingMsg}>{loadingMsg}</p>
         </div>
       );
     }
     return (
       <form onSubmit={handleSubmit}>
         <p className={styles.topText}>
-          Paste a link to an external site below and VendSpace will scrape
-          images and information.
+          Paste a link to an external site below and VendSpace will
+          automatically gather images and information.
           <br />
-          NOTE: Only works for Amazon.com for now.
+          <br />
+          <b>NOTE:</b> Only works for amazon.com for now.
         </p>
         <StyledInput
           value={scrapeUrl}
