@@ -17,10 +17,10 @@ export default function ModalContactInfo(props: ModalContactInfoProps) {
     return (
       <>
         <ReactLinkify>
-          <p className={styles.sectionTitle}>Contact info</p>
+          <p className={styles.sectionTitle}>Contact</p>
           <p className={styles.sectionText}>{props.storeInfo.contact}</p>
-          <p className={styles.sectionTitle}>Payment info</p>
-          <p className={styles.sectionText}>{props.storeInfo.payment}</p>
+          <p className={styles.sectionTitle}>Location</p>
+          <p className={styles.sectionText}>{props.storeInfo.location}</p>
           {props.showDesc && (
             <>
               <p className={styles.sectionTitle}>Store Description</p>

@@ -15,7 +15,7 @@ export type PublicUserData = {
 export type StoreInfo = {
   name: string;
   contact: string;
-  payment: string;
+  location: string;
   description: string;
   id: string;
   timeCreated?: string;

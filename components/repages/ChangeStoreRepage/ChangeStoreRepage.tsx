@@ -28,7 +28,7 @@ type ChangeStoreRepageProps = {
 export default function ChangeStoreRepage(props: ChangeStoreRepageProps) {
   const [name, setName] = useState<string>('');
   const [contact, setContact] = useState<string>('');
-  const [payment, setPayment] = useState<string>('');
+  const [location, setLocation] = useState<string>('');
   const [description, setDescription] = useState<string>('');
 
   const router = useRouter();
@@ -39,7 +39,7 @@ export default function ChangeStoreRepage(props: ChangeStoreRepageProps) {
     if (props.initialStore) {
       const store = props.initialStore;
       setName(store.name);
-      setPayment(store.payment);
+      setLocation(store.location);
       setContact(store.contact);
       setDescription(store.description);
     }
@@ -53,7 +53,7 @@ export default function ChangeStoreRepage(props: ChangeStoreRepageProps) {
       const newStoreInfo = {
         id: props.initialStore?.id!,
         name,
-        payment,
+        location,
         contact,
         description,
       };
@@ -74,7 +74,7 @@ export default function ChangeStoreRepage(props: ChangeStoreRepageProps) {
         currentUser!.handle,
         name,
         contact,
-        payment,
+        location,
         description
       );
 
@@ -117,20 +117,20 @@ export default function ChangeStoreRepage(props: ChangeStoreRepageProps) {
           maxLength={MAX_LENGTH_STORE_DETAIL}
         />
         <p className={styles.explainP}>
-          How should people contact you when buying from your store? An email?
-          Phone number?
+          How should people contact you? Email? Phone number?
         </p>
 
         <StyledInput
-          placeholder='Payment Info*'
-          value={payment}
-          onChange={(e) => setPayment(e.target.value)}
+          placeholder='Location Info*'
+          value={location}
+          onChange={(e) => setLocation(e.target.value)}
           className={styles.styledInput}
           required
           maxLength={MAX_LENGTH_STORE_DETAIL}
         />
         <p className={styles.explainP}>
-          How do you accept payments? Venmo? PayPal? Cash only?
+          Where are you based? Useful for pick up only stores and to connect
+          with local buyers.
         </p>
 
         <StyledTextArea
