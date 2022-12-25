@@ -70,7 +70,13 @@ function signin() {
       <p className={styles.subtitle}>
         We help you sell to the people you trust
       </p>
-      <Image src='hero.png' alt='hero' className={styles.hero} />
+      <Image
+        src='/hero.png'
+        alt='hero'
+        className={styles.hero}
+        width={400}
+        height={400}
+      />
       <button className={styles.googleButton} onClick={handleGoogleSignIn}>
         <img
           className={styles.googleImg}
