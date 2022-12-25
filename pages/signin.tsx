@@ -8,6 +8,7 @@ import Head from 'next/head';
 import { PATH_WELCOME } from 'utilities/pathnames';
 import PageHeader from 'components/all/PageHeader';
 import { INFO_SITE_URL } from 'utilities/constants';
+import Image from 'next/image';
 
 function signin() {
   const router = useRouter();
@@ -40,7 +41,7 @@ function signin() {
       <p className={styles.subtitle}>
         We help you sell to the people you trust
       </p>
-      <img src='/hero.png' alt='hero' className={styles.hero} />
+      <Image src='hero.png' alt='hero' className={styles.hero} />
       <button className={styles.googleButton} onClick={handleGoogleSignIn}>
         <img
           className={styles.googleImg}
