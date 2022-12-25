@@ -25,7 +25,7 @@ export default function ModalLinkFill(props: ModalLinkFillProps) {
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setLoadingMsg('hitting url...');
+    setLoadingMsg('establishing connection...');
     triggerFakeLoadingMessages();
     const scrapeRes = await ControllerScrape.scrapeAmazonItem(scrapeUrl);
     setLoadingMsg('');
@@ -42,15 +42,44 @@ export default function ModalLinkFill(props: ModalLinkFillProps) {
   function triggerFakeLoadingMessages() {
     setTimeout(() => {
       if (loadingMsgRef.current) {
-        setLoadingMsg('parsing text...');
+        setLoadingMsg('requesting page...');
       }
-    }, 1600);
+    }, 3000);
 
     setTimeout(() => {
       if (loadingMsgRef.current) {
-        setLoadingMsg('grabbing images...');
+        setLoadingMsg('verifying response...');
       }
-    }, 2700);
+    }, 5500);
+
+    setTimeout(() => {
+      if (loadingMsgRef.current) {
+        setLoadingMsg('parsing page...');
+      }
+    }, 9200);
+
+    setTimeout(() => {
+      if (loadingMsgRef.current) {
+        setLoadingMsg('extracting info...');
+      }
+    }, 11700);
+
+    setTimeout(() => {
+      if (loadingMsgRef.current) {
+        setLoadingMsg('finding images...');
+      }
+    }, 15400);
+
+    setTimeout(() => {
+      if (loadingMsgRef.current) {
+        setLoadingMsg('image checksum...');
+      }
+    }, 18000);
+    setTimeout(() => {
+      if (loadingMsgRef.current) {
+        setLoadingMsg('formatting response...');
+      }
+    }, 20300);
   }
 
   const renderContent = (modalProps: ModalBaseProps) => {

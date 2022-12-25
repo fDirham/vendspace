@@ -7,6 +7,9 @@ import {
 } from 'utilities/constants';
 import { ScrapedItemData } from 'utilities/types';
 
+/*
+About 23 seconds per hit if not cold
+*/
 export default class ControllerScrape {
   static async scrapeAmazonItem(url: string) {
     try {
