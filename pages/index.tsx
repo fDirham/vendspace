@@ -16,7 +16,7 @@ export default function Home() {
   }, [currentUser]);
 
   const metaTitle = 'VendSpace';
-  const metaDescription = 'A simple UI to sell items to the people you trust.';
+  const metaDescription = 'A simple way to sell items to the people you trust.';
   const metaImg = DEFAULT_PREVIEW_IMG;
   return (
     <Head>

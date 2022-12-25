@@ -96,7 +96,7 @@ export default function itemPage(props: ItemPageProps) {
     router.push(`/s/${sellerData.handle}/${storeInfo.id}`);
   }
 
-  const metaTitle = `Buy ${itemInfo.name} from ${sellerData.displayName}`;
+  const metaTitle = `${sellerData.displayName} is selling ${itemInfo.name}`;
   const metaDescription =
     itemInfo.price +
     ' ' +
