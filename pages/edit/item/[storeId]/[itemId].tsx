@@ -6,7 +6,7 @@ import { ItemInfo } from 'utilities/types';
 import ControllerItems from 'controllers/ControllerItems';
 import ChangeItemRepage from 'components/repages/ChangeItemRepage';
 
-export default function edititem() {
+export default function editItem() {
   const [initialItem, setInitialItem] = useState<ItemInfo>();
 
   const router = useRouter();

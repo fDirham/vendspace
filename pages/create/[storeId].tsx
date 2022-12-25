@@ -1,7 +1,7 @@
 import React from 'react';
 import ChangeItemRepage from 'components/repages/ChangeItemRepage';
 
-export default function listitem() {
+export default function newItem() {
   return (
     <ChangeItemRepage
       pageTitle='New Item'
