@@ -186,7 +186,7 @@ export default function storepage(props: StorePageProps) {
       </Link>
       <div className={styles.actionContainer}>
         <StyledButton onClick={() => setOpenInfo(true)}>
-          contact seller
+          {isUser ? 'store info' : 'contact seller'}
         </StyledButton>
       </div>
     </PageContainer>

@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { DEFAULT_PREVIEW_IMG, SHARE_SITE_URL } from 'utilities/constants';
 import ModalShareSocial from 'components/all/ModalShareSocial';
 import Head from 'next/head';
+import useUserAuth from 'hooks/useUserAuth';
 
 type ServerData = {
   itemInfo: ItemInfo;
@@ -73,7 +74,9 @@ export default function itemPage(props: ItemPageProps) {
   const [sharing, setSharing] = useState<boolean>(false);
   const shareUrl = `${SHARE_SITE_URL}/s/${sellerData.handle}/${storeInfo.id}/${itemInfo.id}`;
 
+  const currentUser = useUserAuth();
   const router = useRouter();
+  const isUser = currentUser?.handle === sellerData.handle;
 
   function contactSeller() {
     if (itemInfo.sold) {
@@ -83,6 +86,10 @@ export default function itemPage(props: ItemPageProps) {
     }
 
     setOpenInfo(true);
+  }
+
+  function handleEdit() {
+    router.push(`/edit/item/${storeInfo.id}/${itemInfo.id}`);
   }
 
   function handleGoBack() {
@@ -157,6 +164,11 @@ export default function itemPage(props: ItemPageProps) {
           </Link>
         </p>
         <p className={styles.price}>{itemInfo.price}</p>
+        {isUser && (
+          <StyledButton mini className={styles.editButton} onClick={handleEdit}>
+            edit
+          </StyledButton>
+        )}
         {(itemInfo.sold || itemInfo.hold) && (
           <p className={styles.status}>
             {itemInfo.sold ? 'SOLD OUT' : 'ON HOLD'}
@@ -170,7 +182,9 @@ export default function itemPage(props: ItemPageProps) {
         </Link>
       </div>
       <div className={styles.actionContainer}>
-        <StyledButton onClick={contactSeller}>contact seller</StyledButton>
+        <StyledButton onClick={contactSeller}>
+          {isUser ? 'store info' : 'contact seller'}
+        </StyledButton>
       </div>
     </PageContainer>
   );
