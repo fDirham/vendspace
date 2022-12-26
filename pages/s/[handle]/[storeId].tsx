@@ -146,6 +146,7 @@ export default function storepage(props: StorePageProps) {
               @{owner.handle}
             </Link>
           </p>
+          <p>{storeInfo.location}</p>
         </div>
         {!!storeInfo.description && (
           <ReactLinkify>

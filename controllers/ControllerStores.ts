@@ -21,7 +21,7 @@ export default class ControllerStores {
     handle: string,
     name: string,
     contact: string,
-    payment: string,
+    location: string,
     description: string
   ) {
     try {
@@ -52,7 +52,7 @@ export default class ControllerStores {
       await setDoc(doc(storesColRef, newId), {
         name,
         contact,
-        payment,
+        location,
         description,
         timeCreated: serverTimestamp(),
       });

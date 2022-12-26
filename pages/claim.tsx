@@ -19,7 +19,7 @@ const dummyStore = {
   contact: 'cool beans',
   name: 'claim store',
   description: 'wgijgfiojwegjgew',
-  payment: 'lol',
+  location: 'lol',
   timeCreated: '',
   claimId: 'super',
   claimPersonName: 'mario luigi',
