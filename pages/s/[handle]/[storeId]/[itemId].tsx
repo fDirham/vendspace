@@ -163,7 +163,12 @@ export default function itemPage(props: ItemPageProps) {
             {sellerData.displayName}
           </Link>
         </p>
-        <p className={styles.price}>{itemInfo.price}</p>
+        <p className={styles.price}>
+          <span className={styles.mainPrice}>{itemInfo.price} </span>
+          <span className={styles.originalPrice}>
+            {!!itemInfo.originalPrice && itemInfo.originalPrice}
+          </span>
+        </p>
         {isUser && (
           <StyledButton mini className={styles.editButton} onClick={handleEdit}>
             edit
