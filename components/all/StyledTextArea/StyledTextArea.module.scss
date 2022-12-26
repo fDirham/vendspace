@@ -6,11 +6,8 @@
   padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 0;
-  // -webkit-box-shadow: 0px 5px 40px 3px rgba(204, 204, 204, 0.5);
-  // box-shadow: 0px 5px 40px 3px rgba(204, 204, 204, 0.5);
-  // -webkit-appearance: none;
-  font-family: Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: $fontA, Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+    'Helvetica Neue', sans-serif;
   min-height: 7rem;
   border: 1px solid $fadeGray;
 }
