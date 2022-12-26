@@ -9,7 +9,6 @@
 }
 
 .subtitle {
-  margin-top: 0.5rem;
 }
 
 .googleButton {
@@ -21,7 +20,9 @@
 }
 
 .hero {
+  margin-top: 1rem;
   width: calc(100% - 2 * $sidePadding);
+  aspect-ratio: 1;
 }
 
 .learnText {

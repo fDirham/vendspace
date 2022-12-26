@@ -66,17 +66,11 @@ function signin() {
 
       <PageHeader title={'sign in'} />
 
-      <h1 className={styles.title}>VendSpace</h1>
+      <h1 className={styles.title}>VENDSPACE</h1>
       <p className={styles.subtitle}>
-        We help you sell to the people you trust
+        A simple user interface to sell to your community
       </p>
-      <Image
-        src='/hero.png'
-        alt='hero'
-        className={styles.hero}
-        width={400}
-        height={400}
-      />
+      <img src='/hero.png' alt='hero' className={styles.hero} />
       <button className={styles.googleButton} onClick={handleGoogleSignIn}>
         <img
           className={styles.googleImg}
