@@ -240,7 +240,9 @@ export default function ChangeItemRepage(props: ChangeItemRepageProps) {
           Optional. The first picture will be the cover picture. If there are no
           pictures, only text will appear.
         </p>
-        <StyledButton type='submit'>save</StyledButton>
+        <div className={styles.actionContainer}>
+          <StyledButton type='submit'>save</StyledButton>
+        </div>
       </form>
     </PageContainer>
   );

@@ -32,3 +32,17 @@
 .linkFillButton {
   margin-bottom: 0.5rem;
 }
+
+.actionContainer {
+  position: fixed;
+  z-index: 1;
+  bottom: $sidePadding;
+  width: 100%;
+  padding: 0 $sidePadding;
+}
+
+@media screen and (min-width: $breakpointMobile) {
+  .actionContainer {
+    width: calc($breakpointMobile - $sidePadding);
+  }
+}

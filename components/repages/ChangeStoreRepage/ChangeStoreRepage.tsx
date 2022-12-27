@@ -144,7 +144,9 @@ export default function ChangeStoreRepage(props: ChangeStoreRepageProps) {
           Anything else you would like buyers to know about your store?
         </p>
 
-        <StyledButton type='submit'>save</StyledButton>
+        <div className={styles.actionContainer}>
+          <StyledButton type='submit'>save</StyledButton>
+        </div>
       </form>
     </PageContainer>
   );
