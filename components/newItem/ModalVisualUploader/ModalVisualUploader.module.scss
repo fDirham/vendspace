@@ -41,3 +41,10 @@ $previewSize: 8rem;
   left: 0;
   height: 100vh;
 }
+
+@media screen and (min-width: $breakpointMobile) {
+  .cropContainer {
+    left: initial;
+    margin-left: -2 * $sidePadding;
+  }
+}

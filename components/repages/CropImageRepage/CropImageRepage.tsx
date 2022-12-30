@@ -16,22 +16,22 @@ export default function CropImageRepage(props: CropImageRepageProps) {
   const getCropData = () => {
     if (typeof cropper !== 'undefined') {
       const data = cropper.getCroppedCanvas().toDataURL();
-      props.onCrop(data);
+      if (data) props.onCrop(data);
+      else alert('crop failed!');
     }
   };
 
   return (
     <PageContainer className={styles.container}>
-      <PageHeader title={'crop'} onBack={props.onClose} />
+      <PageHeader title={'crop'} />
       <div className={styles.cropContainer}>
         <Cropper
           className={styles.cropper}
-          zoomTo={0.5}
           aspectRatio={1}
           src={props.srcImage}
           viewMode={1}
-          minCropBoxHeight={10}
-          minCropBoxWidth={10}
+          minCropBoxHeight={100}
+          minCropBoxWidth={100}
           background={false}
           responsive={true}
           autoCropArea={1}
@@ -48,6 +48,13 @@ export default function CropImageRepage(props: CropImageRepageProps) {
         onClick={getCropData}
       >
         crop
+      </StyledButton>
+      <StyledButton
+        className={styles.cropButton}
+        type='button'
+        onClick={props.onClose}
+      >
+        cancel crop
       </StyledButton>
     </PageContainer>
   );

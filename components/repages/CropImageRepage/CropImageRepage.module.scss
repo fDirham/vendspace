@@ -3,8 +3,12 @@
 .container {
   min-height: 100vh;
   background-color: white;
+  width: 100%;
 }
 
+.cropContainer {
+  width: 100%;
+}
 .cropper {
   width: 100%;
 }
