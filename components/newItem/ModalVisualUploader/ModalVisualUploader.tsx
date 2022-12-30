@@ -4,6 +4,9 @@ import StyledButton from 'components/all/StyledButton';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { ItemVisual } from 'utilities/types';
 import styles from './ModalVisualUploader.module.scss';
+import CropImageRepage from 'components/repages/CropImageRepage';
+import 'cropperjs/dist/cropper.css';
+import { dataURLtoFile } from 'utilities/helpers';
 
 export type UploaderModalOperation = {
   operation: string;
@@ -19,7 +22,10 @@ type ModalVisualUploaderProps = {
 // Need to change operation to an ENUM or smth
 export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
   const [localFile, setLocalFile] = useState<File>();
+  const [originalImgSrc, setOriginalImageSrc] = useState<string>();
+  const [croppedImgSrc, setCroppedImgSrc] = useState<string>();
   const [preview, setPreview] = useState<string>();
+  const [cropping, setCropping] = useState<boolean>(false);
 
   // create a preview as a side effect, whenever selected file is changed
   useEffect(() => {
@@ -30,6 +36,7 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
 
     const objectUrl = URL.createObjectURL(localFile);
     setPreview(objectUrl);
+    setOriginalImageSrc(objectUrl);
 
     // free memory when ever this component is unmounted
     return () => URL.revokeObjectURL(objectUrl);
@@ -42,10 +49,12 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
         setLocalFile(props.modalPreviewVisual.file);
       } else {
         setPreview(props.modalPreviewVisual.uri);
+        setOriginalImageSrc(props.modalPreviewVisual.uri);
         setLocalFile(undefined);
       }
     } else {
       setLocalFile(undefined);
+      setOriginalImageSrc(undefined);
       setPreview(undefined);
     }
   }, [props.modalPreviewVisual]);
@@ -68,7 +77,13 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
 
   // When save button is pushed
   function updateClose() {
-    if (!!localFile)
+    if (croppedImgSrc) {
+      const name = localFile
+        ? localFile.name
+        : `cropped_${props.uploadingIndex}.png`;
+      const newFile = dataURLtoFile(croppedImgSrc, name);
+      props.onClose({ operation: 'new', file: newFile });
+    } else if (!!localFile)
       props.onClose({ operation: 'new', file: localFile as File });
     else props.onClose({ operation: 'same' });
 
@@ -91,29 +106,55 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
   function handleChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files && e.target.files.length) {
       setLocalFile(e.target.files[0]);
+      setCropping(true);
     } else setLocalFile(undefined);
   }
 
+  function handleCrop(data: string) {
+    setCropping(false);
+    setCroppedImgSrc(data);
+    setPreview(data);
+  }
+
   const renderContent = (modalProps: ModalBaseProps) => {
+    if (cropping) {
+      return (
+        <div className={styles.cropContainer}>
+          <CropImageRepage
+            onClose={() => setCropping(false)}
+            onCrop={handleCrop}
+            srcImage={originalImgSrc!}
+          />
+        </div>
+      );
+    }
     return (
       <>
         <div className={styles.previewContainer}>
-          {preview && <img src={preview} className={styles.previewImage} />}
+          {preview && (
+            <img
+              src={preview}
+              className={styles.previewImage}
+              onClick={() => setCropping(true)}
+            />
+          )}
         </div>
         <input
           type='file'
-          accept='image/png, image/jpeg'
+          accept='image/png, image/jpeg, image/gif'
           onChange={handleChange}
         />
         <p className={styles.explainText}>
-          Square images recommended. If not square, will be cropped
-          automatically as shown.
+          Square images recommended. <br />
+          <b>Tap image preview to crop.</b>
         </p>
         <div className={styles.buttonsContainer}>
           {!!preview && (
-            <StyledButton mini className={styles.button} onClick={clearClose}>
-              clear
-            </StyledButton>
+            <>
+              <StyledButton mini className={styles.button} onClick={clearClose}>
+                clear
+              </StyledButton>
+            </>
           )}
           {props.uploadingIndex !== 0 && !!preview && (
             <StyledButton mini className={styles.button} onClick={makeCover}>

@@ -11,10 +11,12 @@
   justify-content: flex-end;
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 
 .button {
   margin-left: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 $previewSize: 8rem;
@@ -30,4 +32,12 @@ $previewSize: 8rem;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+.cropContainer {
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  height: 100vh;
 }

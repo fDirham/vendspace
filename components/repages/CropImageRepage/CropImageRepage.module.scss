@@ -1,0 +1,15 @@
+@import 'styles/constants/base.scss';
+
+.container {
+  min-height: 100vh;
+  background-color: white;
+}
+
+.cropper {
+  width: 100%;
+}
+
+.cropButton {
+  margin-top: 1rem;
+  width: calc(100% - 2 * $sidePadding);
+}

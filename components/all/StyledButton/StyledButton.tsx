@@ -17,9 +17,9 @@ export default function StyledButton(props: StyledButtonProps) {
       type={props.type || 'button'}
       onClick={props.onClick}
       disabled={props.disabled}
-      className={`${styles.button} ${props.alternative && styles.alternative} ${
-        props.mini && styles.mini
-      } ${props.className}`}
+      className={`${styles.button} ${
+        props.alternative ? styles.alternative : ''
+      } ${props.mini ? styles.mini : ''} ${props.className}`}
     >
       {props.children}
     </button>
