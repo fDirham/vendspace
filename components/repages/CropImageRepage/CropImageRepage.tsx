@@ -40,6 +40,8 @@ export default function CropImageRepage(props: CropImageRepageProps) {
             setCropper(instance);
           }}
           guides={true}
+          crossOrigin='anonymous'
+          checkCrossOrigin
         />
       </div>
       <StyledButton
