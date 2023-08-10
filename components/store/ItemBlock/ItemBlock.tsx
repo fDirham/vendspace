@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './ItemBlock.module.scss';
 import { ItemInfo } from 'utilities/types';
+import Image from 'next/image';
 
 type ItemBlockProps = {
   item?: ItemInfo;
@@ -18,11 +19,14 @@ export default function ItemBlock({
   const renderVisual = () => {
     if (item && item.visuals.length) {
       return (
-        <img
-          src={item.visuals[0].uri}
-          alt={item.name}
-          className={styles.coverVisual}
-        />
+        <div className={styles.imgContainer}>
+          <Image
+            src={item.visuals[0].uri}
+            alt={item.name}
+            className={styles.coverVisual}
+            fill
+          />
+        </div>
       );
     } else if (add) {
       return (
