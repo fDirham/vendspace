@@ -83,6 +83,7 @@ export default function ModalVisualUploader(props: ModalVisualUploaderProps) {
         : `cropped_${props.uploadingIndex}.png`;
       const newFile = dataURLtoFile(croppedImgSrc, name);
       props.onClose({ operation: 'new', file: newFile });
+      setCroppedImgSrc(undefined);
     } else if (!!localFile)
       props.onClose({ operation: 'new', file: localFile as File });
     else props.onClose({ operation: 'same' });
