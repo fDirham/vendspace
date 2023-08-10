@@ -13,13 +13,12 @@ import useUserAuth from 'hooks/useUserAuth';
 import useAuthGate from 'hooks/useAuthGate';
 import StyledTextArea from 'components/all/StyledTextArea';
 import VisualUploaderSystem from 'components/newItem/VisualUploaderSystem';
-import { ItemInfo, ItemVisual, ScrapedItemData } from 'utilities/types';
+import { ItemInfo, ItemVisual } from 'utilities/types';
 import ControllerItems from 'controllers/ControllerItems';
 import ModalLoading from 'components/all/ModalLoading';
 import useVisualsUploader from 'hooks/useVisualsUploader';
 import PageHeader from 'components/all/PageHeader';
 import Head from 'next/head';
-import ModalLinkFill from 'components/newItem/ModalLinkFill';
 
 type ChangeItemRepageProps = {
   metaTitle: string;
@@ -37,7 +36,6 @@ export default function ChangeItemRepage(props: ChangeItemRepageProps) {
   const [visuals, setVisuals] = useState<ItemVisual[]>([]);
   const [visualsToDelete, setVisualsToDelete] = useState<boolean[]>([]);
   const [loadingMessage, setLoadingMessage] = useState<string>('');
-  const [openLinkFill, setOpenLinkFill] = useState<boolean>(!props.edit);
 
   const router = useRouter();
   const { storeId } = router.query;
@@ -148,16 +146,6 @@ export default function ChangeItemRepage(props: ChangeItemRepageProps) {
     uploadVisuals(visualFiles);
   }
 
-  function onLinkFillScrape(itemData: ScrapedItemData) {
-    setName(itemData.name);
-    setOriginalPrice(itemData.price);
-    const newVisuals = itemData.imageSrcs.map((strSrc) => {
-      return { uri: strSrc } as ItemVisual;
-    });
-    setVisuals(newVisuals);
-    setDescription(itemData.url);
-  }
-
   return (
     <PageContainer>
       <Head>
@@ -165,23 +153,11 @@ export default function ChangeItemRepage(props: ChangeItemRepageProps) {
       </Head>
       <PageHeader title={props.headerTitle} onBack={() => router.back()} />
       <ModalLoading message={loadingMessage} />
-      <ModalLinkFill
-        open={openLinkFill}
-        onClose={() => setOpenLinkFill(false)}
-        onComplete={onLinkFillScrape}
-      />
       <form className={styles.container} onSubmit={handleSubmit}>
         <div className={styles.titleContainer}>
           <h1 className={styles.title}>{props.pageTitle}</h1>
         </div>
 
-        <StyledButton
-          className={styles.linkFillButton}
-          mini
-          onClick={() => setOpenLinkFill(true)}
-        >
-          link fill
-        </StyledButton>
         <StyledInput
           placeholder='Item Name*'
           value={name}
